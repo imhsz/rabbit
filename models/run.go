@@ -17,8 +17,14 @@ func Run() {
 func initArgs() {
 	args := os.Args
 	for _, v := range args {
-		if v == "-s" {
+		if v == "-initdb" {
+			// 建库建表填数据
 			Syncdb()
+			os.Exit(0)
+		}
+		if v == "-rbac" {
+			// RBAC更新
+			Updaterbac()
 			os.Exit(0)
 		}
 	}

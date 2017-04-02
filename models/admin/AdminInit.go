@@ -3,6 +3,7 @@ package admin
 
 import (
 	"fmt"
+	"github.com/astaxie/beego"
 	. "github.com/hunterhug/GoWeb/lib"
 	"github.com/hunterhug/GoWeb/models/blog"
 )
@@ -14,11 +15,12 @@ func InitData() {
 	InsertNodes()
 	InsertConfig()
 }
+
 //插入网站配置
 func InsertConfig() {
 	fmt.Println("insert config start")
 	c := new(blog.Config)
-	c.Title = "缀美美术"
+	c.Title = "兔子脚手架"
 	err := c.Insert()
 	if err != nil {
 		fmt.Println(err.Error())
@@ -26,15 +28,17 @@ func InsertConfig() {
 
 	fmt.Println("insert config end")
 }
+
 // 用户数据
 func InsertUser() {
 	fmt.Println("insert user ...")
 	u := new(User)
-	u.Username = "admin"
-	u.Nickname = "画室"
-	u.Password = Pwdhash("admin")
+	u.Username = beego.AppConfig.String("rbac_admin_user")
+	u.Nickname = "兔子管理员"
+	u.Password = Pwdhash(beego.AppConfig.String("rbac_admin_user"))
 	u.Email = "569929309@qq.com"
-	u.Remark = "最高权限的王"
+	u.Remark = "最高权限的兔子王"
+	// 表示关闭，但是管理员有最大权限
 	u.Status = 2
 	u.Createtime = GetTime()
 	err := u.Insert()
@@ -43,9 +47,9 @@ func InsertUser() {
 	}
 
 	u1 := new(User)
-	u1.Username = "user"
+	u1.Username = "test"
 	u1.Nickname = "测试用户"
-	u1.Password = Pwdhash("user")
+	u1.Password = Pwdhash("test")
 	u1.Email = "569929309@qq.com"
 	u1.Remark = "测试用户"
 	u1.Status = 2
@@ -62,33 +66,33 @@ func InsertUser() {
 func InsertGroup() {
 	fmt.Println("insert group ...")
 	g := new(Group)
-	g.Name = "画室官网"
+	g.Name = "兔子后台"
 	g.Title = "后台管理"
 	g.Sort = 1
 	g.Id = 1
 	g.Status = 1
 	e := g.Insert()
-	if e != nil{
+	if e != nil {
 		fmt.Println(e.Error())
 	}
 	g1 := new(Group)
-	g1.Name = "画室官网"
+	g1.Name = "兔子后台"
 	g1.Title = "文章管理"
 	g1.Sort = 2
 	g1.Id = 2
 	g1.Status = 1
 	e = g1.Insert()
-	if e != nil{
+	if e != nil {
 		fmt.Println(e.Error())
 	}
 	g2 := new(Group)
-	g2.Name = "画室官网"
+	g2.Name = "兔子后台"
 	g2.Title = "图片管理"
 	g2.Sort = 3
 	g2.Id = 3
 	g2.Status = 1
 	e = g2.Insert()
-	if e != nil{
+	if e != nil {
 		fmt.Println(e.Error())
 	}
 	fmt.Println("insert group end")
@@ -115,7 +119,6 @@ func InsertNodes() {
 	g1.Id = 2
 	g2 := new(Group)
 	g2.Id = 3
-	//nodes := make([20]Node)
 	nodes := []Node{
 		/*
 
@@ -127,16 +130,19 @@ func InsertNodes() {
 		{Id: 3, Name: "Index", Title: "节点首页", Remark: "", Level: 3, Pid: 2, Status: 1, Group: g},
 		{Id: 4, Name: "AddAndEdit", Title: "增编节点", Remark: "", Level: 3, Pid: 2, Status: 1, Group: g},
 		{Id: 5, Name: "DelNode", Title: "删除节点", Remark: "", Level: 3, Pid: 2, Status: 1, Group: g},
+
 		{Id: 6, Name: "user/index", Title: "用户管理", Remark: "", Level: 2, Pid: 1, Status: 1, Group: g},
 		{Id: 7, Name: "Index", Title: "用户首页", Remark: "", Level: 3, Pid: 6, Status: 1, Group: g},
 		{Id: 8, Name: "AddUser", Title: "增加用户", Remark: "", Level: 3, Pid: 6, Status: 1, Group: g},
 		{Id: 9, Name: "UpdateUser", Title: "更新用户", Remark: "", Level: 3, Pid: 6, Status: 1, Group: g},
 		{Id: 10, Name: "DelUser", Title: "删除用户", Remark: "", Level: 3, Pid: 6, Status: 1, Group: g},
+
 		{Id: 11, Name: "group/index", Title: "分组管理", Remark: "", Level: 2, Pid: 1, Status: 1, Group: g},
 		{Id: 12, Name: "Index", Title: "分组首页", Remark: "", Level: 3, Pid: 11, Status: 1, Group: g},
 		{Id: 13, Name: "AddGroup", Title: "增加分组", Remark: "", Level: 3, Pid: 11, Status: 1, Group: g},
 		{Id: 14, Name: "UpdateGroup", Title: "更新分组", Remark: "", Level: 3, Pid: 11, Status: 1, Group: g},
 		{Id: 15, Name: "DelGroup", Title: "删除分组", Remark: "", Level: 3, Pid: 11, Status: 1, Group: g},
+
 		{Id: 16, Name: "role/index", Title: "角色管理", Remark: "", Level: 2, Pid: 1, Status: 1, Group: g},
 		{Id: 17, Name: "index", Title: "角色首页", Remark: "", Level: 3, Pid: 16, Status: 1, Group: g},
 		{Id: 18, Name: "AddAndEdit", Title: "增编角色", Remark: "", Level: 3, Pid: 16, Status: 1, Group: g},
@@ -210,14 +216,12 @@ func InsertNodes() {
 		{Id: 54, Name: "RealDelPhoto", Title: "删除图片", Remark: "", Level: 3, Pid: 49, Status: 1, Group: g2},
 		//图片
 
-		//补充的。ID无效
+		//补充的
 		{Id: 55, Name: "DeleteCategory", Title: "删除目录", Remark: "", Level: 3, Pid: 33, Status: 1, Group: g1},
 
-		///
 		{Id: 56, Name: "paper/rubbish", Title: "文章回收站", Remark: "", Level: 2, Pid: 32, Status: 1, Group: g1},
 		{Id: 57, Name: "Rubbish", Title: "文章回收站", Remark: "", Level: 3, Pid: 56, Status: 1, Group: g1},
 
-		///
 		{Id: 58, Name: "photo/rubbish", Title: "图片回收站", Remark: "", Level: 2, Pid: 43, Status: 1, Group: g2},
 		{Id: 59, Name: "Rubbish", Title: "图片回收站", Remark: "", Level: 3, Pid: 58, Status: 1, Group: g2},
 
@@ -230,7 +234,7 @@ func InsertNodes() {
 	}
 	for _, v := range nodes {
 		n := new(Node)
-		n.Id = v.Id //这句是无效的,bug 被beego官方改好了
+		n.Id = v.Id //这句是无效的,后来 bug 被beego官方改好了
 		n.Name = v.Name
 		n.Title = v.Title
 		n.Remark = v.Remark
@@ -239,7 +243,7 @@ func InsertNodes() {
 		n.Status = v.Status
 		n.Group = v.Group
 		e := n.Insert()
-		if e != nil{
+		if e != nil {
 			fmt.Println(e.Error())
 		}
 	}

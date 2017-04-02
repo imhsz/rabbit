@@ -20,7 +20,7 @@ func init() {
 // 权限过滤器
 func AccessRegister() {
 	var Check = func(ctx *context.Context) {
-		// 配置写死的可以忽略错误
+		// 配置写死的所以可以忽略错误
 		user_auth_type, _ := strconv.Atoi(beego.AppConfig.String("user_auth_type"))
 		rbac_auth_gateway := beego.AppConfig.String("rbac_auth_gateway")
 		var accesslist map[string]bool

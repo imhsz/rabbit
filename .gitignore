@@ -19,22 +19,18 @@ _cgo_export.*
 
 _testmain.go
 
+test/
+.idea/
+static/upload/
+log/
+file/
+
+*.iml
+*.xml
+main
+*.out
 *.exe
 *.test
 *.prof
-
-static/upload/*
 *.log
-*.exe
 *.exe~
-
-test/*
-.idea/*
-.idea/beautyart.iml
-*.iml
-log/
-#file/*
-*.xml
-main
-beautyart
-*.out
