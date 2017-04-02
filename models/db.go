@@ -47,7 +47,7 @@ func Syncdb() {
 
 // 数据库连接
 func Connect() {
-	beego.Trace("数据库开始连接")
+	beego.Trace("数据库开始连接注册")
 	var dns string
 	db_type := beego.AppConfig.String("db_type")
 	db_host := beego.AppConfig.String("db_host")
@@ -79,7 +79,11 @@ func Connect() {
 	default:
 		beego.Critical("数据库驱动暂不支持：", db_type)
 	}
-	orm.RegisterDataBase("default", db_type, dns)
+	err := orm.RegisterDataBase("default", db_type, dns)
+	if err != nil {
+		beego.Error("注册数据库失败：" + err.Error())
+		panic(err.Error())
+	}
 
 	if beego.AppConfig.String("dblog") == "open" {
 		beego.Trace("应用开发者模式，数据库操作进行调试，记录进db.log")
@@ -131,10 +135,10 @@ func Createdb() {
 	if err != nil {
 		panic(err.Error())
 	}
-	r, err := db.Exec(sqlstring)
+	_, err = db.Exec(sqlstring)
 	if err != nil {
-		beego.Error(err)
-		beego.Error(r)
+		beego.Error("数据库操作执行失败：" + err.Error())
+		panic(err.Error())
 	} else {
 		beego.Trace("Database ", db_name, " created")
 	}

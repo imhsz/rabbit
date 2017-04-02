@@ -17,8 +17,10 @@ func init() {
 }
 
 //check access and register user's nodes
+// 权限过滤器
 func AccessRegister() {
 	var Check = func(ctx *context.Context) {
+		// 配置写死的可以忽略错误
 		user_auth_type, _ := strconv.Atoi(beego.AppConfig.String("user_auth_type"))
 		rbac_auth_gateway := beego.AppConfig.String("rbac_auth_gateway")
 		var accesslist map[string]bool
@@ -46,9 +48,10 @@ func AccessRegister() {
 				if uinfo == nil {
 					ctx.Redirect(302, rbac_auth_gateway)
 					return
-				}else{
+				} else {
 					//增加sessioN
-					ctx.Output.Session("userinfo",uinfo)
+					//这一部如果本来就不是空的情况，会浪费点时间
+					ctx.Output.Session("userinfo", uinfo)
 				}
 				//admin用户不用认证权限
 				adminuser := beego.AppConfig.String("rbac_admin_user")
@@ -61,7 +64,10 @@ func AccessRegister() {
 					if listbysession != nil {
 						accesslist = listbysession.(map[string]bool)
 					} else {
+						// 这里可能不能忽略错误，但Session应该伪造不了
 						accesslist, _ = GetAccessList(uinfo.(m.User).Id)
+						// 加上session,防止每次都Get
+						ctx.Output.Session("accesslist", accesslist)
 					}
 				} else if user_auth_type == 2 {
 
