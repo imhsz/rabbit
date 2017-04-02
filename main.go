@@ -4,10 +4,10 @@ package main
 import (
 	"github.com/astaxie/beego"
 	"github.com/beego/i18n"
-	"github.com/hunterhug/beautyart/controllers"
-	. "github.com/hunterhug/beautyart/lib"
-	"github.com/hunterhug/beautyart/models"
-	"github.com/hunterhug/beautyart/routers"
+	"github.com/hunterhug/GoWeb/controllers"
+	. "github.com/hunterhug/GoWeb/lib"
+	"github.com/hunterhug/GoWeb/models"
+	"github.com/hunterhug/GoWeb/routers"
 	"mime"
 	"strings"
 )

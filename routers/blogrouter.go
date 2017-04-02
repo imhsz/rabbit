@@ -2,7 +2,7 @@ package routers
 
 import (
 	"github.com/astaxie/beego"
-	"github.com/hunterhug/beautyart/controllers/admin/blog"
+	"github.com/hunterhug/GoWeb/controllers/admin/blog"
 )
 
 func blogrouter() {

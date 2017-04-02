@@ -3,7 +3,7 @@ package rbac
 import (
 	"encoding/json"
 	"github.com/astaxie/beego/orm"
-	m "github.com/hunterhug/beautyart/models/admin"
+	m "github.com/hunterhug/GoWeb/models/admin"
 	"strconv"
 	"strings"
 )

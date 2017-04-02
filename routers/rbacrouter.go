@@ -2,7 +2,7 @@ package routers
 
 import (
 	"github.com/astaxie/beego"
-	"github.com/hunterhug/beautyart/controllers/admin/rbac"
+	"github.com/hunterhug/GoWeb/controllers/admin/rbac"
 )
 
 // 后台RBAC路由

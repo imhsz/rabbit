@@ -7,7 +7,7 @@ import (
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	"github.com/astaxie/beego/validation"
-	. "github.com/hunterhug/beautyart/lib"
+	. "github.com/hunterhug/GoWeb/lib"
 )
 
 type User struct {

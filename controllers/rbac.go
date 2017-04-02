@@ -8,8 +8,8 @@ import (
 
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/context"
-	. "github.com/hunterhug/beautyart/lib"
-	m "github.com/hunterhug/beautyart/models/admin"
+	. "github.com/hunterhug/GoWeb/lib"
+	m "github.com/hunterhug/GoWeb/models/admin"
 )
 
 func init() {

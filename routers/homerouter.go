@@ -4,8 +4,8 @@ import "github.com/astaxie/beego"
 
  import (
 // 	"github.com/astaxie/beego"
-// 	"github.com/hunterhug/beautyart/controllers/admin"
- 	"github.com/hunterhug/beautyart/controllers/home"
+// 	"github.com/hunterhug/GoWeb/controllers/admin"
+ 	"github.com/hunterhug/GoWeb/controllers/home"
  )
 
 func homerouter() {

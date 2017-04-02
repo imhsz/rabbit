@@ -2,7 +2,7 @@ package rbac
 
 import (
 	"github.com/astaxie/beego"
-	m "github.com/hunterhug/beautyart/models/admin"
+	m "github.com/hunterhug/GoWeb/models/admin"
 )
 
 type CommonController struct {

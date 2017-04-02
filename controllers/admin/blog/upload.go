@@ -3,7 +3,7 @@ package blog
 import (
 	_ "fmt"
 	_ "github.com/astaxie/beego"
-	. "github.com/hunterhug/beautyart/lib"
+	. "github.com/hunterhug/GoWeb/lib"
 	"io/ioutil"
 	"strings"
 )

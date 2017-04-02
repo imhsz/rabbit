@@ -1,7 +1,7 @@
 package rbac
 
 import (
-	m "github.com/hunterhug/beautyart/models/admin"
+	m "github.com/hunterhug/GoWeb/models/admin"
 )
 
 type GroupController struct {

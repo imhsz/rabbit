@@ -3,7 +3,7 @@ package home
 import (
 	"errors"
 	"github.com/astaxie/beego/orm"
-	"github.com/hunterhug/beautyart/models/blog"
+	"github.com/hunterhug/GoWeb/models/blog"
 	//"github.com/astaxie/beego"
 	"encoding/json"
 	"github.com/astaxie/beego"
