@@ -2,8 +2,8 @@ package home
 
 import (
 	"github.com/astaxie/beego/orm"
-	"github.com/hunterhug/GoWeb/models/blog"
 	"github.com/hunterhug/GoWeb/lib"
+	"github.com/hunterhug/GoWeb/models/blog"
 	//"github.com/astaxie/beego"
 )
 
@@ -27,36 +27,37 @@ func (this *MainController) Category() {
 	cid := category["Pid"]
 	father := new(blog.Category)
 	father.Id = cid.(int64)
-	err1:=father.Read()
-	if err1!=nil{
+	err1 := father.Read()
+	if err1 != nil {
 
-	}else {
+	} else {
 		this.Data["father"] = father
 	}
+
 	//附录儿子
 	son := []orm.Params{}
 	new(blog.Category).Query().Filter("Pid", category["Id"].(int64)).Filter("Status", 1).OrderBy("-Sort", "Createtime").Values(&son, "Title")
 	this.Data["son"] = son
 
 	//文章儿子
-	var limit int64=8
+	var limit int64 = 8
 	papers := []orm.Params{}
-	query1:=new(blog.Paper).Query().Filter("Cid",category["Id"].(int64)).Filter("Status", 1).OrderBy("-Istop", "Createtime")
-	page,_:=this.GetInt64("page",1)
-	if page<=0{
-		page=1
+	query1 := new(blog.Paper).Query().Filter("Cid", category["Id"].(int64)).Filter("Status", 1).OrderBy("-Istop", "Createtime")
+	page, _ := this.GetInt64("page", 1)
+	if page <= 0 {
+		page = 1
 	}
 	//总数
-	count,_:=query1.Count()
+	count, _ := query1.Count()
 
-	temp:=new(lib.Pager)
-	temp.Page=page
-	temp.Pagesize=limit
-	temp.Totalnum=count
-	temp.Urlpath="/"+category["Title"].(string)
+	temp := new(lib.Pager)
+	temp.Page = page
+	temp.Pagesize = limit
+	temp.Totalnum = count
+	temp.Urlpath = "/" + category["Title"].(string)
 	//beego.Trace("Dddd"+temp.ToString())
-	this.Data["nums"]=temp.ToString()
-	query1.Limit(limit,(page-1)*limit).Values(&papers)
+	this.Data["nums"] = temp.ToString()
+	query1.Limit(limit, (page-1)*limit).Values(&papers)
 
 	this.Data["papers"] = papers
 

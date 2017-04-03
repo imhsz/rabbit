@@ -1,7 +1,6 @@
 package blog
 
 import (
-	//"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	. "github.com/hunterhug/GoWeb/lib"
 	"github.com/hunterhug/GoWeb/models/blog"
@@ -13,7 +12,8 @@ type PaperController struct {
 
 func (this *PaperController) Index() {
 
-	if this.IsAjax() {
+	isajax, _ := this.GetInt("isajax", 0)
+	if isajax == 1 || this.IsAjax() {
 		page, _ := this.GetInt64("page", 1)
 		rows, _ := this.GetInt64("rows", 10)
 		start := (page - 1) * rows
@@ -25,10 +25,10 @@ func (this *PaperController) Index() {
 		cid, _ := this.GetInt64("cid", -1)
 		top, _ := this.GetInt64("top", -1)
 		roll, _ := this.GetInt64("roll", -1)
-		q := paper.Query().Filter("Type",0)
+		q := paper.Query().Filter("Type", 0)
 		if status != -1 {
 			q = q.Filter("Status", status)
-		}else {
+		} else {
 			q = q.Filter("Status__lt", 2)
 		}
 		if cid != -1 {
@@ -76,8 +76,8 @@ func (this *PaperController) Index() {
 }
 
 func (this *PaperController) AddPaper() {
-
-	if this.IsAjax() {
+	isajax, _ := this.GetInt("isajax", 0)
+	if isajax == 1 || this.IsAjax() {
 		title := this.GetString("title")
 		content := this.GetString("content")
 		descontent := this.GetString("descontent")
@@ -107,7 +107,7 @@ func (this *PaperController) AddPaper() {
 		paper.Rollpath = rollpath
 		paper.Photo = photo
 		paper.Createtime = GetTime()
-		paper.Type=0
+		paper.Type = 0
 		err := paper.Insert()
 		if err != nil {
 			this.Rsp(false, err.Error())
@@ -132,15 +132,12 @@ func (this *PaperController) AddPaper() {
 }
 
 func (this *PaperController) UpdatePaper() {
-	//user := this.GetSession("userinfo")
-	//if user == nil {
-	//	this.Rsp(false, "session失效，请重新进入后台首页")
-	//}
 	id, _ := this.GetInt64("id", 0)
 	if id == 0 {
 		this.Rsp(false, "文章id参数问题")
 	}
-	if this.IsAjax() {
+	isajax, _ := this.GetInt("isajax", 0)
+	if isajax == 1 || this.IsAjax() {
 		small := this.GetString("small")
 		if small == "1" {
 			status, _ := this.GetInt64("status", 0)
@@ -151,7 +148,7 @@ func (this *PaperController) UpdatePaper() {
 			err := paper.Update("Status", "Updatetime")
 			if err != nil {
 				this.Rsp(false, err.Error())
-			}else {
+			} else {
 				this.Rsp(true, "更改状态成功")
 			}
 			this.StopRun()
@@ -189,7 +186,7 @@ func (this *PaperController) UpdatePaper() {
 		if photo != "" {
 			paper.Photo = photo
 			err = paper.Update("Title", "Content", "Descontent", "Author", "View", "Sort", "Istop", "Isroll", "Rollpath", "Cid", "Status", "Updatetime", "Photo")
-		}else {
+		} else {
 			err = paper.Update("Title", "Content", "Descontent", "Author", "View", "Sort", "Istop", "Isroll", "Rollpath", "Cid", "Status", "Updatetime")
 		}
 		if err != nil {
@@ -240,10 +237,10 @@ func (this *PaperController) DeletePaper() {
 		err := paper.Update("Status", "Updatetime")
 		if err != nil {
 			this.Rsp(false, err.Error())
-		}else {
+		} else {
 			this.Rsp(true, "送到回收站")
 		}
-	}else {
+	} else {
 		this.Rsp(false, "id参数问题")
 	}
 }
@@ -256,17 +253,17 @@ func (this *PaperController) RealDelPaper() {
 		err := paper.Delete()
 		if err != nil {
 			this.Rsp(false, err.Error())
-		}else {
+		} else {
 			this.Rsp(true, "成功删除")
 		}
-	}else {
+	} else {
 		this.Rsp(false, "id参数问题")
 	}
 }
 
-func (this *PaperController)  Rubbish() {
-
-	if this.IsAjax() {
+func (this *PaperController) Rubbish() {
+	isajax, _ := this.GetInt("isajax", 0)
+	if isajax == 1 || this.IsAjax() {
 		page, _ := this.GetInt64("page", 1)
 		rows, _ := this.GetInt64("rows", 10)
 		start := (page - 1) * rows
@@ -279,7 +276,7 @@ func (this *PaperController)  Rubbish() {
 		top, _ := this.GetInt64("top", -1)
 		roll, _ := this.GetInt64("roll", -1)
 		q := paper.Query()
-		q = q.Filter("Status", status).Filter("Type",0)
+		q = q.Filter("Status", status).Filter("Type", 0)
 
 		if cid != -1 {
 			q = q.Filter("Cid", cid)

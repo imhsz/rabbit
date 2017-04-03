@@ -60,13 +60,16 @@ func (this *RollController) UpdateRoll() {
 	if err != nil {
 		this.Rsp(false, "找不到")
 	}
-	if this.IsAjax() {
+	isajax, _ := this.GetInt("isajax", 0)
+	if isajax == 1 || this.IsAjax() {
 		status, _ := this.GetInt64("status")
 		small := this.GetString("small", "")
 		if small == "open" {
-			roll.Status=1
+			roll.Status = 1
+			roll.Updatetime = GetTime()
 		} else if small == "close" {
 			roll.Status = 0
+			roll.Updatetime = GetTime()
 		} else {
 			content := this.GetString("content")
 			url := this.GetString("url")

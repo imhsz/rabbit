@@ -5,15 +5,16 @@ import (
 	"github.com/beego/i18n"
 )
 
+// 基础控制器
 type baseController struct {
 	beego.Controller
 	i18n.Locale
 }
 
 type Tree struct {
-	Id         int64      `json:"id"` //
+	Id         int64      `json:"id"`
 	GroupId    int64      `json:"-"`
-	Text       string     `json:"text"` //
+	Text       string     `json:"text"`
 	IconCls    string     `json:"iconCls"`
 	Checked    string     `json:"checked"`
 	State      string     `json:"state"`
@@ -21,10 +22,11 @@ type Tree struct {
 	Attributes Attributes `json:"attributes"`
 }
 type Attributes struct {
-	Url   string `json:"url"` //
+	Url   string `json:"url"`
 	Price int64  `json:"price"`
 }
 
+// 通过浏览器获取语言
 func (this *baseController) Prepare() {
 	this.Lang = ""
 

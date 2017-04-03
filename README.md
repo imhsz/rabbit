@@ -7,31 +7,65 @@
 实现了基本的RBAC模块和博客模块（文章和相册），附带Dashbord后端UI，基本框架形成，依靠此项目可敏捷开发。
 
 1. 基于角色的访问控制（Role-Based Access Control）作为传统访问控制
-2. Amaze UI v2.7.0（部分后台）和jQuery EasyUI 1.4.2（后台表格CRUD）、Bootstrap（前台）混合
-3. 前台页面大量使用Vue.js，因为只查询的前台路由全部返回JSON。（待做)
+2. Amaze UI v2.7.0（部分后台）和jQuery EasyUI v1.4.2（后台表格CRUD）、Bootstrap v3.3.5（前台）混合
+3. 准备采用Vue.js v2.2.6 前后端完全分离（Maybe）
+
+## 计划（2017.4-5）
+1. 前台控制器重构
 
 ## 使用说明
 使用只需拉下库
 
-```
+```shell
 go get -v github.com/hunterhug/GoWeb
+```
+
+或者
+```
+git clone https://www.github.com/hunterhug/GoWeb
+mkdir %GOPATH%/src/github.com/hunterhug
+mv GoWeb %GOPATH%/src/github.com/hunterhug
 ```
 
 编译程序
 
-```
+```shell
 go build
 ```
 
 初始化数据库
 
-```
+第一种方式：
+
+```shell
 ./GoWeb -initdb
+```
+
+第二种方式(建议)：
+
+```shell
+cd GoWeb
+
+C:\Users\huterhug>mysql -uroot -p
+Enter password: *********
+Welcome to the MySQL monitor.  Commands end with ; or \g.
+Your MySQL connection id is 96
+Server version: 5.7.9-log MySQL Community Server (GPL)
+
+Copyright (c) 2000, 2015, Oracle and/or its affiliates. All rights reserved.
+
+Oracle is a registered trademark of Oracle Corporation and/or its
+affiliates. Other names may be trademarks of their respective
+owners.
+
+Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
+
+mysql> source initdb.sql
 ```
 
 运行程序
 
-```
+```shell
 ./GoWeb
 ```
 
@@ -74,8 +108,8 @@ filebasepath = file
 
 # 权限控制，建议不要乱改
 sessionon = true
-sessionname = beautysessionid
-sessionhashkey = mostbeautyart
+sessionname = tuzisessionid
+sessionhashkey = mosttuzituzi
 rbac_role_table = role
 rbac_node_table = node
 rbac_group_table = group
@@ -100,7 +134,6 @@ db_user = root
 db_pass = root
 db_name = tuzi
 db_type = mysql
-db_prefix = tb_
 
 [prod]
 EnableGzip = true
@@ -111,7 +144,6 @@ db_user = root
 db_pass = root
 db_name = tuzi
 db_type = mysql
-db_prefix = tb_
 ```
 
 后台入口：http://127.0.0.1:8080/public/login
@@ -123,7 +155,7 @@ db_prefix = tb_
 
 ## 开发流程
 文件结构
-```
+```shell
     ----conf 配置文件夹
 
         ----app.conf 		应用配置文件
@@ -145,6 +177,12 @@ db_prefix = tb_
 
     ----routers 路由
     ----static  静态文件
+        ---admin 后台js/css勿改
+        ---home 前台UI美观第三方js/css
+            ---amazi  妹紙UI
+            ---boostrap 最牛逼的界面UI
+         ---tool 公用第三方js
+         ---diy 自己的js/css
     ----views	视图
         ----admin 	后台视图
             ----default 默认主题
@@ -174,17 +212,12 @@ db_prefix = tb_
 
 >视图模板均放在static中
 
->前台首页配置（可动态调整首页）
+>前台首页配置（可动态调整首页，待解释）
 
 ```
-{"1":{"name":"每日动态","limit":6},
-"2":{"name":"画室动态","limit":6},
-"3":{"name":"招生动态","limit":6},
-"4":{"name":"美术资讯","limit":6},
-"5":{"name":"高考喜报","limit":6},
-"6":{"name":"学员风采","limit":3},
-"7":{"name":"教师风采","limit":3},
-"8":{"name":"学生作品","limit":6}}
+{
+"1":{"name":"about","limit":6}
+}
 ```
 
 每次在models/admin/AdminInit.go增加路由权限，请执行
@@ -193,11 +226,13 @@ db_prefix = tb_
 ./GoWeb -rbac
 ```
 
+调试请使用`bee run`
+
 ## Ngnix架站
 
-配置 nginx.conf,，server_name为域名，access_log为日志路径（要手动建文件夹）
+配置 ngnix.conf,，server_name为域名，access_log为日志路径（要手动建文件夹）
 
-```
+```shell
 server{
         listen 80;
         server_name beauty.lenggirl.com www.beautyart.top;
@@ -215,7 +250,4 @@ server{
 }
 ```
 
-## 计划（2017.4-5）
-1. 前台重建
-2. 逻辑优化
 

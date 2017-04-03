@@ -13,10 +13,10 @@ type Category struct {
 	Updatetime time.Time `orm:"type(datetime);null"`
 	Sort       int64     //排序
 	Status     int64     `orm:"default(2)"` //1开启 2关闭
-	Username   string    //用户称
-	Siteid     int64     //0缀美   1其他网站
+	Username   string    // 目录建立者，较麻烦（忽略）
+	Siteid     int64     //站点ID
 	Type       int64     //0表示文章 1表示相册
-	Image      string    //图片地址，加密
+	Image      string    //图片地址，加密，最后为了速度并没有加密
 	Pid        int64     //父类id
 }
 

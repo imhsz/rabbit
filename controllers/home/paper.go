@@ -2,32 +2,32 @@ package home
 
 import (
 	"github.com/astaxie/beego/orm"
-	"github.com/hunterhug/GoWeb/models/blog"
 	"github.com/hunterhug/GoWeb/lib"
+	"github.com/hunterhug/GoWeb/models/blog"
 	"strconv"
 	//"github.com/astaxie/beego"
 )
 
 func (this *MainController) Paper() {
 	id := this.Ctx.Input.Param(":cid")
-	pa:=this.Ctx.Input.Param(":id") //文章id
-		//beego.Trace("%v:%v",id,pa)
-	patemp:=new(blog.Paper)
+	pa := this.Ctx.Input.Param(":id") //文章id
+	//beego.Trace("%v:%v",id,pa)
+	patemp := new(blog.Paper)
 
-	pid,errp:=strconv.Atoi(pa)
-	if errp!=nil{
-		this.Rsp(false,"你要干嘛？")
+	pid, errp := strconv.Atoi(pa)
+	if errp != nil {
+		this.Rsp(false, "你要干嘛？")
 	}
-	patemp.Id=int64(pid)
+	patemp.Id = int64(pid)
 	//不存在文章
-	n,errp1:=patemp.Query().Count()
-	if n==0 || errp1!=nil{
-		this.Rsp(false,"不存在文章。。。")
+	n, errp1 := patemp.Query().Count()
+	if n == 0 || errp1 != nil {
+		this.Rsp(false, "不存在文章。。。")
 	}
 	patemp.Read()
-	patemp.View=patemp.View+1
+	patemp.View = patemp.View + 1
 	patemp.Update()
-	this.Data["paper"]=patemp
+	this.Data["paper"] = patemp
 
 	types := 0
 	err, category := getcategory(id)
@@ -47,10 +47,10 @@ func (this *MainController) Paper() {
 	cid := category["Pid"]
 	father := new(blog.Category)
 	father.Id = cid.(int64)
-	err1:=father.Read()
-	if err1!=nil{
+	err1 := father.Read()
+	if err1 != nil {
 
-	}else {
+	} else {
 		this.Data["father"] = father
 	}
 	//附录儿子
@@ -59,24 +59,24 @@ func (this *MainController) Paper() {
 	this.Data["son"] = son
 
 	//文章儿子
-	var limit int64=8
+	var limit int64 = 8
 	papers := []orm.Params{}
-	query1:=new(blog.Paper).Query().Filter("Cid",category["Id"].(int64)).Filter("Status", 1).OrderBy("-Istop", "Createtime")
-	page,_:=this.GetInt64("page",1)
-	if page<=0{
-		page=1
+	query1 := new(blog.Paper).Query().Filter("Cid", category["Id"].(int64)).Filter("Status", 1).OrderBy("-Istop", "Createtime")
+	page, _ := this.GetInt64("page", 1)
+	if page <= 0 {
+		page = 1
 	}
 	//总数
-	count,_:=query1.Count()
+	count, _ := query1.Count()
 
-	temp:=new(lib.Pager)
-	temp.Page=page
-	temp.Pagesize=limit
-	temp.Totalnum=count
-	temp.Urlpath="/"+category["Title"].(string)+"/"+strconv.Itoa(int(patemp.Id))
+	temp := new(lib.Pager)
+	temp.Page = page
+	temp.Pagesize = limit
+	temp.Totalnum = count
+	temp.Urlpath = "/" + category["Title"].(string) + "/" + strconv.Itoa(int(patemp.Id))
 	//beego.Trace("Dddd"+temp.ToString())
-	this.Data["nums"]=temp.ToString()
-	query1.Limit(limit,(page-1)*limit).Values(&papers)
+	this.Data["nums"] = temp.ToString()
+	query1.Limit(limit, (page-1)*limit).Values(&papers)
 
 	this.Data["papers"] = papers
 

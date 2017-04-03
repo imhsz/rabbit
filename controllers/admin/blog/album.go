@@ -1,27 +1,20 @@
 package blog
 
 import (
-	// "fmt"
 	"github.com/astaxie/beego/orm"
-	. "github.com/hunterhug/GoWeb/lib"
-	"github.com/hunterhug/GoWeb/models/admin"
 	"github.com/hunterhug/GoWeb/models/blog"
-	//"github.com/astaxie/beego"
+	. "github.com/hunterhug/GoWeb/lib"
 )
 
 type AlbumController struct {
 	baseController
 }
 
-
 func (this *AlbumController) Index() {
-	/*
-	   status: status,
-	     mulu: mulu
-	*/
 	category := new(blog.Category)
 	categorys := []orm.Params{}
-	if this.IsAjax() {
+	isajax, _ := this.GetInt("isajax", 0)
+	if isajax == 1 || this.IsAjax() {
 		status, _ := this.GetInt64("status", 0)
 		mulu, _ := this.GetInt64("mulu", 0)
 		// beego.Trace(status, mulu)
@@ -44,32 +37,26 @@ func (this *AlbumController) Index() {
 }
 
 func (this *AlbumController) AddCategory() {
-	user := this.GetSession("userinfo")
 	isajax, _ := this.GetInt("isajax", 0)
-	if isajax == 1 {
+	if isajax == 1 || this.IsAjax() {
 		status := false
 		message := ""
-		if user == nil {
-			message = "session失效，请重新进入后台首页"
+		category := new(blog.Category)
+		category.Createtime = GetTime()
+		category.Title = this.GetString("title", "")
+		category.Pid, _ = this.GetInt64("mulu", 0)
+		category.Sort, _ = this.GetInt64("order", 0)
+		category.Status, _ = this.GetInt64("status", 2)
+		category.Content = this.GetString("content", "")
+		category.Image = this.GetString("photo", "")
+		category.Siteid = beautyid
+		category.Type = albumtype
+		err := category.Insert()
+		if err != nil {
+			message = err.Error()
 		} else {
-			category := new(blog.Category)
-			category.Createtime = GetTime()
-			category.Username = user.(admin.User).Username
-			category.Title = this.GetString("title", "")
-			category.Pid, _ = this.GetInt64("mulu", 0)
-			category.Sort, _ = this.GetInt64("order", 0)
-			category.Status, _ = this.GetInt64("status", 2)
-			category.Content = this.GetString("content", "")
-			category.Image = this.GetString("photo", "")
-			category.Siteid = beautyid
-			category.Type = albumtype
-			err := category.Insert()
-			if err != nil {
-				message = err.Error()
-			} else {
-				status = true
-				message = "增加成功"
-			}
+			status = true
+			message = "增加成功"
 		}
 		this.Rsp(status, message)
 	} else {
@@ -82,10 +69,6 @@ func (this *AlbumController) AddCategory() {
 }
 
 func (this *AlbumController) UpdateCategory() {
-	user := this.GetSession("userinfo")
-	if user == nil {
-		this.Rsp(false, "session失效，请重新进入后台首页")
-	}
 	small, _ := this.GetInt64("small", 0)
 	id, _ := this.GetInt64("id", 0)
 	//小更改
@@ -106,11 +89,11 @@ func (this *AlbumController) UpdateCategory() {
 			}
 		}
 	} else {
-		if this.IsAjax() {
+		isajax, _ := this.GetInt("isajax", 0)
+		if isajax == 1 || this.IsAjax() {
 			//大更改
 			thiscategory := new(blog.Category)
 			thiscategory.Id = id
-			thiscategory.Username = user.(admin.User).Username
 			thiscategory.Title = this.GetString("title", "")
 			thiscategory.Pid, _ = this.GetInt64("mulu", 0)
 			thiscategory.Sort, _ = this.GetInt64("order", 0)
@@ -124,13 +107,13 @@ func (this *AlbumController) UpdateCategory() {
 			if photo != "" {
 				thiscategory.Image = photo
 				err = thiscategory.Update("Username", "Title", "Pid", "Sort", "Status", "Content", "Updatetime", "Image")
-			}else {
+			} else {
 				err = thiscategory.Update("Username", "Title", "Pid", "Sort", "Status", "Content", "Updatetime")
 				//beego.Trace("空图片：" + photo)
 			}
 			if err != nil {
 				this.Rsp(false, err.Error())
-			}else {
+			} else {
 				this.Rsp(true, "更改成功")
 			}
 		} else {
@@ -166,27 +149,27 @@ func (this *AlbumController) DeleteCategory() {
 	num, err := category.Query().Filter("Id", id).Filter("Siteid", beautyid).Filter("Type", albumtype).Count()
 	if err != nil {
 		this.Rsp(false, err.Error())
-	}else if num == 0 {
+	} else if num == 0 {
 		this.Rsp(false, "找不到该目录")
-	}else {
+	} else {
 		paper := new(blog.Paper)
 		num1, err1 := paper.Query().Filter("Cid", id).Count()
 		if num1 != 0 {
 			this.Rsp(false, "目录下有小东西")
-		}else if err1 != nil {
+		} else if err1 != nil {
 			this.Rsp(false, err1.Error())
-		}else {
+		} else {
 			num2, err2 := category.Query().Filter("Pid", id).Count()
 			if err2 != nil {
 				this.Rsp(false, err2.Error())
-			}else if num2 != 0 {
+			} else if num2 != 0 {
 				this.Rsp(false, "目录下有目录")
-			}else {
+			} else {
 				category.Id = id
 				err3 := category.Delete()
 				if err3 != nil {
 					this.Rsp(false, err2.Error())
-				}else {
+				} else {
 					this.Rsp(true, "删除成功")
 				}
 			}

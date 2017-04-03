@@ -14,19 +14,40 @@ func InitData() {
 	InsertRole()
 	InsertNodes()
 	InsertConfig()
+	InsertCategory()
 }
 
 //插入网站配置
 func InsertConfig() {
 	fmt.Println("insert config start")
 	c := new(blog.Config)
+	c.Id = 1
 	c.Title = "兔子脚手架"
+	c.Webinfo = `
+	{
+	"1":{"name":"about","limit":6}
+	}
+	`
 	err := c.Insert()
 	if err != nil {
 		fmt.Println(err.Error())
 	}
 
 	fmt.Println("insert config end")
+}
+
+func InsertCategory() {
+	fmt.Println("insert category start")
+	c := new(blog.Category)
+	c.Id = 1
+	c.Title = "About"
+	c.Createtime = GetTime()
+	c.Status = 1
+	err := c.Insert()
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+	fmt.Println("insert ccategory start")
 }
 
 // 用户数据

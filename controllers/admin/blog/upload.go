@@ -18,7 +18,7 @@ var FileAllow = map[string][]string{
 	"file": {
 		"doc", "docx", "xls", "xlsx", "ppt", "htm", "html", "txt", "zip", "rar", "gz", "bz2"},
 	"other": {
-		"jpg", "jpeg", "png", "bmp", "gif","swf", "flv","mp3",
+		"jpg", "jpeg", "png", "bmp", "gif", "swf", "flv", "mp3",
 		"wav", "wma", "wmv", "mid", "avi", "mpg", "asf", "rm", "rmvb",
 		"doc", "docx", "xls", "xlsx", "ppt", "htm", "html", "txt", "zip", "rar", "gz", "bz2"}}
 
@@ -32,8 +32,7 @@ type Sizer interface {
 	Size() int64
 }
 
-	/*
-
+/*
 	imgFile: 文件form名称
 	dir: 上传类型，分别为image、flash、media、file、other
 	返回格式(JSON)
@@ -49,12 +48,12 @@ type Sizer interface {
 		"message" : "错误信息"
 		"token":"加密文件地址"
 	}
-	*/
+*/
 func (this *UploadController) UploadFile() {
 	//初始化
-	fileerror := 1       //上传不成功标志位
-	dirpath := ""        //保存路径
-	filename := ""       //文件名
+	fileerror := 1 //上传不成功标志位
+	dirpath := ""  //保存路径
+	filename := "" //文件名
 	filetype := this.GetString("dir", "other")
 
 	message := "什么都没发生"
@@ -104,7 +103,7 @@ func (this *UploadController) UploadFile() {
 						// goto END
 					}
 					//复制文件
-					err = CopyFS(f, dirpath + "/" + filename)
+					err = CopyFS(f, dirpath+"/"+filename)
 					if err != nil {
 						message = err.Error()
 					} else {
@@ -118,7 +117,7 @@ func (this *UploadController) UploadFile() {
 			message = "dir参数不允许"
 		}
 	}
-	END:
+END:
 	if fileerror == 1 {
 		this.Data["json"] = &map[string]interface{}{"error": fileerror, "message": message}
 	} else {
@@ -137,10 +136,10 @@ func (this *UploadController) UploadFile() {
 			  在神马情况下用
 
 		*/
-		token:=Base64E(UrlE(name))
+		token := Base64E(UrlE(name))
 		//urlstring := "/public/file/getfile?token=" + token
 		//fmt.Println(name)
-		this.Data["json"] = &map[string]interface{}{"error": fileerror, "url":"/"+name,"token":token}
+		this.Data["json"] = &map[string]interface{}{"error": fileerror, "url": "/" + name, "token": token}
 	}
 	this.ServeJSON()
 }

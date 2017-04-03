@@ -1,11 +1,8 @@
 package blog
 
 import (
-	// "fmt"
-	//"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	. "github.com/hunterhug/GoWeb/lib"
-	"github.com/hunterhug/GoWeb/models/admin"
 	"github.com/hunterhug/GoWeb/models/blog"
 )
 
@@ -14,13 +11,10 @@ type CategoryController struct {
 }
 
 func (this *CategoryController) Index() {
-	/*
-	   status: status,
-	     mulu: mulu
-	*/
 	category := new(blog.Category)
 	categorys := []orm.Params{}
-	if this.IsAjax() {
+	isajax, _ := this.GetInt("isajax", 0)
+	if isajax == 1 || this.IsAjax() {
 		status, _ := this.GetInt64("status", 0)
 		mulu, _ := this.GetInt64("mulu", 0)
 		// beego.Trace(status, mulu)
@@ -43,32 +37,26 @@ func (this *CategoryController) Index() {
 }
 
 func (this *CategoryController) AddCategory() {
-	user := this.GetSession("userinfo")
 	isajax, _ := this.GetInt("isajax", 0)
-	if isajax == 1 {
+	if isajax == 1 || this.IsAjax() {
 		status := false
 		message := ""
-		if user == nil {
-			message = "session失效，请重新进入后台首页"
+		category := new(blog.Category)
+		category.Createtime = GetTime()
+		category.Title = this.GetString("title", "")
+		category.Pid, _ = this.GetInt64("mulu", 0)
+		category.Sort, _ = this.GetInt64("order", 0)
+		category.Status, _ = this.GetInt64("status", 2)
+		category.Content = this.GetString("content", "")
+		category.Image = this.GetString("photo", "")
+		category.Siteid = beautyid
+		category.Type = blogtype
+		err := category.Insert()
+		if err != nil {
+			message = err.Error()
 		} else {
-			category := new(blog.Category)
-			category.Createtime = GetTime()
-			category.Username = user.(admin.User).Username
-			category.Title = this.GetString("title", "")
-			category.Pid, _ = this.GetInt64("mulu", 0)
-			category.Sort, _ = this.GetInt64("order", 0)
-			category.Status, _ = this.GetInt64("status", 2)
-			category.Content = this.GetString("content", "")
-			category.Image = this.GetString("photo", "")
-			category.Siteid = beautyid
-			category.Type = blogtype
-			err := category.Insert()
-			if err != nil {
-				message = err.Error()
-			} else {
-				status = true
-				message = "增加成功"
-			}
+			status = true
+			message = "增加成功"
 		}
 		this.Rsp(status, message)
 	} else {
@@ -81,10 +69,6 @@ func (this *CategoryController) AddCategory() {
 }
 
 func (this *CategoryController) UpdateCategory() {
-	user := this.GetSession("userinfo")
-	if user == nil {
-		this.Rsp(false, "session失效，请重新进入后台首页")
-	}
 	small, _ := this.GetInt64("small", 0)
 	id, _ := this.GetInt64("id", 0)
 	//小更改
@@ -105,11 +89,11 @@ func (this *CategoryController) UpdateCategory() {
 			}
 		}
 	} else {
-		if this.IsAjax() {
+		isajax, _ := this.GetInt("isajax", 0)
+		if isajax == 1 || this.IsAjax() {
 			//大更改
 			thiscategory := new(blog.Category)
 			thiscategory.Id = id
-			thiscategory.Username = user.(admin.User).Nickname
 			thiscategory.Title = this.GetString("title", "")
 			thiscategory.Pid, _ = this.GetInt64("mulu", 0)
 			thiscategory.Sort, _ = this.GetInt64("order", 0)
