@@ -4,11 +4,11 @@
 
 ![兔子](tuzi.png)
 
-实现了基本的RBAC模块和博客模块（文章和相册），附带Dashbord后端UI，基本框架形成，依靠此项目可敏捷开发。
+实现了基本的RBAC模块和博客模块（文章和相册），附带Dashbord后端UI，基本框架形成，依靠此项目可敏捷开发。灵感来源：http://www.beautyart.top
 
 1. 基于角色的访问控制（Role-Based Access Control）作为传统访问控制
 2. Amaze UI v2.7.0（部分后台）和jQuery EasyUI v1.4.2（后台表格CRUD）、Bootstrap v3.3.5（前台）混合
-3. 准备采用Vue.js v2.2.6 前后端完全分离（Maybe）
+3. 准备采用Vue.js v2.2.6 前后端完全分离（Maybe）,后台写死很笨拙，但是对前台开放友好的REST JSON API，这样可离线测试前端。ajax调用JSON时请注意跨域问题(见front文件夹)
 
 ## 计划（2017.4-5）
 1. 前台控制器重构
@@ -81,7 +81,7 @@ runmode = dev
 ###################
 
 # 可以直接通过静态访问的文件夹，位于根目录下面
-StaticDir = static:static file:file
+StaticDir = static:static file:file front:front
 
 # 国际化语言
 lang_types = en-US|zh-CN
@@ -115,7 +115,7 @@ rbac_node_table = node
 rbac_group_table = group
 rbac_user_table = user
 rbac_admin_user = admin
-not_auth_package = public,static,home,file
+not_auth_package = front,static,file
 
 ###################
 
@@ -188,6 +188,9 @@ db_type = mysql
             ----default 默认主题
         ----home 	前台视图
             ----default 默认主题
+
+    ----front 前端测试文件夹
+        ---data 模拟的JSON数据
 
     ----log 日志
     ----doc 说明文档（重点，待写）
