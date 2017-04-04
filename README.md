@@ -8,7 +8,8 @@
 
 1. 基于角色的访问控制（Role-Based Access Control）作为传统访问控制
 2. Amaze UI v2.7.0（部分后台）和jQuery EasyUI v1.4.2（后台表格CRUD）、Bootstrap v3.3.5（前台）混合
-3. 准备采用Vue.js v2.2.6 前后端完全分离（Maybe）,后台写死很笨拙，但是对前台开放友好的REST JSON API，这样可离线测试前端。ajax调用JSON时请注意跨域问题(见front文件夹)
+3. 准备采用Vue.js v2.2.6 前后端完全分离（Maybe）,后台写死很笨拙，但是对前台开放友好的REST JSON API，这样可离线测试前端。
+ajax调用JSON时请注意跨域问题(见front文件夹),这样的好处是将渲染视图的工作交给用户的浏览器端。
 
 ## 计划（2017.4-5）
 1. 前台控制器重构
@@ -60,7 +61,9 @@ owners.
 
 Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
 
-mysql> source initdb.sql
+mysql> create database tuzi;
+mysql> use tuzi
+mysql> source init.sql
 ```
 
 运行程序
