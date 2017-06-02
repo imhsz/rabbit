@@ -167,7 +167,23 @@ ajax调用JSON时请注意跨域问题(见front文件夹),这样的好处是将�
 
 ## 三.Ngnix架站
 
-配置 ngnix.conf,server_name为域名access_log为日志路径（要手动建文件夹）
+安装NGINX
+
+进入 /usr/local/nginx/conf
+
+```
+vim nginx.conf
+```
+
+并且nginx.conf最后增加
+
+```
+include sites/*.conf;
+```
+
+新建sites文件夹，在sites文件夹中放入该项目下`ngnix-tuzi.conf`文件：
+
+配置`ngnix-tuzi.conf`,`server_name`为域名,`access_log`为日志路径（要手动建文件夹）
 
 ```shell
 server{
@@ -181,7 +197,7 @@ server{
         proxy_set_header Host $http_host;
         proxy_redirect off;
         proxy_pass http://localhost:8080;
-	    proxy_set_header X-Real-Ip $remote_addr;
+	proxy_set_header X-Real-Ip $remote_addr;
         }
 
 }
