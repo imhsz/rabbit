@@ -102,7 +102,8 @@ func (this *UploadController) UploadFile() {
 					goto END
 				}
 				//创建文件夹
-				dirpath, err = MakeFileDir(filetype)
+				subdir := Hashcode(filemd5)
+				dirpath, err = MakeFileDir(filetype + "/" + subdir)
 				if err != nil {
 					message = "创建文件夹失败：" + err.Error()
 					goto END

@@ -122,7 +122,7 @@ func Md5FS(src io.Reader) string {
 		fmt.Println(err.Error())
 		return ""
 	}
-	return fmt.Sprintf("%x", h.Sum(nil))
+	return fmt.Sprintf("%x", h.Sum([]byte("hunterhug")))
 }
 
 //判断是否是文件
@@ -240,4 +240,19 @@ func GetClientIp(this *context.Context) string {
 		}
 	}
 	return s[0]
+}
+
+// 分80个文件夹
+func Hashcode(asin string) string {
+	dd := []byte(Md5("iloveyou"+asin+"hunterhug") + Md5(asin))
+	sum := 0
+	for _, i := range dd {
+		sum = sum + int(i)
+	}
+	hashcode := sum % (80)
+	s := strconv.FormatInt(int64(hashcode), 10)
+	if s == "" {
+		s = "xx"
+	}
+	return s
 }
