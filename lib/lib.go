@@ -116,6 +116,15 @@ func CopyFS(src io.Reader, dst string) error {
 	return err
 }
 
+func Md5FS(src io.Reader) string {
+	h := md5.New()
+	if err := CopyFF(src, h); err != nil {
+		fmt.Println(err.Error())
+		return ""
+	}
+	return fmt.Sprintf("%x", h.Sum(nil))
+}
+
 //判断是否是文件
 func IsFile(filepath string) bool {
 	fielinfo, err := os.Stat(filepath)
@@ -232,4 +241,3 @@ func GetClientIp(this *context.Context) string {
 	}
 	return s[0]
 }
-

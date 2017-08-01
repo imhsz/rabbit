@@ -1,6 +1,7 @@
 package blog
 
 import (
+	"bytes"
 	_ "fmt"
 	_ "github.com/astaxie/beego"
 	. "github.com/hunterhug/GoWeb/lib"
@@ -89,25 +90,39 @@ func (this *UploadController) UploadFile() {
 				} else {
 					message = "获取上传文件错误:无法读取文件大小"
 				}
-				//创建文件夹
-				dirpath, err = MakeFileDir(filetype + "/" + GetTodayString())
+				//读取二进制
+				temp, err := ioutil.ReadAll(f)
 				if err != nil {
-					message = err.Error()
+					message = "读取文件错误：" + err.Error()
+					goto END
+				}
+				filemd5 := Md5FS(bytes.NewReader(temp))
+				if filemd5 == "" {
+					message = "filemd5 empty"
+					goto END
+				}
+				//创建文件夹
+				dirpath, err = MakeFileDir(filetype)
+				if err != nil {
+					message = "创建文件夹失败：" + err.Error()
+					goto END
 				} else {
 					//新建文件名
-					filename = h.Filename
+					filename = filemd5 + "." + filesuffix
+					// 重名没关系，因为文件相同,可以忽略
 					if HasFile(dirpath + "/" + filename) {
-						//文件名存在，放大招，改名
-						filename = GetTimeString() + h.Filename
-						// message = "文件重名"
-						// goto END
+						message = "文件重名"
+						fileerror = 0
+						goto END
 					}
 					//复制文件
-					err = CopyFS(f, dirpath+"/"+filename)
+					err = ioutil.WriteFile(dirpath+"/"+filename, temp, 0777)
 					if err != nil {
 						message = err.Error()
+						goto END
 					} else {
 						fileerror = 0
+						goto END
 					}
 				}
 			} else {
