@@ -37,6 +37,14 @@ go build
 ./GoWeb db
 ```
 
+或者
+
+```
+./initdb.sh tuzi
+```
+
+tuzi为你的数据库名字！
+
 运行程序,建议使用beego官方工具`bee run`
 
 ```shell
