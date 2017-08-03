@@ -1,6 +1,7 @@
 package rbac
 
 import (
+	"fmt"
 	m "github.com/hunterhug/GoWeb/models/admin"
 )
 
@@ -45,7 +46,7 @@ func (this *UserController) AddUser() {
 		this.Rsp(true, "Success")
 		return
 	} else {
-		this.Rsp(false, err.Error())
+		this.Rsp(false, fmt.Sprintf("%v", err))
 		return
 	}
 
@@ -63,7 +64,7 @@ func (this *UserController) UpdateUser() {
 		this.Rsp(true, "Success")
 		return
 	} else {
-		this.Rsp(false, err.Error())
+		this.Rsp(false, fmt.Sprintf("%v", err))
 		return
 	}
 
@@ -82,7 +83,7 @@ func (this *UserController) UpdateUserPasswd() {
 		this.Rsp(true, "Success")
 		return
 	} else {
-		this.Rsp(false, err.Error())
+		this.Rsp(false, fmt.Sprintf("%v", err))
 		return
 	}
 

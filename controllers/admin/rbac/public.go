@@ -7,9 +7,6 @@ import (
 	. "github.com/hunterhug/GoWeb/controllers"
 	. "github.com/hunterhug/GoWeb/lib"
 	"github.com/hunterhug/GoWeb/models/admin"
-	// "github.com/hunterhug/GoWeb/models/home"
-	// "os"
-	// "runtime"
 	"strconv"
 	"strings"
 )
@@ -116,9 +113,10 @@ func (this *MainController) Login() {
 				//更新登陆时间
 				user = admin.UpdateLoginTime(&user)
 				user.Logincount += 1
-				user.Lastip = GetClientIp(this.Ctx)
+				ip := GetClientIp(this.Ctx)
+				user.Lastip = ip
 				user.Update()
-				authkey := Md5(GetClientIp(this.Ctx) + "|" + user.Password)
+				authkey := Md5(ip + "|" + user.Password)
 				if Cookie7 == "1" {
 					if remember == "yes" {
 						this.Ctx.SetCookie("auth", strconv.FormatInt(user.Id, 10)+"|"+authkey, 7*86400)
@@ -191,7 +189,10 @@ func (this *MainController) Changepwd() {
 			if err != nil {
 				this.Rsp(false, err.Error())
 			} else {
-				this.Rsp(true, "更改成功")
+				this.Ctx.SetCookie("auth", "")
+				this.DelSession("userinfo")
+				this.DelSession("accesslist")
+				this.Rsp(true, "更改成功，请重新登录")
 			}
 		}
 	} else {
@@ -210,7 +211,7 @@ func CheckLogin(username string, password string) (user admin.User, err error) {
 	}
 
 	adminuser := beego.AppConfig.String("rbac_admin_user")
-	if user.Username != adminuser && user.Status == 2 {
+	if user.Username != adminuser && user.Status != 1 {
 		return user, errors.New("用户未激活")
 	}
 
@@ -231,6 +232,8 @@ func CheckCookie(ctx *context.Context) (bool, admin.User) {
 			if user.Read() == nil && password == Md5(GetClientIp(ctx)+"|"+user.Password) && (user.Username == adminuser || user.Status == 1) {
 				return true, user
 			} else {
+				// 设置空
+				ctx.SetCookie("auth", "")
 				return false, user
 			}
 		}

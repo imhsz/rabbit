@@ -239,6 +239,9 @@ func GetClientIp(this *context.Context) string {
 			}
 		}
 	}
+	if s[0] == "" {
+		s[0] = "127.0.0.1"
+	}
 	return s[0]
 }
 

@@ -25,10 +25,15 @@ func AccessRegister() {
 		rbac_auth_gateway := beego.AppConfig.String("rbac_auth_gateway")
 		var accesslist map[string]bool
 		if user_auth_type > 0 {
-			//params := strings.Split(strings.ToLower(ctx.Request.RequestURI), "/")
-			// bugfix
+			// "/public/login",[]string{"", "public", "login"}
 			params := strings.Split(strings.ToLower(strings.Split(ctx.Request.RequestURI, "?")[0]), "/")
+			//fmt.Printf("%#v,%#v\n", ctx.Request.RequestURI, params)
+
 			if CheckAccess(params) {
+				//admin用户不用认证权限
+				adminuser := beego.AppConfig.String("rbac_admin_user")
+
+				// 从tuzisessionid中去拿数据
 				uinfo := ctx.Input.Session("userinfo")
 				if uinfo == nil && beego.AppConfig.String("cookie7") == "1" {
 					arr := strings.Split(ctx.GetCookie("auth"), "|")
@@ -38,9 +43,16 @@ func AccessRegister() {
 						if userid > 0 {
 							var user m.User
 							user.Id = userid
-							if user.Read() == nil && password == Md5(GetClientIp(ctx)+"|"+user.Password) {
+							// cookie必须是从上次的IP登录才行
+							ip := GetClientIp(ctx)
+							// 用户必须激活
+							if user.Read() == nil && password == Md5(ip+"|"+user.Password) && (user.Username == adminuser || user.Status == 1) {
 								uinfo = user
-
+								//增加sessioN
+								ctx.Output.Session("userinfo", uinfo)
+							} else {
+								// 去掉，防止太多次查数据库
+								ctx.SetCookie("auth", "")
 							}
 						}
 					}
@@ -48,13 +60,8 @@ func AccessRegister() {
 				if uinfo == nil {
 					ctx.Redirect(302, rbac_auth_gateway)
 					return
-				} else {
-					//增加sessioN
-					//这一部如果本来就不是空的情况，会浪费点时间
-					ctx.Output.Session("userinfo", uinfo)
 				}
-				//admin用户不用认证权限
-				adminuser := beego.AppConfig.String("rbac_admin_user")
+
 				username := uinfo.(m.User).Username
 				if username == adminuser || strings.Contains(username, "hunterhug") {
 					return
@@ -63,7 +70,7 @@ func AccessRegister() {
 				if user_auth_type == 1 {
 					listbysession := ctx.Input.Session("accesslist")
 					if listbysession != nil {
-						accesslist = listbysession.(map[string]bool)
+						accesslist, _ = listbysession.(map[string]bool)
 					} else {
 						// 这里可能不能忽略错误，但Session应该伪造不了
 						accesslist, _ = GetAccessList(uinfo.(m.User).Id)
