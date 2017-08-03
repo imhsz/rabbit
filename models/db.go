@@ -23,7 +23,7 @@ func Createtb() {
 
 // 同步数据库
 func Syncdb() {
-	beego.Trace("-initdb,数据库同步开始")
+	beego.Trace("db,数据库同步开始")
 	// 先建数据库，使用传统方式
 	Createdb()
 
@@ -127,11 +127,14 @@ func Createdb() {
 	// db_sslmode := beego.AppConfig.String("db_sslmode")
 
 	var dns string
-	var sqlstring string
+	var sqlstring, sql1string string
 	switch db_type {
 	case "mysql":
 		dns = fmt.Sprintf("%s:%s@tcp(%s:%s)/?charset=utf8", db_user, db_pass, db_host, db_port)
-		sqlstring = fmt.Sprintf("CREATE DATABASE  if not exists `%s` CHARSET utf8 COLLATE utf8_general_ci", db_name)
+		sqlstring = fmt.Sprintf("CREATE DATABASE if not exists `%s` CHARSET utf8 COLLATE utf8_general_ci", db_name)
+		sql1string = fmt.Sprintf("DROP DATABASE IF EXISTS `%s`", db_name)
+		fmt.Println(sqlstring)
+		fmt.Println(sql1string)
 		break
 	// case "postgres":
 	// 	dns = fmt.Sprintf("host=%s  user=%s  password=%s  port=%s  sslmode=%s", db_host, db_user, db_pass, db_port, db_sslmode)
@@ -152,9 +155,10 @@ func Createdb() {
 	if err != nil {
 		panic(err.Error())
 	}
-	_, err = db.Exec(sqlstring)
-	if err != nil {
-		beego.Error("数据库操作执行失败：" + err.Error())
+	_, err = db.Exec(sql1string)
+	_, err1 := db.Exec(sqlstring)
+	if err != nil || err1 != nil {
+		beego.Error("数据库操作执行失败：", err, err1)
 		panic(err.Error())
 	} else {
 		beego.Trace("Database ", db_name, " created")

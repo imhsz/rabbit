@@ -265,7 +265,7 @@ func InsertNodes() {
 		n.Group = v.Group
 		e := n.Insert()
 		if e != nil {
-			fmt.Println(e.Error())
+			fmt.Printf("%#v:%#v\n", n, e.Error())
 		}
 	}
 	fmt.Println("insert node end")

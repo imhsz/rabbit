@@ -67,12 +67,12 @@ func initArgs() {
 	}
 	args := os.Args
 	for _, v := range args {
-		if v == "-initdb" {
+		if v == "db" {
 			// 建库建表填数据
 			Syncdb()
 			os.Exit(0)
 		}
-		if v == "-rbac" {
+		if v == "rbac" {
 			// RBAC更新
 			Updaterbac()
 			os.Exit(0)
