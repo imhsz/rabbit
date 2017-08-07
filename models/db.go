@@ -22,10 +22,10 @@ func Createtb() {
 }
 
 // 同步数据库
-func Syncdb() {
+func Syncdb(force bool) {
 	beego.Trace("db,数据库同步开始")
 	// 先建数据库，使用传统方式
-	Createdb()
+	Createdb(force)
 
 	// 注册默认连接，方便使用beego ORM
 	Connect()
@@ -95,6 +95,7 @@ func Connect() {
 	// 	break
 	default:
 		beego.Critical("数据库驱动暂不支持：", db_type)
+		return
 	}
 	err := orm.RegisterDataBase("default", db_type, dns)
 	if err != nil {
@@ -115,7 +116,7 @@ func Connect() {
 }
 
 //创建数据库
-func Createdb() {
+func Createdb(force bool) {
 	beego.Trace("开始建库")
 	db_type := beego.AppConfig.String("db_type")
 	db_host := beego.AppConfig.String("db_host")
@@ -133,8 +134,10 @@ func Createdb() {
 		dns = fmt.Sprintf("%s:%s@tcp(%s:%s)/?charset=utf8", db_user, db_pass, db_host, db_port)
 		sqlstring = fmt.Sprintf("CREATE DATABASE if not exists `%s` CHARSET utf8 COLLATE utf8_general_ci", db_name)
 		sql1string = fmt.Sprintf("DROP DATABASE IF EXISTS `%s`", db_name)
+		if force {
+			fmt.Println(sql1string)
+		}
 		fmt.Println(sqlstring)
-		fmt.Println(sql1string)
 		break
 	// case "postgres":
 	// 	dns = fmt.Sprintf("host=%s  user=%s  password=%s  port=%s  sslmode=%s", db_host, db_user, db_pass, db_port, db_sslmode)
@@ -150,12 +153,15 @@ func Createdb() {
 	// 	break
 	default:
 		beego.Critical("数据库驱动暂不支持：", db_type)
+		return
 	}
 	db, err := sql.Open(db_type, dns)
 	if err != nil {
 		panic(err.Error())
 	}
-	_, err = db.Exec(sql1string)
+	if force {
+		_, err = db.Exec(sql1string)
+	}
 	_, err1 := db.Exec(sqlstring)
 	if err != nil || err1 != nil {
 		beego.Error("数据库操作执行失败：", err, err1)
@@ -194,6 +200,7 @@ func TRUNCATETable(table []string) {
 		// 	break
 	default:
 		beego.Critical("数据库驱动暂不支持：", db_type)
+		return
 	}
 	db, err := sql.Open(db_type, dns)
 	defer db.Close()

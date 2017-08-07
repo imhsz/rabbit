@@ -57,10 +57,10 @@ db_type = mysql
 初始化数据库
 
 ```shell
-./GoWeb db
+./GoWeb -db=1
 ```
 
-或者(严重建议)
+或者(严重建议采用下面一种)
 
 ```
 cd help
@@ -169,7 +169,7 @@ ajax调用JSON时请注意跨域问题(见front文件夹),这样的好处是将�
 每次在`models/admin/AdminInit.go`增加路由权限请执行
 
 ```
-./GoWeb rbac
+./GoWeb -rbac=1
 ```
 
 调试请使用`bee run`

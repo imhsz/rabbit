@@ -57,25 +57,38 @@ func PreRun() {
 	}
 }
 
-var user *string
+var (
+	user *string
+)
 
 // 数据库初始化
 func initArgs() {
 	user = flag.String("user", "", "user")
+	dbinit := flag.Bool("db", false, "init db")
+	dbinitforce := flag.Bool("f", false, "force init db first drop db then rebuild it")
+	rbac := flag.Bool("rbac", false, "rebuild rbac database tables")
 	if !flag.Parsed() {
 		flag.Parse()
 	}
-	args := os.Args
-	for _, v := range args {
-		if v == "db" {
-			// 建库建表填数据
-			Syncdb()
-			os.Exit(0)
-		}
-		if v == "rbac" {
-			// RBAC更新
-			Updaterbac()
-			os.Exit(0)
-		}
+	/*	args := os.Args
+		for _, v := range args {
+			if v == "db" {
+				// 建库建表填数据
+				Syncdb()
+				os.Exit(0)
+			}
+			if v == "rbac" {
+				// RBAC更新
+				Updaterbac()
+				os.Exit(0)
+			}
+		}*/
+	if *dbinit {
+		Syncdb(*dbinitforce)
+		os.Exit(0)
+	}
+	if *rbac {
+		Updaterbac()
+		os.Exit(0)
 	}
 }
