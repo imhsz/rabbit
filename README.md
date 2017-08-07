@@ -91,6 +91,60 @@ mkdir file
 chmod 777 file
 ```
 
+## 2. How to Develop
+
+### a. Project Structure(modularization)
+
+```shell
+    ----conf config module
+
+        ----app.conf 		app config file
+        ----local_**.ini 	internationalization file
+
+    ----controllers   controllers module
+        ----admin	  back-end
+            ----blog  blog module
+            ----rbac  authority module
+        ----home 	front end
+        ----rbac.go router authority filtering
+
+    -----lib  public Library
+    -----file upload file keep in here
+    
+    -----models ORM module
+        ----admin RBAC database operation
+            ----AdminInit.go admin data fill by this
+        ----blog  blog database operation
+
+    ----routers 
+    ----static 
+        ---admin 
+        ---home 
+            ---amazi  
+            ---boostrap
+         ---tool
+         ---diy
+    ----views	
+        ----admin 	
+            ----default 
+        ----home 	
+            ----default 
+
+    ----front 
+        ---data 
+
+    ---help  
+        --- init.sql 
+        --- ngnix-tuzi.conf 
+
+    ----doc 
+    ----test 
+```
+
+### b.
+
+...
+
 # LICENSE
 
 ```
