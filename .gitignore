@@ -23,7 +23,7 @@ test/
 .idea/
 static/upload/
 log/
-file/
+file/*
 
 *.iml
 *.xml
