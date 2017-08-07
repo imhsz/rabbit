@@ -1,22 +1,20 @@
-# Project： Rabbit(Tuzi)
+# 项目代号： 兔子(tuzi)
 
-[中文介绍](Chinese.md)
+不懂编程的同学听我演示一遍就可以拥有一个企业官网了！正在开发中...
 
-You can own a enterprise web just listen to me! You just need install golang environment(ask for google help).
+你只需安装好Golang环境，安装教程网站一搜很多。
 
-Under developing...
+![兔子](tuzi.png)
 
-![Rabbit](tuzi.png)
+## 一.使用说明
 
-## 1. How to use
-
-Just do this:
+使用只需拉下库
 
 ```shell
 go get -v github.com/hunterhug/GoWeb
 ```
 
-Or
+或者
 
 ```
 git clone https://www.github.com/hunterhug/GoWeb
@@ -24,16 +22,16 @@ mkdir %GOPATH%/src/github.com/hunterhug
 mv GoWeb %GOPATH%/src/github.com/hunterhug
 ```
 
-Then build our web
+编译程序
 
 ```shell
 go build
 ```
 
-Before run, Please config the db set in `conf/app.conf`, use Mysql(install can ask google help)
+启动前请配置`conf/app.conf`中的数据库（安装Mysql请自行百度）
 
 ```
-# you can set it into prod when in production environment
+# 生产环境可改为prod
 runmode = dev
 
 [dev]
@@ -56,36 +54,36 @@ db_name = tuzi
 db_type = mysql
 ```
 
-and init our database
+初始化数据库
 
 ```shell
 ./GoWeb db
 ```
 
-Or(I recommend to use this)
+或者(严重建议)
 
 ```
 cd help
 ./initdb.sh tuzi
 ```
 
-`tuzi` is your db name
+tuzi为你的数据库名字！
 
-Last run it
+运行程序,建议使用beego官方工具`bee run`
 
 ```shell
 ./GoWeb
 ```
 
-Ok, you can open `http://127.0.0.1:8080`
+这时，你可以打开`http://127.0.0.1:8080`
 
-Enter to edit the website: `http://127.0.0.1:8080/public/login`
+后台入口：`http://127.0.0.1:8080/public/login`
 
-User: `admin`
+账户`admin` 
 
-Password：`admin`
+密码：`admin`
 
-if upload file error please make a new dir names `file` under this project: 
+如果上传文件出错，请在本项目新建file文件夹并赋予权限。
 
 ```
 # if in linux
@@ -93,9 +91,9 @@ mkdir file
 chmod 777 file
 ```
 
-## 2. How to Develop
+## 二.开发流程
 
-### a. Project Structure(modularization)
+### a.文件结构
 
 ```shell
     ----conf 配置文件夹
@@ -223,9 +221,11 @@ server{
 见 [图片](/doc/example.md)
 
 # LICENSE
+    
+欢迎加功能(PR/issues),请遵循Apache License协议(即可随意使用但每个文件下都需加此申明）
 
 ```
-Copyright 2017 by GoSpider author.
+Copyright 2017 by GoWeb author.
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -236,8 +236,3 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License
 ```
-
-Welcome Add PR/issues.
-
-For questions, please email: gdccmcm14@live.com.
-
