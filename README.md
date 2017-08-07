@@ -2,9 +2,7 @@
 
 [中文介绍](Chinese.md)
 
-You can own a enterprise web just listen to me! You just need install golang environment(ask for google help).
-
-Under developing...
+You can own a enterprise web just listen to me! You just need install golang environment(ask for google help).Under developing...
 
 ![Rabbit](tuzi.png)
 
@@ -56,7 +54,7 @@ db_name = tuzi
 db_type = mysql
 ```
 
-and init our database
+And init our database
 
 ```shell
 ./GoWeb db
