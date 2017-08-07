@@ -15,7 +15,7 @@ func Run() {
 	beego.Trace("数据库开跑")
 	initArgs()
 	Connect()
-	PreRun()
+	//PreRun()
 }
 
 func PreRun() {

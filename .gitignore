@@ -35,3 +35,4 @@ main
 *.log
 *.exe~
 GoWeb
+!file/README.md
