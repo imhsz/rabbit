@@ -120,8 +120,8 @@ chmod 777 file
     ----static  static file such as css/js
         ---admin  back-end js/css
         ---home  front-end js/css
-            ---amazi  妹紙UI
-            ---boostrap 最牛逼的界面UI
+            ---amazi  Meizi UI(China)
+            ---boostrap Most Niubi UI
          ---tool some tool js
          ---diy our diy js/css
     ----views	 template views
