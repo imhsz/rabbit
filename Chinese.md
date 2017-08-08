@@ -2,7 +2,7 @@
 
 不懂编程的同学听我演示一遍就可以拥有一个企业官网了！正在开发中...
 
-你只需安装好Golang环境，安装教程网站一搜很多。
+你只需安装好Golang环境，安装教程网站一搜很多。为了国际化，我会将初始化数据全部用英语填充，前台不影响，你仍然可以编辑中文文章。
 
 ![兔子](tuzi.png)
 
@@ -67,9 +67,9 @@ cd help
 ./initdb.sh tuzi
 ```
 
-tuzi为你的数据库名字！
+tuzi为你的数据库名字！如果你的系统不是Linux，请使用`mysql -uroot -p -v tuzi < init.sql`
 
-运行程序,建议使用beego官方工具`bee run`
+运行程序,调试建议使用beego官方工具`bee run`
 
 ```shell
 ./GoWeb
@@ -77,7 +77,7 @@ tuzi为你的数据库名字！
 
 这时，你可以打开`http://127.0.0.1:8080`
 
-后台入口：`http://127.0.0.1:8080/public/login`
+进入后台编辑网站：`http://127.0.0.1:8080/public/login`
 
 账户`admin` 
 
@@ -140,7 +140,7 @@ chmod 777 file
     ----test 测试文件夹
 ```
 
-目前实现了基本的RBAC模块和博客模块（文章和相册）,附带Dashbord后端,UI基本框架形成依靠此项目可敏捷开发.灵感来源：http://www.beautyart.top
+目前实现了基本的RBAC模块和博客模块（文章和相册）,附带Dashboard后端,UI基本框架形成依靠此项目可敏捷开发.灵感来源：http://www.beautyart.top
 
 1. 基于角色的访问控制（Role-Based Access Control）作为传统访问控制
 2. Amaze UI v2.7.0（部分后台）和jQuery EasyUI v1.4.2（后台表格CRUD）、Bootstrap v3.3.5（前台）混合
@@ -154,8 +154,8 @@ ajax调用JSON时请注意跨域问题(见front文件夹),这样的好处是将�
 3. 系统时间默认数据库本地时间为东八区北京时间.
 4. 后台模板在`views/admin`前台模板在`views/home`子文件夹为主题默认主题为default
 5. 所有配置在conf文件夹`conf/app.conf`支持国际化
-6. 数据库数据填充在`models/*/*Init.go`中定义
-7. 视图模板均放在`static`中
+6. 数据库数据填充在`models/*/*Init.go`中定义， 我准备将所有中文变成英文
+7. 各种前端文件全部放在`static`中
 8. 前台首页配置（可动态调整首页待解释）
 
 ```
@@ -174,11 +174,11 @@ ajax调用JSON时请注意跨域问题(见front文件夹),这样的好处是将�
 
 调试请使用`bee run`
 
-## 三.Ngnix架站
+## 三.Nginx架站（可选）
 
-安装Ngnix
+请百度安装nginx，功能：反向代理，将8080端口映射到一个域名的80端口上，你只需A记录到该域名即可。
 
-进入 /usr/local/nginx/conf
+进入`/usr/local/nginx/conf`
 
 ```
 vim nginx.conf

@@ -67,7 +67,7 @@ cd help
 ./initdb.sh tuzi
 ```
 
-`tuzi` is your db name
+`tuzi` is your db name, script equal to `mysql -uroot -p -v tuzi < init.sql`
 
 Last run it
 
@@ -77,7 +77,7 @@ Last run it
 
 Ok, you can open `http://127.0.0.1:8080`
 
-Enter to edit the website: `http://127.0.0.1:8080/public/login`
+Login to edit the website: `http://127.0.0.1:8080/public/login`
 
 User: `admin`
 
@@ -103,7 +103,7 @@ chmod 777 file
 
     ----controllers   controllers module
         ----admin	  back-end
-            ----blog  blog module
+            ----blog  blog-edit(category/paper) module
             ----rbac  authority module
         ----home 	front end
         ----rbac.go router authority filtering
@@ -116,48 +116,46 @@ chmod 777 file
             ----AdminInit.go admin data fill by this
         ----blog  blog database operation
 
-    ----routers 路由
-    ----static  静态文件
-        ---admin 后台js/css勿改
-        ---home 前台UI美观第三方js/css
+    ----routers url router
+    ----static  static file such as css/js
+        ---admin  back-end js/css
+        ---home  front-end js/css
             ---amazi  妹紙UI
             ---boostrap 最牛逼的界面UI
-         ---tool 公用第三方js
-         ---diy 自己的js/css
-    ----views	视图
-        ----admin 	后台视图
-            ----default 默认主题
-        ----home 	前台视图
-            ----default 默认主题
+         ---tool some tool js
+         ---diy our diy js/css
+    ----views	 template views
+        ----admin 	back-end
+            ----default defaule theme
+        ----home 	front-end
+            ----default default theme
 
-    ----front 前端测试文件夹
-        ---data 模拟的JSON数据
+    ----front can use for vue/angular... preparing
+        ---data JSON data
 
-    ---help  帮助脚本等
-        --- init.sql 提供的示例数据库
-        --- ngnix-tuzi.conf Nginx配置
-
-    ----doc 说明文档
-    ----test 测试文件夹
+    ---help  help yu init db
+        --- init.sql important data
+        --- ngnix-tuzi.conf Nginx config
 ```
 
-目前实现了基本的RBAC模块和博客模块（文章和相册）,附带Dashbord后端,UI基本框架形成依靠此项目可敏捷开发.灵感来源：http://www.beautyart.top
+We have already implement basic RBAC module and Blog module（Article and Album equal to enterprise News and Production）, And have a Dashboard back-end UI, The UI can accelerated development. 
+which inspiration by：[http://www.beautyart.top](http://www.beautyart.top), you can visit it to see how it is.
 
-1. 基于角色的访问控制（Role-Based Access Control）作为传统访问控制
-2. Amaze UI v2.7.0（部分后台）和jQuery EasyUI v1.4.2（后台表格CRUD）、Bootstrap v3.3.5（前台）混合
-3. 准备采用Vue.js v2.2.6 前后端完全分离（Maybe）,后台写死很笨拙但是对前台开放友好的REST JSON API这样可离线测试前端.
-ajax调用JSON时请注意跨域问题(见front文件夹),这样的好处是将渲染视图的工作交给用户的浏览器端.(可不选择)
+1. Role-Based Access Control
+2. Amaze UI v2.7.0（little back-end）和jQuery EasyUI v1.4.2（back-end table CRUD）、Bootstrap v3.3.5（front-end）mixed
+3. Prepare use Vue.js v2.2.6 to separate back-end and front-end（Maybe）, back-end just offer REST JSON API, and front-end can first test Off-line then if no problem, docking!
+when ajax call JSON must pay attention across-domain rule(see rht dir front), why use this way due to can reduce the back-end burden~~ and more fast develop...
 
-### b.约定
+### b. Rules And Explanation
 
-1. RBAC权限相关的models统一放在admin文件夹,其他都放在home文件夹.前台控制相关的controllers统一放在home文件夹,其他都放在admin文件夹.URL router统一`M/C/A`方式,该正则url需要验证权限如rbac/public/index（三个参数）,其他如public/index不验证.
-2. 登录说明：登陆过的用户只能注销后登录，支持定义cookie登录.进入后台时验证session,session不存在则验证cookie.如果用户未被冻结,增加session,同时更改用户登录时间、登录IP等.cookie与登录IP绑定（防止cookie劫持）.
-3. 系统时间默认数据库本地时间为东八区北京时间.
-4. 后台模板在`views/admin`前台模板在`views/home`子文件夹为主题默认主题为default
-5. 所有配置在conf文件夹`conf/app.conf`支持国际化
-6. 数据库数据填充在`models/*/*Init.go`中定义
-7. 视图模板均放在`static`中
-8. 前台首页配置（可动态调整首页待解释）
+1. RBAC function must put in `controllers/admin` folder.Front-end controllers put in `controllers/home` folder, other put in `controllers/admin`.URL router use `M/C/A` ways, such router  `rbac/public/index`（three）must authorize.
+2. Login：you can logout after login, support cookie remember login. when enter back-end, check session, if not exist session then check cookie. if user is activated, add the session, record login times、login IP etcd. When remember login, will add cookie(cooke bind by ip and encrypted password for hijacking prevention).
+3. System time default timezone UTC/GMT+08:00 China BeiJin, you can change in `app.conf`.
+4. Back-end template in `views/admin`, front-end in `views/home`, the sub folder is theme, which default is default... can change in `app.conf`.
+5. All config in `conf/app.conf`, support internationalization, can use chinese/english by browser such `Accept-Language:en-US,en;q=0.5` 
+6. All data initialization can define in `models/*/*Init.go`, I will change it all in english.
+7. All js/css such static file must put in `static`
+8. Website home can be change by this（just ignore it...waiting for explanation）
 
 ```
 {
@@ -165,35 +163,35 @@ ajax调用JSON时请注意跨域问题(见front文件夹),这样的好处是将�
 }
 ```
 
-### c.增加路由和权限
+### c. Add routers and permissions
 
-每次在`models/admin/AdminInit.go`增加路由权限请执行
+Every add routers and permissions in `models/admin/AdminInit.go`, please rebuild rbac:
 
 ```
 ./GoWeb -rbac=1
 ```
 
-调试请使用`bee run`
+debug you can use `bee run`...
 
-## 三.Ngnix架站
+## 3. How to use Nginx(optional)
 
-安装Ngnix
+First install Nginx(ask for google...)
 
-进入 /usr/local/nginx/conf
+Enter `/usr/local/nginx/conf`
 
 ```
 vim nginx.conf
 ```
 
-并且nginx.conf最后增加
+In the last of `nginx.conf`, add:
 
 ```
 include sites/*.conf;
 ```
 
-新建sites文件夹，在sites文件夹中放入该项目下`help/ngnix-tuzi.conf`文件：
+New a `sites` folder， put our `help/ngnix-tuzi.conf` under it：
 
-配置`ngnix-tuzi.conf`,`server_name`为域名,`access_log`为日志路径（要手动建文件夹）
+config `ngnix-tuzi.conf`, `server_name` is your domain, `access_log` is the log path（you must makedir first）
 
 ```shell
 server{
@@ -212,14 +210,6 @@ server{
 
 }
 ```
-
-## 四.环境配置
-
-安装Golang环境请百度或者见 [此处](http://www.lenggirl.com/tool/gospider-env.html)
-
-## 五.精彩演示
-
-见 [图片](/doc/example.md)
 
 # LICENSE
 
