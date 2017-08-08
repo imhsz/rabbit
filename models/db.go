@@ -1,3 +1,15 @@
+/*
+	Copyright 2017 by GoWeb author: gdccmcm14@live.com.
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+		http://www.apache.org/licenses/LICENSE-2.0
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License
+*/
 package models
 
 import (
@@ -14,57 +26,42 @@ import (
 	// _ "github.com/mattn/go-sqlite3"
 )
 
-// 建数据库表
 func Createtb() {
-	beego.Trace("开始数据填充")
+	beego.Trace("data init start")
 	admin.InitData()
-	beego.Trace("数据填充结束")
+	beego.Trace("data init end")
 }
 
-// 同步数据库
 func Syncdb(force bool) {
-	beego.Trace("db,数据库同步开始")
-	// 先建数据库，使用传统方式
-	Createdb(force)
+	beego.Trace("db, sync db start")
 
-	// 注册默认连接，方便使用beego ORM
+	Createdb(force)
 	Connect()
 	Createconfig()
 	Createtb()
 
-	beego.Trace("数据库同步完毕，请重新开启应用")
-
+	beego.Trace("sync db end, please reopen app again")
 }
 
 func Updaterbac() {
-	// 清空表
 	TRUNCATETable([]string{beego.AppConfig.String("rbac_group_table"), beego.AppConfig.String("rbac_node_table")})
-
-	// 注册默认数据库
 	Connect()
-	// 插入组合节点
 	admin.InsertGroup()
 	admin.InsertNodes()
 }
 
-// 建表配置，强制建表，会把所有表删掉
 func Createconfig() {
-	// 数据库别名
-	name := "default"
-	// drop table 后再建表
-	force := true
-	// 打印执行过程
-	verbose := true
-	// 遇到错误立即返回
+	name := "default" // database alias name
+	force := true     // drop table force
+	verbose := true   // print log
 	err := orm.RunSyncdb(name, force, verbose)
 	if err != nil {
-		beego.Error("数据库设置强制建表错误：" + err.Error())
+		beego.Error("database config set to force error:" + err.Error())
 	}
 }
 
-// 数据库连接
 func Connect() {
-	beego.Trace("数据库开始连接注册")
+	beego.Trace("database start to connect")
 	var dns string
 	db_type := beego.AppConfig.String("db_type")
 	db_host := beego.AppConfig.String("db_host")
@@ -75,31 +72,19 @@ func Connect() {
 	db_user := beego.AppConfig.String("db_user")
 	db_pass := beego.AppConfig.String("db_pass")
 	db_name := beego.AppConfig.String("db_name")
-	// db_path := beego.AppConfig.String("db_path")
-	// db_sslmode := beego.AppConfig.String("db_sslmode")
 	switch db_type {
 	case "mysql":
 		orm.RegisterDriver("mysql", orm.DRMySQL)
 		orm.DefaultTimeLoc = time.UTC
 		dns = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8", db_user, db_pass, db_host, db_port, db_name)
 		break
-	// case "postgres":
-	// 	orm.RegisterDriver("postgres", orm.DRPostgres)
-	// 	dns = fmt.Sprintf("dbname=%s host=%s  user=%s  password=%s  port=%s  sslmode=%s", db_name, db_host, db_user, db_pass, db_port, db_sslmode)
-	// case "sqlite3":
-	// 	orm.RegisterDriver("sqlite3", orm.DRSqlite)
-	// 	if db_path == "" {
-	// 		db_path = "./"
-	// 	}
-	// 	dns = fmt.Sprintf("%s%s.db", db_path, db_name)
-	// 	break
 	default:
-		beego.Critical("数据库驱动暂不支持：", db_type)
+		beego.Critical("db driver not support:", db_type)
 		return
 	}
 	err := orm.RegisterDataBase("default", db_type, dns)
 	if err != nil {
-		beego.Error("注册数据库失败：" + err.Error())
+		beego.Error("register data:" + err.Error())
 		panic(err.Error())
 	}
 
@@ -117,7 +102,7 @@ func Connect() {
 
 //创建数据库
 func Createdb(force bool) {
-	beego.Trace("开始建库")
+	beego.Trace("start create database")
 	db_type := beego.AppConfig.String("db_type")
 	db_host := beego.AppConfig.String("db_host")
 	db_port := beego.AppConfig.String("db_port")
@@ -129,6 +114,7 @@ func Createdb(force bool) {
 
 	var dns string
 	var sqlstring, sql1string string
+
 	switch db_type {
 	case "mysql":
 		dns = fmt.Sprintf("%s:%s@tcp(%s:%s)/?charset=utf8", db_user, db_pass, db_host, db_port)
@@ -152,7 +138,7 @@ func Createdb(force bool) {
 	// 	sqlstring = "create table init (n varchar(32));drop table init;"
 	// 	break
 	default:
-		beego.Critical("数据库驱动暂不支持：", db_type)
+		beego.Critical("db driver not support:", db_type)
 		return
 	}
 	db, err := sql.Open(db_type, dns)

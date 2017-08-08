@@ -225,7 +225,7 @@ server{
 欢迎加功能(PR/issues),请遵循Apache License协议(即可随意使用但每个文件下都需加此申明）
 
 ```
-Copyright 2017 by GoWeb author.
+Copyright 2017 by GoWeb author: gdccmcm14@live.com.
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at
@@ -236,3 +236,4 @@ WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License
 ```
+

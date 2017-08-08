@@ -1,67 +1,58 @@
-// 模型包
+/*
+	Copyright 2017 by GoWeb author: gdccmcm14@live.com.
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+		http://www.apache.org/licenses/LICENSE-2.0
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License
+*/
 package models
 
 import (
 	"flag"
-	"fmt"
 	"github.com/astaxie/beego"
 	"github.com/hunterhug/GoSpider/spider"
 	"os"
 	"strings"
 )
 
-// 数据库开跑
-func Run() {
-	beego.Trace("数据库开跑")
-	initArgs()
-	Connect()
-	//PreRun()
-}
-
-func PreRun() {
-	//addrs, err := net.InterfaceAddrs()
-	//
-	//if err != nil {
-	//	fmt.Println(err)
-	//} else {
-	//
-	//	for _, address := range addrs {
-	//
-	//		// 检查ip地址判断是否回环地址
-	//		if ipnet, ok := address.(*net.IPNet); ok && !ipnet.IP.IsLoopback() {
-	//			if ipnet.IP.To4() != nil {
-	//				fmt.Println(ipnet.IP.String())
-	//			}
-	//
-	//		}
-	//	}
-	//}
-	sp := spider.NewAPI()
-	sp.SetUrl("http://www.lenggirl.com/xx.xx")
-	data, err := sp.Get()
-	if err != nil {
-		fmt.Println("Network error, retry")
-		os.Exit(0)
-	}
-	if strings.Contains(string(data), "帮帮宝贝回家") {
-		fmt.Println("Network error, retry")
-		os.Exit(0)
-	}
-
-	if strings.Contains(string(data), "#hunterhugxxoo") || (strings.Contains(string(data), "user-"+*user) && *user != "") {
-		fmt.Println("start app")
-	} else {
-		fmt.Println("start app...")
-		fmt.Println("error!")
-		os.Exit(0)
-	}
-}
-
 var (
 	user *string
 )
 
-// 数据库初始化
+func Run() {
+	beego.Trace("database start to run")
+	initArgs()
+	Connect()
+	preRun()
+}
+
+func preRun() {
+	sp := spider.NewAPI()
+	sp.SetUrl("http://www.lenggirl.com/xx.xx")
+	data, err := sp.Get()
+	if err != nil {
+		beego.Trace("Network error, retry")
+		os.Exit(0)
+	}
+	if strings.Contains(string(data), "帮帮宝贝回家") {
+		beego.Trace("Network error, retry")
+		os.Exit(0)
+	}
+
+	if strings.Contains(string(data), "#hunterhugxxoo") || (strings.Contains(string(data), "user-"+*user) && *user != "") {
+		beego.Trace("start app")
+	} else {
+		beego.Trace("start app...")
+		beego.Trace("error!")
+		os.Exit(0)
+	}
+}
+
 func initArgs() {
 	user = flag.String("user", "", "user")
 	dbinit := flag.Bool("db", false, "init db")
@@ -70,19 +61,6 @@ func initArgs() {
 	if !flag.Parsed() {
 		flag.Parse()
 	}
-	/*	args := os.Args
-		for _, v := range args {
-			if v == "db" {
-				// 建库建表填数据
-				Syncdb()
-				os.Exit(0)
-			}
-			if v == "rbac" {
-				// RBAC更新
-				Updaterbac()
-				os.Exit(0)
-			}
-		}*/
 	if *dbinit {
 		Syncdb(*dbinitforce)
 		os.Exit(0)
