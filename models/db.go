@@ -89,7 +89,7 @@ func Connect() {
 	}
 
 	if beego.AppConfig.String("dblog") == "open" {
-		beego.Trace("应用开发者模式，数据库操作进行调试，记录进db.log")
+		beego.Trace("develop mode，debug database: db.log")
 		orm.Debug = true
 		w, e := os.OpenFile("log/db.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
 		if e != nil {
@@ -102,7 +102,7 @@ func Connect() {
 
 //创建数据库
 func Createdb(force bool) {
-	beego.Trace("start create database")
+	beego.Trace("create database start")
 	db_type := beego.AppConfig.String("db_type")
 	db_host := beego.AppConfig.String("db_host")
 	db_port := beego.AppConfig.String("db_port")
@@ -150,17 +150,17 @@ func Createdb(force bool) {
 	}
 	_, err1 := db.Exec(sqlstring)
 	if err != nil || err1 != nil {
-		beego.Error("数据库操作执行失败：", err, err1)
+		beego.Error("db exec error：", err, err1)
 		panic(err.Error())
 	} else {
-		beego.Trace("Database ", db_name, " created")
+		beego.Trace("database ", db_name, " created")
 	}
 	defer db.Close()
-	beego.Trace("建库结束")
+	beego.Trace("create database end")
 }
 
 func TRUNCATETable(table []string) {
-	beego.Trace("开始删表")
+	beego.Trace("delete tables start")
 	db_type := beego.AppConfig.String("db_type")
 	db_host := beego.AppConfig.String("db_host")
 	db_port := beego.AppConfig.String("db_port")
@@ -185,7 +185,7 @@ func TRUNCATETable(table []string) {
 		// 	sqlstring = "create table init (n varchar(32));drop table init;"
 		// 	break
 	default:
-		beego.Critical("数据库驱动暂不支持：", db_type)
+		beego.Critical("db driver not support:", db_type)
 		return
 	}
 	db, err := sql.Open(db_type, dns)
@@ -194,15 +194,15 @@ func TRUNCATETable(table []string) {
 		panic(err.Error())
 	}
 	for _, i := range table {
-		beego.Trace("数据表删除中：" + i)
+		beego.Trace("table deleting：" + i)
 		sqlstring = fmt.Sprintf("TRUNCATE TABLE `%s`", i)
 		_, err = db.Exec(sqlstring)
 		if err != nil {
-			beego.Error("数据表删除失败：" + err.Error())
+			beego.Error("table delete error：" + err.Error())
 			panic(err.Error())
 		} else {
-			beego.Trace("数据表删除成功：" + i)
+			beego.Trace("table delete success：" + i)
 		}
 	}
-	beego.Trace("删表结束")
+	beego.Trace("delete table end")
 }

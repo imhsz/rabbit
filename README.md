@@ -1,6 +1,6 @@
 # Project： Rabbit(Tuzi)
 
-[中文介绍](Chinese.md)
+[中文介绍](Chinese.md) anglicizing...
 
 You can own a enterprise web just listen to me! You just need install golang environment(ask for google help).Under developing...
 

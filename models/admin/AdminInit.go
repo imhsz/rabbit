@@ -33,7 +33,7 @@ func InsertConfig() {
 	fmt.Println("insert config start")
 	c := new(blog.Config)
 	c.Id = 1
-	c.Title = "兔子脚手架"
+	c.Title = "Rabbit(Tuzi) Enterprise Web"
 	c.Webinfo = `
 	{
 	"1":{"name":"about","limit":6}
@@ -66,11 +66,11 @@ func InsertUser() {
 	fmt.Println("insert user ...")
 	u := new(User)
 	u.Username = beego.AppConfig.String("rbac_admin_user")
-	u.Nickname = "兔子管理员"
+	u.Nickname = "TuziAdmin"
 	u.Password = Pwdhash(beego.AppConfig.String("rbac_admin_user"))
 	u.Email = "569929309@qq.com"
-	u.Remark = "最高权限的兔子王"
-	// 表示关闭，但是管理员有最大权限
+	u.Remark = "God in Rabbit Country"
+	// 2 stand for close, but it has very high authority
 	u.Status = 2
 	u.Createtime = GetTime()
 	err := u.Insert()
@@ -80,10 +80,10 @@ func InsertUser() {
 
 	u1 := new(User)
 	u1.Username = "test"
-	u1.Nickname = "测试用户"
+	u1.Nickname = "TuziTest"
 	u1.Password = Pwdhash("test")
 	u1.Email = "569929309@qq.com"
-	u1.Remark = "测试用户"
+	u1.Remark = "Just a Test User"
 	u1.Status = 2
 	u1.Createtime = GetTime()
 	err1 := u1.Insert()
