@@ -43,7 +43,7 @@ func (this *baseController) Prepare() {
 
 		}
 	}
-	if len(this.Lang) == 0 {
+	if this.Lang == "" {
 		this.Lang = "zh-CN"
 	}
 
