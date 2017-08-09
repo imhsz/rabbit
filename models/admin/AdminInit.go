@@ -12,10 +12,12 @@
 */
 package admin
 
+// still keep chinese some...
+
 import (
 	"fmt"
 	"github.com/astaxie/beego"
-	. "github.com/hunterhug/GoWeb/lib"
+	"github.com/hunterhug/GoWeb/lib"
 	"github.com/hunterhug/GoWeb/models/blog"
 )
 
@@ -52,7 +54,7 @@ func InsertCategory() {
 	c := new(blog.Category)
 	c.Id = 1
 	c.Title = "About"
-	c.Createtime = GetTime()
+	c.Createtime = lib.GetTime()
 	c.Status = 1
 	err := c.Insert()
 	if err != nil {
@@ -67,12 +69,12 @@ func InsertUser() {
 	u := new(User)
 	u.Username = beego.AppConfig.String("rbac_admin_user")
 	u.Nickname = "TuziAdmin"
-	u.Password = Pwdhash(beego.AppConfig.String("rbac_admin_user"))
+	u.Password = lib.Pwdhash(beego.AppConfig.String("rbac_admin_user"))
 	u.Email = "569929309@qq.com"
 	u.Remark = "God in Rabbit Country"
 	// 2 stand for close, but it has very high authority
 	u.Status = 2
-	u.Createtime = GetTime()
+	u.Createtime = lib.GetTime()
 	err := u.Insert()
 	if err != nil {
 		fmt.Println(err.Error())
@@ -81,11 +83,11 @@ func InsertUser() {
 	u1 := new(User)
 	u1.Username = "test"
 	u1.Nickname = "TuziTest"
-	u1.Password = Pwdhash("test")
+	u1.Password = lib.Pwdhash("test")
 	u1.Email = "569929309@qq.com"
 	u1.Remark = "Just a Test User"
 	u1.Status = 2
-	u1.Createtime = GetTime()
+	u1.Createtime = lib.GetTime()
 	err1 := u1.Insert()
 	if err1 != nil {
 		fmt.Println(err.Error())
@@ -266,7 +268,7 @@ func InsertNodes() {
 	}
 	for _, v := range nodes {
 		n := new(Node)
-		n.Id = v.Id //这句是无效的,后来 bug 被beego官方改好了
+		n.Id = v.Id //这句是无效的,后来 bug 被 beego 官方改好了
 		n.Name = v.Name
 		n.Title = v.Title
 		n.Remark = v.Remark

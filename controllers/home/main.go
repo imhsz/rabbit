@@ -20,6 +20,7 @@ type paperablum map[string]map[string]interface{}
 var config *blog.Config
 
 func (this *MainController) Prepare() {
+	this.baseController.Prepare()
 	config = new(blog.Config)
 	config.Id = 1
 	config.Read()
@@ -29,8 +30,21 @@ func (this *MainController) Prepare() {
 	this.Data["photo"] = getmulu(0, 1)
 
 }
-func (this *MainController) Index() {
 
+func (this *MainController) Index() {
+	a := this.GetString("lang", "")
+	if a != "" {
+		this.Ctx.SetCookie("lang", a)
+		switch a {
+		case "en":
+			this.Lang = "en-US"
+		case "cn":
+			this.Lang = "zh-CN"
+		default:
+			//this.Lang = "zh-CN"
+		}
+		this.Data["Lang"] = this.Lang
+	}
 	//轮转图
 	roll := new(blog.Roll)
 	rolls := []orm.Params{}

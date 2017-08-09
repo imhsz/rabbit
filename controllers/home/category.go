@@ -4,7 +4,6 @@ import (
 	"github.com/astaxie/beego/orm"
 	"github.com/hunterhug/GoWeb/lib"
 	"github.com/hunterhug/GoWeb/models/blog"
-	//"github.com/astaxie/beego"
 )
 
 func (this *MainController) Category() {
