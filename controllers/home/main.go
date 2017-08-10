@@ -7,6 +7,7 @@ import (
 	//"github.com/astaxie/beego"
 	"encoding/json"
 	"github.com/astaxie/beego"
+	"github.com/hunterhug/GoWeb/lib"
 )
 
 type MainController struct {
@@ -41,7 +42,7 @@ func (this *MainController) Index() {
 		case "cn":
 			this.Lang = "zh-CN"
 		default:
-			//this.Lang = "zh-CN"
+			this.Lang = "zh-CN"
 		}
 		this.Data["Lang"] = this.Lang
 	}
@@ -53,7 +54,8 @@ func (this *MainController) Index() {
 
 	//首页
 	index := paperablum{}
-	err := json.Unmarshal([]byte(config.Webinfo), &index)
+	println(config.Webinfo)
+	err := json.Unmarshal([]byte(lib.TripAll(config.Webinfo)), &index)
 	if err != nil {
 		beego.Trace(err.Error())
 	}
@@ -61,11 +63,12 @@ func (this *MainController) Index() {
 
 	for i, item := range index {
 		_, td, tc := getjinhan(item["name"].(string), int(item["limit"].(float64)))
-		//beego.Trace("%v",t1c)
+		//beego.Trace("%v", tc)
 		this.Data["t"+i] = td
 		this.Data["t"+i+"c"] = tc
 	}
 
+	//beego.Trace(this.Data["Lang"])
 	this.TplName = this.GetTemplate() + "/index.html"
 }
 

@@ -23,7 +23,6 @@ test/
 .idea/
 static/upload/
 log/
-file/*
 
 *.iml
 *.xml
@@ -35,4 +34,3 @@ main
 *.log
 *.exe~
 GoWeb
-!file/README.md

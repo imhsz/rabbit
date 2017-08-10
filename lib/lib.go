@@ -271,3 +271,11 @@ func Hashcode(asin string) string {
 	}
 	return s
 }
+
+func TripAll(a string)string{
+	a=strings.Replace(a," ","",-1)
+	a=strings.Replace(a,"\n","",-1)
+	a=strings.Replace(a,"\r","",-1)
+	a=strings.Replace(a,"\t","",-1)
+	return a
+}

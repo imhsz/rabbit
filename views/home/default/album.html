@@ -38,9 +38,10 @@
 <!--装饰-->
 <div class="min-head clearfix">
     <div class="nav wrap text-right">
-       <!-- <a  href="http://sjgm.caa.edu.cn">视觉国美</a>&nbsp;&nbsp;
-        <a  href="http://en.caa.edu.cn/">EN</a>
-        -->
+        <a  href="/?lang=cn" id="cn">中文</a>&nbsp;&nbsp;
+        <a  href="/?lang=en" id="en">EN</a>&nbsp;&nbsp;
+        <a  href="https://www.github.com/hunterhug">Github</a>&nbsp;&nbsp;
+        <a  href="http://www.lenggirl.com/">Blog</a>
     </div>
 </div>
 <!--装饰结束-->
@@ -53,7 +54,7 @@
         </a>
         <ul class="main-nav" id="mainNav" style="padding-right:178px">
             <li>
-                <a href="/">首页</a>
+                <a href="/">{{i18n .Lang "home"}}</a>
             </li>
             {{range $i,$e:=.category}}
             <li>
@@ -89,7 +90,7 @@
             </li>
             {{end}}
         </ul>
-    <div style="position: absolute;right: 0px;top:10px;font-size: 1.2em">联系方式：{{.config.Phone}}</div>
+    <div style="position: absolute;right: 0px;top:10px;font-size: 1.2em">{{i18n .Lang "phone"}}:&nbsp;&nbsp;{{.config.Phone}}</div>
     </div>
 </div>
 <!--导航结束-->
@@ -116,7 +117,7 @@
 
         <div class="hd">
             <p class="history fr">
-                <a href="/"  class="CurrChnlCls" style="font-size: 15px">首页</a>
+                <a href="/"  class="CurrChnlCls" style="font-size: 15px">{{i18n .Lang "home"}}</a>
                 {{if .father}}
                 <a href="/{{.father.Title}}"  class="CurrChnlCls" style="font-size: 15px">-- {{.father.Title}}</a>
                 {{end}}

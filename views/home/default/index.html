@@ -85,7 +85,7 @@
             </li>
             {{end}}
         </ul>
-    <div style="position: absolute;right: 0px;top:10px;font-size: 1.2em">{{i18n .Lang "phone"}}:{{.config.Phone}}</div>
+    <div style="position: absolute;right: 0px;top:10px;font-size: 1.2em">{{i18n .Lang "phone"}}:&nbsp;&nbsp;{{.config.Phone}}</div>
     </div>
 </div>
 <!--导航结束-->
@@ -138,7 +138,7 @@
                             <li><!--<em class="fr en">{{dateformat $e.Createtime "2006/1/02"}}
                             </em>-->
                                 <a  href="/{{$.t1c.Title}}/{{$e.Id}}" class="tit">
-                                {{if eq $e.Istop 1}}[顶] {{else}}{{end}}{{substr $e.Title 0 25}}...
+                                {{if eq $e.Istop 1}}[{{i18n $.Lang "top"}}] {{else}}{{end}}{{substr $e.Title 0 25}}...
                                 </a>
                             </li>
                         {{end}}
@@ -158,7 +158,7 @@
                             <li><!--<em class="fr en">{{dateformat $e.Createtime "2006/1/02"}}
                             </em>-->
                                 <a  href="/{{$.t2c.Title}}/{{$e.Id}}" class="tit">
-                                {{if eq $e.Istop 1}}[{{i18n .Lang "top"}}] {{else}}{{end}}{{substr $e.Title 0 25}}...
+                                {{if eq $e.Istop 1}}[{{i18n $.Lang "top"}}] {{else}}{{end}}{{substr $e.Title 0 25}}...
                                 </a>
                             </li>
                         {{end}}
@@ -179,7 +179,7 @@
                             <li><em class="fr en">{{dateformat $e.Createtime "2006/1/02"}}
                             </em>
                                 <a  href="/{{$.t3c.Title}}/{{$e.Id}}" class="tit">
-                                {{if eq $e.Istop 1}}[{{i18n .Lang "top"}}] {{else}}{{end}}{{substr $e.Title 0 30}}...
+                                {{if eq $e.Istop 1}}[{{i18n $.Lang "top"}}] {{else}}{{end}}{{substr $e.Title 0 30}}...
                                 </a>
                             </li>
                         {{end}}
@@ -191,7 +191,7 @@
                             <li><em class="fr en">{{dateformat $e.Createtime "2006/1/02"}}
                             </em>
                                 <a  href="/{{$.t4c.Title}}/{{$e.Id}}" class="tit">
-                                {{if eq $e.Istop 1}}[{{i18n .Lang "phone"}}] {{else}}{{end}}{{substr $e.Title 0 30}}...
+                                {{if eq $e.Istop 1}}[{{i18n $.Lang "phone"}}] {{else}}{{end}}{{substr $e.Title 0 30}}...
                                 </a>
                             </li>
                         {{end}}
@@ -320,8 +320,7 @@
 <!--脚部 -->
 <div class="footer">
     <div class="wrap">
-        <!--
-        <div class="box">
+       <!-- <div class="box">
 				<div class="hd">
 					<h2>导航<span class="en">NAVIGATION</span></h2>
 				</div>
@@ -329,7 +328,9 @@
 					<div class="tab-content">
 						<div class="tab-plane" id="syyx">
 							<div class="news-list">
-								<ul><li><a target="blank" href="/xy/jxjg/zghyys/" class="tit">中国画与书法艺术学院</a></li></ul>
+								<ul>
+                                    <li><a target="blank" href="https://www.github.com/hunterhug" class="tit">Github</a></li>
+                               </ul>
 							</div>
 						</div>
 					</div>
