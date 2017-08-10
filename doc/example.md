@@ -1,6 +1,6 @@
 ###首页
 
-![](index.jpg)
+![](index.png)
 
 ###登录
 
