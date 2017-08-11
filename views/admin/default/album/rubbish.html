@@ -47,9 +47,10 @@
             {
                 field: 'Title', title: '标题', width: 120,
                 formatter: function (value, row, index) {
-                    return "<a target='_blank' href='__ROOT__/Ei/User/article?username=" + row.username + "&id=" + row.Id + "'>" + value + "</a>";
+                    return "<a target='_blank' href='/" + row.Cid + "/" + row.Id + "'>" + value + "</a>";
                 }
-            }, {
+            },
+            {
                 field: 'Photo',
                 title: '封面',
                 width: 100,

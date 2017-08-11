@@ -47,10 +47,14 @@ func (this *baseController) Prepare() {
 		this.Lang = "zh-CN"
 	}
 
+	// not use...
 	this.Data["Lang"] = this.Lang
+	/*this.Layout = this.GetTemplate() + "/layout.html"
+	this.LayoutSections["scripts"] = this.GetTemplate()+"/scripts.html"
+	this.LayoutSections["Sidebar"] = ""*/
 }
 
-// 获取模板位置
+// Get the address of template
 func (this *baseController) GetTemplate() string {
 	templatetype := beego.AppConfig.String("home_template")
 	if templatetype == "" {

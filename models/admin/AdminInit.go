@@ -78,7 +78,8 @@ func InsertCategory() {
 	for k, v := range cs {
 		c := new(blog.Category)
 		c.Id = k
-		c.Title = v
+		c.Title = v + "-T"
+		c.Alias = v
 		c.Createtime = lib.GetTime()
 		c.Status = 1
 		c.Image = "/file/image/46/68756e746572687567aadc0c7438bb9e28d2c4eeaa310828e8.png"

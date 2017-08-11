@@ -1,3 +1,15 @@
+/*
+	Copyright 2017 by GoWeb author: gdccmcm14@live.com.
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+		http://www.apache.org/licenses/LICENSE-2.0
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License
+*/
 package home
 
 import (
@@ -9,11 +21,11 @@ import (
 func (this *MainController) Category() {
 	id := this.Ctx.Input.Param(":id")
 	types := 0
-	err, category := getcategory(id)
+	err, category := GetCategory(id)
 	if err != nil {
-		err, category = getalbum(id)
+		err, category = GetAlbum(id)
 		if err != nil {
-			this.Rsp(false, "没有这个分类啊，哥哥")
+			this.Rsp(false, "not this category")
 		} else {
 			types = 1
 		}

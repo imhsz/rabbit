@@ -28,11 +28,6 @@
         })
 
     </script>
-    <style>
-        .friend-link {
-            padding: 0 120px
-        }
-    </style>
 </head>
 <body class="in-page">
 <!--装饰-->
@@ -58,13 +53,13 @@
             </li>
             {{range $i,$e:=.category}}
             <li>
-                <a href="/{{$e.Title}}/">{{$e.Title}}</a>
+                <a href="/{{$e.Alias}}/">{{$e.Title}}</a>
                 {{if $e.Son}}
                 <dl class="sub-nav">
                     <dt>
                         {{range $j,$ee:=$e.Son}}
                         <li>
-                        <a  href="/{{$ee.Title}}/" data-id="#jl_{{$ee.Id}}" class="tab-nav">{{$ee.Title}}</a>
+                        <a  href="/{{$ee.Alias}}/" data-id="#jl_{{$ee.Id}}" class="tab-nav">{{$ee.Title}}</a>
                         </li>
                         {{end}}
                     </dt>
@@ -75,13 +70,13 @@
 
             {{range $i,$e:=.photo}}
             <li>
-                <a  href="/{{$e.Title}}/">{{$e.Title}}</a>
+                <a  href="/{{$e.Alias}}/">{{$e.Title}}</a>
                 {{if $e.Son}}
                 <dl class="sub-nav">
                     <dt>
                         {{range $j,$ee:=$e.Son}}
                         <li>
-                        <a  href="/{{$ee.Title}}/" data-id="#jl_{{$ee.Id}}" class="tab-nav">{{$ee.Title}}</a>
+                        <a  href="/{{$ee.Alias}}/" data-id="#jl_{{$ee.Id}}" class="tab-nav">{{$ee.Title}}</a>
                         </li>
                         {{end}}
                     </dt>
@@ -106,7 +101,7 @@
                 <h3>{{$.thiscategory.Title}}</h3>
                 <ul class="menu-items">
                     {{range $i,$e:=.son}}
-                    <li><a  href="/{{$e.Title}}" class="tab-nav current">{{$e.Title}}</a></li>
+                    <li><a  href="/{{$e.Alias}}" class="tab-nav current">{{$e.Title}}</a></li>
                     {{end}}
                 </ul>
             </div>
@@ -119,9 +114,9 @@
             <p class="history fr">
                 <a href="/"  class="CurrChnlCls" style="font-size: 15px">{{i18n .Lang "home"}}</a>
                 {{if .father}}
-                <a href="/{{.father.Title}}"  class="CurrChnlCls" style="font-size: 15px">-- {{.father.Title}}</a>
+                <a href="/{{.father.Alias}}"  class="CurrChnlCls" style="font-size: 15px">-- {{.father.Title}}</a>
                 {{end}}
-                <a href="/{{.thiscategory.Title}}"  class="CurrChnlCls" style="font-size: 15px;color:darkred">-- {{.thiscategory.Title}}</a>
+                <a href="/{{.thiscategory.Alias}}"  class="CurrChnlCls" style="font-size: 15px;color:darkred">-- {{.thiscategory.Title}}</a>
             </p>
 
             <h2>{{.thiscategory.Title}}<span class="en"></h2>
@@ -146,7 +141,7 @@
                         {{range $i,$e:=.papers}}
                         <li>
                         <div  style="display: inline-block">
-                        <a href="/{{$.thiscategory.Title}}/{{$e.Id}}" style="font-size: 1.1em;">
+                        <a href="/{{$.thiscategory.Alias}}/{{$e.Id}}" style="font-size: 1.1em;">
                             <strong>
                                 {{if eq $e.Istop 1}}
                                 [{{i18n $.Lang "top"}}]{{end}}
@@ -183,7 +178,7 @@
                 {{if .son}}
                     {{range $i,$e:=.son}}
                     <p class="col">
-                        <a  href="/{{$e.Title}}">-- {{$e.Title}}</a>
+                        <a  href="/{{$e.Alias}}">-- {{$e.Title}}</a>
                     </p>
                     {{end}}
                 {{end}}

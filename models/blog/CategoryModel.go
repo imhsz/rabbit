@@ -1,3 +1,15 @@
+/*
+	Copyright 2017 by GoWeb author: gdccmcm14@live.com.
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+		http://www.apache.org/licenses/LICENSE-2.0
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License
+*/
 package blog
 
 import (
@@ -7,17 +19,17 @@ import (
 
 type Category struct {
 	Id         int64
+	Alias      string    `orm:"unique"`
 	Title      string    `orm:"size(100)"`
 	Content    string    `orm:"type(text);null"` //内容
 	Createtime time.Time `orm:"type(datetime);null"`
 	Updatetime time.Time `orm:"type(datetime);null"`
-	Sort       int64     //排序
+	Sort       int64     `orm:"null"`       //排序
 	Status     int64     `orm:"default(2)"` //1开启 2关闭
-	Username   string    // 目录建立者，较麻烦（忽略）
-	Siteid     int64     //站点ID
-	Type       int64     //0表示文章 1表示相册
-	Image      string    //图片地址，加密，最后为了速度并没有加密
-	Pid        int64     //父类id
+	Siteid     int64     `orm:"default(0)"` //站点ID
+	Type       int64     `orm:"default(0)"` //0表示文章 1表示相册
+	Image      string    `orm:"null"`       //图片地址，加密，最后为了速度并没有加密
+	Pid        int64     `orm:"default(0)"` //父类id
 }
 
 func init() {

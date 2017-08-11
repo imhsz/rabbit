@@ -23,13 +23,9 @@
            });
         })
     </script>
-    <style>
-        .friend-link {
-            padding: 0 120px
-        }
-    </style>
 </head>
 <body>
+
 <!--装饰-->
 <div class="min-head clearfix">
     <div class="nav wrap text-right">
@@ -44,22 +40,28 @@
 <!--导航-->
 <div class="header">
     <li class="wrap clearfix">
+        <!-- logo -->
         <a href="/" class="logo fl">
             <img style="width:190px;height:34px" src="{{.config.Photo}}" alt=""/>
         </a>
+        <!-- logo -->
+
+        <!-- nav -->
         <ul class="main-nav" id="mainNav" style="padding-right:178px">
             <li>
                 <a href="/">{{i18n .Lang "home"}}</a>
             </li>
+
+            <!-- category -->
             {{range $i,$e:=.category}}
             <li>
-                <a href="/{{substr $e.Title 0 20}}/">{{substr $e.Title 0 20}}</a>
+                <a href="/{{$e.Alias}}/">{{substr $e.Title 0 20}}</a>
                 {{if $e.Son}}
                 <dl class="sub-nav">
                     <dt>
                         {{range $j,$ee:=$e.Son}}
                         <li>
-                        <a  href="/{{$ee.Title}}/" data-id="#jl_{{$ee.Id}}" class="tab-nav">{{$ee.Title}}</a>
+                        <a  href="/{{$ee.Alias}}/" data-id="#jl_{{$ee.Id}}" class="tab-nav">{{$ee.Title}}</a>
                         </li>
                         {{end}}
                     </dt>
@@ -67,16 +69,18 @@
                 {{end}}
             </li>
             {{end}}
+            <!-- category -->
 
+            <!-- photo -->
             {{range $i,$e:=.photo}}
             <li>
-                <a  href="/{{substr $e.Title 0 20}}/">{{substr $e.Title 0 20}}</a>
+                <a  href="/{{$e.Alias}}/">{{substr $e.Title 0 20}}</a>
                 {{if $e.Son}}
                 <dl class="sub-nav">
                     <dt>
                         {{range $j,$ee:=$e.Son}}
                         <li>
-                        <a  href="/{{$ee.Title}}/" data-id="#jl_{{$ee.Id}}" class="tab-nav">{{$ee.Title}}</a>
+                        <a  href="/{{$ee.Alias}}/" data-id="#jl_{{$ee.Id}}" class="tab-nav">{{$ee.Title}}</a>
                         </li>
                         {{end}}
                     </dt>
@@ -84,9 +88,13 @@
                 {{end}}
             </li>
             {{end}}
+            <!-- photo -->
         </ul>
+        <!-- nav -->
+
+    <!-- phone -->
     <div style="position: absolute;right: 0px;top:10px;font-size: 1.2em">{{i18n .Lang "phone"}}:&nbsp;&nbsp;{{.config.Phone}}</div>
-    </div>
+    <!-- phone -->
 </div>
 <!--导航结束-->
 
@@ -114,71 +122,77 @@
     <!--文章区-->
     <div class="box-row-2">
         <div class="box box-col-1">
+            <!-- box -->
             <div class="hd hd-tabs" data-toggle="tabs">
                 <h2 class="tab-nav one current" data-id="#z1">
-                    <a  href="/{{.t1c.Title}}" class="more"></a>{{.t1c.Title}}
+                    <a  href="/{{.block1c.Alias}}" class="more"></a>{{.block1c.Alias}}
                 </h2>
 
                 <h2 class="tab-nav" data-id="#z2">
-                    <a  href="/{{.t2c.Title}}" class="more"></a>{{.t2c.Title}}
+                    <a  href="/{{.block2c.Title}}" class="more"></a>{{.block2c.Title}}
                 </h2>
             </div>
+            <!-- box -->
+            <!-- box -->
             <div class="bd">
+                <!---->
                 <div class="news-list tab-plane" id="z1">
                     <ul>
                         <li class="pic">
-                        {{if .t1c}}
-                            <a target="blank" href="/{{.t1c.Title}}">
-                                <img src="{{.t1c.Image}}" alt=""/>
+                        {{if .block1c}}
+                            <a target="blank" href="/{{.block1c.Alias}}">
+                                <img src="{{.block1c.Image}}" alt=""/>
                             </a>
                         {{end}}
-
                         </li>
-                        {{range $i,$e:=.t1}}
-                            <li><!--<em class="fr en">{{dateformat $e.Createtime "2006/1/02"}}
-                            </em>-->
-                                <a  href="/{{$.t1c.Title}}/{{$e.Id}}" class="tit">
+
+                        {{range $i,$e:=.block1}}
+                            <li>
+                                <a  href="/{{$.block1c.Alias}}/{{$e.Id}}" class="tit">
                                 {{if eq $e.Istop 1}}[{{i18n $.Lang "top"}}] {{else}}{{end}}{{substr $e.Title 0 25}}...
                                 </a>
                             </li>
                         {{end}}
                     </ul>
                 </div>
+                <!---->
+                <!---->
                 <div class="news-list tab-plane" id="z2" style="display:none">
                     <ul>
                         <li class="pic">
-                        {{if .t2c}}
-                            <a target="blank" href="/{{.t2c.Title}}">
-                                <img src="{{.t2c.Image}}" alt=""/>
+                        {{if .block2c}}
+                            <a target="blank" href="/{{.block2c.Alias}}">
+                                <img src="{{.block2c.Image}}" alt=""/>
                             </a>
                         {{end}}
 
                         </li>
-                        {{range $i,$e:=.t2}}
-                            <li><!--<em class="fr en">{{dateformat $e.Createtime "2006/1/02"}}
-                            </em>-->
-                                <a  href="/{{$.t2c.Title}}/{{$e.Id}}" class="tit">
+                        {{range $i,$e:=.block2}}
+                            <li>
+                                <a  href="/{{$.block2c.Alias}}/{{$e.Id}}" class="tit">
                                 {{if eq $e.Istop 1}}[{{i18n $.Lang "top"}}] {{else}}{{end}}{{substr $e.Title 0 25}}...
                                 </a>
                             </li>
                         {{end}}
                     </ul>
                 </div>
+                <!---->
             </div>
+            <!-- box -->
         </div>
         <div class="box box-col-2">
             <div class="hd hd-tabs" data-toggle="tabs">
-                <a target="blank" href="/{{.t3c.Title}}" class="more"></a><h2 class="tab-nav one current" data-id="#z3">{{.t3c.Title}}</h2>
+                <a target="blank" href="/{{.block3c.Alias}}" class="more"></a><h2 class="tab-nav one current" data-id="#z3">{{.block3c.Title}}</h2>
 
-                <h2 class="tab-nav" data-id="#z4"><a target="blank" href="/{{.t4c.Title}}" class="more"></a>{{.t4c.Title}}</h2>
+                <h2 class="tab-nav" data-id="#z4"><a target="blank" href="/{{.block4c.Alias}}" class="more"></a>{{.block4c.Title}}</h2>
             </div>
             <div class="bd">
                 <div class="news-list tab-plane" id="z3">
                     <ul>
-                        {{range $i,$e:=.t3}}
+                        {{range $i,$e:=.block3}}
                             <li><em class="fr en">{{dateformat $e.Createtime "2006/1/02"}}
                             </em>
-                                <a  href="/{{$.t3c.Title}}/{{$e.Id}}" class="tit">
+                                <a  href="/{{$.block3c.Alias}}/{{$e.Id}}" class="tit">
                                 {{if eq $e.Istop 1}}[{{i18n $.Lang "top"}}] {{else}}{{end}}{{substr $e.Title 0 30}}...
                                 </a>
                             </li>
@@ -187,10 +201,10 @@
                 </div>
                 <div class="news-list tab-plane" style="display:none" id="z4">
                     <ul>
-                            {{range $i,$e:=.t4}}
+                            {{range $i,$e:=.block4}}
                             <li><em class="fr en">{{dateformat $e.Createtime "2006/1/02"}}
                             </em>
-                                <a  href="/{{$.t4c.Title}}/{{$e.Id}}" class="tit">
+                                <a  href="/{{$.block4c.Alias}}/{{$e.Id}}" class="tit">
                                 {{if eq $e.Istop 1}}[{{i18n $.Lang "phone"}}] {{else}}{{end}}{{substr $e.Title 0 30}}...
                                 </a>
                             </li>
@@ -207,14 +221,14 @@
         <!--最多六张 -->
         <div class="box">
 			<div class="hd">
-			<a target="blank" href="{{.t5c.Title}}" class="more"></a>
-				<h2>{{.t5c.Title}}<span class="en">{{i18n .Lang "show"}}</span></h2>
+			<a target="blank" href="{{.block5c.Alias}}" class="more"></a>
+				<h2>{{.block5c.Title}}<span class="en">{{i18n .Lang "show"}}</span></h2>
 			</div>
 			<div class="bd">
 				<div class="book-scroll">
 					<div class="book-scroll-wrap">
 						<ul>
-                            {{range $i,$e:=.t5}}
+                            {{range $i,$e:=.block5}}
                             {{if eq $i 0}}
 							<li class="open">
                                 {{else}}
@@ -223,7 +237,7 @@
                                 <a href="javascript:void(0);" class="pic">
                                     <div class="red-date">
 									<div>{{dateformat $e.Createtime "01/02"}}</div>
-									<a target="blank" href="/{{$.t5c.Title}}/{{$e.Id}}"><img src="{{$e.Photo}}" alt="{{substr $e.Title 0 20}}"></a>
+									<a target="blank" href="/{{$.block5c.Alias}}/{{$e.Id}}"><img src="{{$e.Photo}}" alt="{{substr $e.Title 0 20}}"></a>
                                     </div>
 								</a>
 								<div class="detail">
@@ -232,7 +246,7 @@
 									<p></p>
 									<p></p>
 									<p>&nbsp;</p>
-									<p><a target="blank" href="/{{$.t5c.Title}}/{{$e.Id}}">详细内容</a></p>
+									<p><a target="blank" href="/{{$.block5c.Alias}}/{{$e.Id}}">详细内容</a></p>
 								</div>
 							</li>
                             {{end}}
@@ -243,7 +257,7 @@
 				</div>
 			</div>
 		</div>
-        {{range $i,$e:=.t6}}
+        {{range $i,$e:=.block6}}
             {{if eq $i 0}}
             <div class="box box-col-1" style="height:343px">
             {{else if eq $i 1}}
@@ -253,15 +267,15 @@
                     {{end}}
             <div class="hd">
                 {{if eq $i 0}}
-                <h2>{{$.t6c.Title}}</h2>
+                <h2>{{$.block6c.Title}}</h2>
                 {{end}}
                 {{if eq $i 2}}
-                <a  href="/{{$.t6c.Title}}" class="more"></a>
+                <a  href="/{{$.block6c.Alias}}" class="more"></a>
                 {{end}}
             </div>
             <div class="bd">
                 <div style="text-align:center;padding: 5px;font-size: 1.2em;color:gray">{{substr $e.Title 0 20}}</div>
-                <a target="blank" href="{{$.t6c.Title}}/{{$e.Id}}">
+                <a target="blank" href="{{$.block6c.Alias}}/{{$e.Id}}">
                     <img src="{{$e.Photo}}" alt="{{substr $e.Title 0 20}}"/>
                 </a>
             </div>
@@ -285,7 +299,7 @@
 
     <!--学生作品 -->
     <div class="box-row-3">
-        {{range $i,$e:=.t8}}
+        {{range $i,$e:=.block8}}
             {{if lt $i 3}}
                 {{if eq $i 0}}
                 <div class="box box-col-1">
@@ -296,15 +310,15 @@
                         {{end}}
             <div class="hd">
                 {{if eq $i 0}}
-                <h2>{{$.t8c.Title}}</h2>
+                <h2>{{$.block8c.Title}}</h2>
                 {{end}}
                 {{if eq $i 2}}
-                <a  href="/{{$.t8c.Title}}" class="more"></a>
+                <a  href="/{{$.block8c.Alias}}" class="more"></a>
                 {{end}}
             </div>
             <div class="bd">
                 <div style="text-align:center;padding: 5px;font-size: 1.2em;color:gray">{{substr $e.Title 0 20}}</div>
-                <a target="blank" href="{{$.t8c.Title}}/{{$e.Id}}"><img src="{{$e.Photo}}" alt="{{substr $e.Title 0 20}}"/></a>
+                <a target="blank" href="{{$.block8c.Alias}}/{{$e.Id}}"><img src="{{$e.Photo}}" alt="{{substr $e.Title 0 20}}"/></a>
             </div>
         </div>
             {{end}}

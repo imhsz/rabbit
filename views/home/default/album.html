@@ -58,13 +58,13 @@
             </li>
             {{range $i,$e:=.category}}
             <li>
-                <a href="/{{substr $e.Title 0 20}}/">{{substr $e.Title 0 20}}</a>
+                <a href="/{{$e.Alias}}/">{{substr $e.Title 0 20}}</a>
                 {{if $e.Son}}
                 <dl class="sub-nav">
                     <dt>
                         {{range $j,$ee:=$e.Son}}
                         <li>
-                        <a  href="/{{$ee.Title}}/" data-id="#jl_{{$ee.Id}}" class="tab-nav">{{$ee.Title}}</a>
+                        <a  href="/{{$ee.Alias}}/" data-id="#jl_{{$ee.Id}}" class="tab-nav">{{$ee.Title}}</a>
                         </li>
                         {{end}}
                     </dt>
@@ -75,13 +75,13 @@
 
             {{range $i,$e:=.photo}}
             <li>
-                <a  href="/{{substr $e.Title 0 20}}/">{{substr $e.Title 0 20}}</a>
+                <a  href="/{{$e.Alias}}/">{{substr $e.Title 0 20}}</a>
                 {{if $e.Son}}
                 <dl class="sub-nav">
                     <dt>
                         {{range $j,$ee:=$e.Son}}
                         <li>
-                        <a  href="/{{$ee.Title}}/" data-id="#jl_{{$ee.Id}}" class="tab-nav">{{$ee.Title}}</a>
+                        <a  href="/{{$ee.Alias}}/" data-id="#jl_{{$ee.Id}}" class="tab-nav">{{$ee.Title}}</a>
                         </li>
                         {{end}}
                     </dt>
@@ -106,7 +106,7 @@
                 <h3>{{$.thiscategory.Title}}</h3>
                 <ul class="menu-items">
                     {{range $i,$e:=.son}}
-                    <li><a  href="/{{substr $e.Title 0 20}}" class="tab-nav current">{{substr $e.Title 0 20}}</a></li>
+                    <li><a  href="/{{$e.Alias}}" class="tab-nav current">{{substr $e.Title 0 20}}</a></li>
                     {{end}}
                 </ul>
             </div>
@@ -119,9 +119,9 @@
             <p class="history fr">
                 <a href="/"  class="CurrChnlCls" style="font-size: 15px">{{i18n .Lang "home"}}</a>
                 {{if .father}}
-                <a href="/{{.father.Title}}"  class="CurrChnlCls" style="font-size: 15px">-- {{.father.Title}}</a>
+                <a href="/{{.father.Alias}}"  class="CurrChnlCls" style="font-size: 15px">-- {{.father.Alias}}</a>
                 {{end}}
-                <a href="/{{.thiscategory.Title}}"  class="CurrChnlCls" style="font-size: 15px;color:darkred">-- {{.thiscategory.Title}}</a>
+                <a href="/{{.thiscategory.Alias}}"  class="CurrChnlCls" style="font-size: 15px;color:darkred">-- {{.thiscategory.Title}}</a>
             </p>
 
             <h2>{{.thiscategory.Title}}<span class="en"></h2>
@@ -151,8 +151,8 @@
         {{range $i,$e:=.papers}}
                 <div class="box" style="float: left">
             <div class="bd">
-                <div style="text-align:center;padding: 5px;font-size: 1.2em;color:gray"><a  href="/{{$.thiscategory.Title}}/{{$e.Id}}">{{substr $e.Title 0 20}}</a></div>
-                <a  href="/{{$.thiscategory.Title}}/{{$e.Id}}"><img style="width:348px;height:348px"  src="{{$e.Photo}}" alt="{{substr $e.Title 0 20}}"/></a>
+                <div style="text-align:center;padding: 5px;font-size: 1.2em;color:gray"><a  href="/{{$.thiscategory.Alias}}/{{$e.Id}}">{{substr $e.Title 0 20}}</a></div>
+                <a  href="/{{$.thiscategory.Alias}}/{{$e.Id}}"><img style="width:348px;height:348px"  src="{{$e.Photo}}" alt="{{substr $e.Title 0 20}}"/></a>
             </div>
         </div>
         {{end}}

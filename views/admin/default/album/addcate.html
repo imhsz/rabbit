@@ -24,6 +24,12 @@
                            required="required">
                 </div>
                 <div id="titleTip"></div>
+                <div>
+                    <label>目录别名</label>
+                    <input type="text" class="form-control" name="alias" id="alias" placeholder="请输入目录别名"
+                           required="required">
+                </div>
+                <div id="aliasTip"></div>
             </div>
             <div class="form-group">
                 <label>父目录</label>
@@ -122,10 +128,7 @@
             }
         });
 
-        $("#title").formValidator({
-            onShowText: "请输入目录标题"
-        })
-                .inputValidator({
+        $("#title").formValidator({onShowText: "请输入目录标题"}).inputValidator({
                     min: 1,
                     max: 100,
                     onError: "标题最多100个字符",
@@ -134,7 +137,19 @@
                         rightEmpty: false,
                         emptyError: "标题两边不能为空"
                     }
-                })
+                });
+
+        $("#alias").formValidator({onShowText: "请输入目录别名"}).inputValidator({
+            min: 1,
+            max: 100,
+            onError: "别名最多100个字符",
+            empty: {
+                leftEmpty: false,
+                rightEmpty: false,
+                emptyError: "别名两边不能为空"
+            }
+        })
+
     });
 </script>
 <script>

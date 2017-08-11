@@ -1,42 +1,57 @@
+/*
+	Copyright 2017 by GoWeb author: gdccmcm14@live.com.
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+		http://www.apache.org/licenses/LICENSE-2.0
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License
+*/
 package home
 
 import (
-	"errors"
-	"github.com/astaxie/beego/orm"
-	"github.com/hunterhug/GoWeb/models/blog"
-	//"github.com/astaxie/beego"
 	"encoding/json"
+	"errors"
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/orm"
 	"github.com/hunterhug/GoWeb/lib"
+	"github.com/hunterhug/GoWeb/models/blog"
 )
 
 type MainController struct {
 	baseController
 }
 
-//首页配置定义放哪些东西
-type paperablum map[string]map[string]interface{}
-
-//配置
+// global web config
 var config *blog.Config
 
+// Index: web info struct
+type web_info map[string]map[string]interface{}
+
+// init in every request
 func (this *MainController) Prepare() {
 	this.baseController.Prepare()
 	config = new(blog.Config)
 	config.Id = 1
 	config.Read()
-	//网站配置
+
+	// global set
 	this.Data["config"] = config
-	this.Data["category"] = getmulu(0, 0)
-	this.Data["photo"] = getmulu(0, 1)
+	this.Data["category"] = GetNav(0, 0)
+	this.Data["photo"] = GetNav(0, 1)
 
 }
 
+// Home
 func (this *MainController) Index() {
-	a := this.GetString("lang", "")
-	if a != "" {
-		this.Ctx.SetCookie("lang", a)
-		switch a {
+	// change lang by cookie
+	lang := this.GetString("lang", "")
+	if lang != "" {
+		this.Ctx.SetCookie("lang", lang)
+		switch lang {
 		case "en":
 			this.Lang = "en-US"
 		case "cn":
@@ -46,101 +61,102 @@ func (this *MainController) Index() {
 		}
 		this.Data["Lang"] = this.Lang
 	}
-	//轮转图
+
+	// get roll
 	roll := new(blog.Roll)
 	rolls := []orm.Params{}
 	roll.Query().Filter("Status", 1).OrderBy("-Sort", "Createtime").Values(&rolls)
 	this.Data["roll"] = rolls
 
-	//首页
-	index := paperablum{}
-	//println(config.Webinfo)
+	// index blocks
+	index := web_info{}
 	err := json.Unmarshal([]byte(lib.TripAll(config.Webinfo)), &index)
 	if err != nil {
 		beego.Trace(err.Error())
 	}
-	//beego.Trace("%v",index)
-
 	for i, item := range index {
-		_, td, tc := getjinhan(item["name"].(string), int(item["limit"].(float64)))
-		//beego.Trace("%v", tc)
-		this.Data["t"+i] = td
-		this.Data["t"+i+"c"] = tc
+		// one block meta and it's content
+		e, block, blockc := GetBlocks(item["name"].(string), int(item["limit"].(float64)))
+		if e != nil {
+			beego.Error(e.Error())
+		}
+		this.Data["block"+i] = block
+		this.Data["block"+i+"c"] = blockc
 	}
 
-	//beego.Trace(this.Data["Lang"])
 	this.TplName = this.GetTemplate() + "/index.html"
 }
 
-func getmulu(beautyid int, blogtype int) []orm.Params {
-	//目录
-	//文章列表首页
+// Get Nav
+func GetNav(beautyid int, blogtype int) []orm.Params {
 	category := new(blog.Category)
 	categorys := []orm.Params{}
-	//查询条件：缀美文章类型，一级
-	category.Query().Filter("Status", 1).Filter("Pid", 0).Filter("Siteid", beautyid).Filter("Type", blogtype).OrderBy("-Sort", "Createtime").Values(&categorys, "Id", "Title")
+	// query：beautyid 1 level
+	category.Query().Filter("Status", 1).Filter("Pid", 0).Filter("Siteid", beautyid).Filter("Type", blogtype).OrderBy("-Sort", "Createtime").Values(&categorys, "Id", "Title", "Alias")
 	for _, cate := range categorys {
-		//二级
+		// query: 2 level
 		son := []orm.Params{}
-		category.Query().Filter("Pid", cate["Id"]).OrderBy("-Sort", "Createtime").Values(&son, "Id", "Title")
+		category.Query().Filter("Pid", cate["Id"]).OrderBy("-Sort", "Createtime").Values(&son, "Id", "Title", "Alias")
 		cate["Son"] = son
 	}
 	return categorys
 
 }
 
-func getjinhan(title string, count int) (error, []orm.Params, orm.Params) {
-	err, category := getcategory(title)
+func GetBlocks(alias string, count int) (error, []orm.Params, orm.Params) {
+	err, category := GetCategory(alias)
 	if err != nil {
-		err, album := getalbum(title)
+		err, album := GetAlbum(alias)
 		if err != nil {
-			return errors.New("找不到该目录"), []orm.Params{}, album
+			return errors.New("can't find block" + alias), []orm.Params{}, album
 		} else {
 			id := album["Id"].(int64)
-			return nil, getphoto(id, count), album
+			return nil, GetPhoto(id, count), album
 		}
 	} else {
 		id := category["Id"].(int64)
-		return nil, getpaper(id, count), category
+		return nil, GetPaper(id, count), category
 	}
 }
 
 //获取开启的文章，按置顶
-func getpaper(id int64, count int) []orm.Params {
+func GetPaper(id int64, count int) []orm.Params {
 	paper := new(blog.Paper)
 	papers := []orm.Params{}
-	paper.Query().Filter("Cid", id).Filter("Type", 0).Filter("Status", 1).OrderBy("-Istop", "Createtime").Limit(count, 0).Values(&papers)
+	paper.Query().Filter("Cid", id).Filter("Type", 0).Filter("Status", 1).OrderBy("-Istop", "-Createtime").Limit(count, 0).Values(&papers)
 	return papers
 }
 
 //获取开启的图片，按轮转，置顶
-func getphoto(id int64, count int) []orm.Params {
+func GetPhoto(id int64, count int) []orm.Params {
 	paper := new(blog.Paper)
 	papers := []orm.Params{}
-	paper.Query().Filter("Cid", id).Filter("Type", 1).Filter("Status", 1).OrderBy("-Isroll", "-Istop", "Createtime").Limit(count, 0).Values(&papers)
+	paper.Query().Filter("Cid", id).Filter("Type", 1).Filter("Status", 1).OrderBy("-Isroll", "-Istop", "-Createtime").Limit(count, 0).Values(&papers)
 	return papers
 }
 
-//获取文章目录
-func getcategory(title string) (error, orm.Params) {
+func GetCategoryOrAlbum(alias string, id interface{}) (error, orm.Params) {
 	category := new(blog.Category)
 	categorys := []orm.Params{}
-	category.Query().Filter("Type", 0).Filter("Siteid", 0).Filter("Title", title).Limit(1).Values(&categorys)
+	query := category.Query().Filter("Siteid", 0).Filter("Alias", alias).Limit(1)
+	if id != nil {
+		query = query.Filter("Type", id)
+	}
+	query.Values(&categorys)
 	if len(categorys) == 0 {
-		return errors.New("找不到文章分类"), orm.Params{}
+		return errors.New("can't get category:" + alias), orm.Params{}
 	} else {
 		return nil, categorys[0]
 	}
+
+}
+
+//获取文章目录
+func GetCategory(alias string) (error, orm.Params) {
+	return GetCategoryOrAlbum(alias, 0)
 }
 
 //获取相册目录
-func getalbum(title string) (error, orm.Params) {
-	category := new(blog.Category)
-	categorys := []orm.Params{}
-	category.Query().Filter("Type", 1).Filter("Siteid", 0).Filter("Title", title).Limit(1).Values(&categorys)
-	if len(categorys) == 0 {
-		return errors.New("找不到相册分类"), orm.Params{}
-	} else {
-		return nil, categorys[0]
-	}
+func GetAlbum(alias string) (error, orm.Params) {
+	return GetCategoryOrAlbum(alias, 1)
 }

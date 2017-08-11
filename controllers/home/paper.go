@@ -30,9 +30,9 @@ func (this *MainController) Paper() {
 	this.Data["paper"] = patemp
 
 	types := 0
-	err, category := getcategory(id)
+	err, category := GetCategory(id)
 	if err != nil {
-		err, category = getalbum(id)
+		err, category = GetAlbum(id)
 		if err != nil {
 			this.Rsp(false, "没有这个分类啊，哥哥")
 		} else {

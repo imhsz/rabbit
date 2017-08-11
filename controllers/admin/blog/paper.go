@@ -50,7 +50,7 @@ func (this *PaperController) Index() {
 			if err != nil {
 				p["Cid"] = "空"
 			} else {
-				p["Cid"] = category.Title
+				p["Cid"] = category.Alias
 			}
 		}
 		count, _ := q.Count()
@@ -297,7 +297,7 @@ func (this *PaperController) Rubbish() {
 			if err != nil {
 				p["Cid"] = "空"
 			} else {
-				p["Cid"] = category.Title
+				p["Cid"] = category.Alias
 			}
 		}
 		count, _ := q.Count()

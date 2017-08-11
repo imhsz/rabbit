@@ -49,6 +49,7 @@ func (this *CategoryController) AddCategory() {
 		category.Status, _ = this.GetInt64("status", 2)
 		category.Content = this.GetString("content", "")
 		category.Image = this.GetString("photo", "")
+		category.Alias = this.GetString("alias", "")
 		category.Siteid = beautyid
 		category.Type = blogtype
 		err := category.Insert()
@@ -99,6 +100,7 @@ func (this *CategoryController) UpdateCategory() {
 			thiscategory.Sort, _ = this.GetInt64("order", 0)
 			thiscategory.Status, _ = this.GetInt64("status", 2)
 			thiscategory.Content = this.GetString("content", "")
+			thiscategory.Alias = this.GetString("alias", "")
 			thiscategory.Updatetime = GetTime()
 			//不存在则不改图片
 			photo := this.GetString("photo", "")
@@ -106,9 +108,9 @@ func (this *CategoryController) UpdateCategory() {
 			var err error
 			if photo != "" {
 				thiscategory.Image = photo
-				err = thiscategory.Update("Username", "Title", "Pid", "Sort", "Status", "Content", "Updatetime", "Image")
+				err = thiscategory.Update("Username", "Title", "Pid", "Sort", "Status", "Content", "Updatetime", "Image", "Alias")
 			} else {
-				err = thiscategory.Update("Username", "Title", "Pid", "Sort", "Status", "Content", "Updatetime")
+				err = thiscategory.Update("Username", "Title", "Pid", "Sort", "Status", "Content", "Updatetime", "Alias")
 				//beego.Trace("空图片：" + photo)
 			}
 			if err != nil {
