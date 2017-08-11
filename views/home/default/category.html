@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>{{.config.Title}}|{{.thiscategory.Title}}</title>
@@ -155,7 +155,7 @@
                         </a>
                         </div>
                             <div style="display: inline-block;float: right">{{dateformat $e.Createtime "2006/1/02 15:04"}} &nbsp&nbsp{{i18n $.Lang "read"}}:
-                            {{$e.View}} 人</div>
+                            {{$e.View}} {{i18n $.Lang "people"}}</div>
                         </li>
                         {{end}}
                 {{str2html .nums}}

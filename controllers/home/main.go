@@ -54,7 +54,7 @@ func (this *MainController) Index() {
 
 	//首页
 	index := paperablum{}
-	println(config.Webinfo)
+	//println(config.Webinfo)
 	err := json.Unmarshal([]byte(lib.TripAll(config.Webinfo)), &index)
 	if err != nil {
 		beego.Trace(err.Error())

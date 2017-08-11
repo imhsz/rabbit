@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-cn">
+<html>
 <head>
     <meta charset="UTF-8">
     <title>{{.config.Title}}|{{.thiscategory.Title}}</title>
@@ -130,7 +130,7 @@
 				<div class="news-detail">
 					<div class="head">
 						<h1>{{substr .paper.Title 0 40}}</h1>
-						<p class="time" style='color:#444;'>作者：{{substr .paper.Author 0 10}}&nbsp;&nbsp;&nbsp;编辑于：{{dateformat .paper.Createtime "2006/1/02"}}&nbsp;&nbsp;&nbsp;阅读：{{.paper.View}}人</p>
+						<p class="time" style='color:#444;'>{{i18n .Lang "author"}}：{{substr .paper.Author 0 10}}&nbsp;&nbsp;&nbsp;{{i18n .Lang "edit"}}：{{dateformat .paper.Createtime "2006/1/02"}}&nbsp;&nbsp;&nbsp;{{i18n .Lang "read"}}：{{.paper.View}}{{i18n .Lang "people"}}</p>
 					</div>
 					<div class="detail">
                         <div style="padding: 20px;font-size: 0.8em;font-style: italic;border-left: 5px solid gainsboro">
@@ -151,12 +151,12 @@
                             <a href="/{{$.thiscategory.Title}}/{{$e.Id}}" style="font-size: 1.1em;">
                             <strong>
                                 {{if eq $e.Istop 1}}
-                                [顶]{{end}}
+                                [{{i18n $.Lang "top"}}]{{end}}
                             {{substr $e.Title 0 25}}
                             </strong>
                             </a>
-                                <span  style="float: right">{{dateformat $e.Createtime "2006/1/02"}} &nbsp;&nbsp;阅读:
-                            {{$e.View}} 人</span>
+                                <span  style="float: right">{{dateformat $e.Createtime "2006/1/02"}} &nbsp;&nbsp;{{i18n $.Lang "read"}}:
+                            {{$e.View}} {{i18n $.Lang "people"}}</span>
 							</li>
                             {{end}}
 

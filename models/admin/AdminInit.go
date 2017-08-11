@@ -62,8 +62,8 @@ func InsertConfig() {
 	c.Address = `<meta description="GoWeb" >
 <!-- some other script put in here -->`
 	c.Code3 = `Power by hunterhug at 2017`
-	c.Code2 = `统计代码`
-	c.Code1 = "跟帖代码"
+	c.Code2 = `Stats Code`
+	c.Code1 = "Comment Code"
 	err := c.Insert()
 	if err != nil {
 		fmt.Println(err.Error())
@@ -74,7 +74,7 @@ func InsertConfig() {
 
 func InsertCategory() {
 	fmt.Println("insert category start")
-	cs := map[int64]string{1: "About", 2: "News", 3: "Lifes", 4: "Production", 5: "Flower", 6: "TeaCup"}
+	cs := map[int64]string{1: "About", 2: "News", 3: "Lifes", 4: "Production", 5: "Flower", 6: "TeaCup", 7: "Books", 8: "Musics"}
 	for k, v := range cs {
 		c := new(blog.Category)
 		c.Id = k
@@ -83,8 +83,12 @@ func InsertCategory() {
 		c.Status = 1
 		c.Image = "/file/image/46/68756e746572687567aadc0c7438bb9e28d2c4eeaa310828e8.png"
 		c.Content = v
+		if k == 4 {
+			c.Type = 1
+		}
 		if k > 4 {
 			c.Pid = 4
+			c.Type = 1
 		}
 		err := c.Insert()
 		if err != nil {
@@ -95,15 +99,39 @@ func InsertCategory() {
 }
 
 func InsertPaper() {
-	k := 40
+	aaa := []string{
+		"/file/image/46/68756e746572687567aadc0c7438bb9e28d2c4eeaa310828e8.png",
+		"/file/image/12/68756e74657268756795ad72d42c7ef1b56c04c66297db1c27.jpeg",
+		"/file/image/64/68756e74657268756759fc5ee18fa5210bb76003976900fae9.jpeg",
+	}
+	k := 140
 	for k > 0 {
 		k = k - 1
 		paper := new(blog.Paper)
 		paper.Title = "Test test test test data"
 		paper.Status = 1
-		paper.Photo = "/file/image/46/68756e746572687567aadc0c7438bb9e28d2c4eeaa310828e8.png"
-		paper.Descontent = ""
+		paper.Photo = aaa[rand.Intn(3)]
+		paper.Descontent = "淭一厘晢臹隒丌蒛霒冘，庳乜砐淈琲葙丌漍厹刌。仈"
 		paper.Content = `
+So her / Ce are Xi Zan, but what Xiao this Wu may not put up the Yun Zhang ping. These Jie Tong Kang Schrodinger
+Jiu Da Chi Yu a Feng Bing Wu Dao tea, Ke Bei Fu Tu cou not drag type go to squall process gas Bureau ze. A Qu% Xiu
+Yan Que Yin find not weighted, Bi E Qu Pei cases Guo are not Rou cut. He Ge howl Xi Cang Hu Bo Kuang Nan Xin loop Yi
+Fu Ru Chu Le Xie row full of a surname. He got Shan creating Zhi w Gun and Dun Cu Qiong Jian Hu You Yi Wei Ding Hai Li.
+After a Xuan Bei Tu yao type seal Zeng ang, Guo Wu You Liu Wen Torr + Quan market dissatisfied. A Xian how prepared and
+not Zhu Che Han he Xia, Chu Zhong Chen Yi Yan not falsification of Ji E. A Gong Wu Fei Guo zhe Ju Er through, please.
+Guan melancholy that he was Jiang urn donburi. A host Gui Yuncheng Qin TA type. Zhi Ji, Ji type He Xun Zan Mei not Jiao
+Dao le. Kun a sincere Sun what taste as a surname Ju Qi, sow not You Si Xiao type Hou tonnes through the. A Yan Zhao
+Pei train to Jun Shang through now, Wang in those Hu Yan Tong Li Le Mie tong. Zhang Jia to Du He Yi You Kang palatal
+grain Hui Kui Beng are close to go slowly Qu Herba Mang deficiencies. Sui Yipan elder brother Wu Lou Ji PI target Chuan
+, Qian Wu Jun Yu Chuang Tu he Hong Wu bu. Fill in Qu Tiao Lao Zhuan of a skyscraper Zhi Tuo scrape stew Ji Li Torr,
+Zhuan Yang and Pao ester Ci Le Wu Ning act Ban duo Shu Wen. It Ju Liang ike a Geng Chen Tai to Yan Kuang Ju bantiao
+Bing Zheng card type, Mang Kuang what Wen our Zhouzhi Hong + Wu hoe type strive weighted qian. A Tong Ta Ruo Ji Bu
+Chu Shu Xian type Xi peg, Ni Dian based centralized Ying weighted flat expanse. Bing Qie boil Jiong Lian instead Ci Hu
+Ji Dao bin a red riding a now, Mo Xi are Hai Xun and Qi Liang Gui Yuan captopril on removing chewing plays. Han GA Yan
+ dried rice a little hunchbacked strive Dai Yan Han grain Le Qu Wu Jie, Chan ester not Yi Ji shochi Si hoe resides not
+  Mang Qi mu. Xu Lao Shu Yang Yi Yu Wei Shi Ji Qianshan Huang so these species only Hun Shi Wei terminal. Ci Handan Zhuo
+  Yun is a Yi Kuai shinbone of honeysuckle Ju Ji and Chi stone casket, CE Xi not Tou Shan Yang Wu Zheng Wan Na shake hands for a Di. Gas Ni Ping Sao Kui Zhuodan food content of vitamin C = my shoulder Kou Gu does not address from Si Ji Yun. He Ya Tuo Si Du Jue Jiu Jun Fu into thin stern astir up Hai Jian type Di Diao Hun. Hate Nao heart Zong a stern hand Zi phosphine crutches on Zhe Shu hairpin, Huan and Ni with tweezers Song Le Wu Gan two Gu recording the tea cup. A Liu Shu Ju Can toad type at Wo not Yi Du Jie instead, while not Chan middle three daphnia. A Ce Han Fu glauca Xu Xi plays in Tu Torr mouth, not Bo Bei introduced Wu Shi he is going to urinate. Jie & Diao Fei Xi Jin Zhui cut a Qi Hui yes you Fen, what Li Dian Chen Ting Siberian Cocklebur porphyrite in Yi Yu Tuo Rou Huang H. Ang Yong Yan soft palate as an Gu skull drill production only Zhui Kui Ge Torr Hu rubidium Tian computers perform computations. Lu Pi and Gua Qian a whole Tan Kuai Shi Tuo Wen Yi Chai not ashamed, not breaking the hill Liji Churan Tong Shu Qie needn't what has ever become your. Middle Sao accumulate Ying Guo Castanopsis providing
+malaria Di Ya Er at Zhui should help the Hua Ju Zun type. A muddy Ting Zuo Lu Wu Jie Yuan used cotton wadding,
 毌唋芩郫拶灟椼裶机汊庤忭坳炄岏祹屮芮髧耡。郰一浀牼棫痷丌葂謔夬，倕兀秎紩湨瘏乜蓖夃仜。惎泐朸瞝嗂諲扡一硰訞悢竻尒宬屮，葸傒乇冞砓誆怞匜亍呫瘑垕仂枑。跍屇匟凞滁鍺玎一棌欳桏岵汃玵丌，赨詎丌忥訇搨枍帄亍岥頖砒夃泔。偝一斪郬堬傿丌漰聬丏，猏亍峉莩堜筤屮銆旡氕。湸枘厊篹蒆麮艼一堨蚺晑攽阞眄屮，葧湥丌怭挌犎祊戉屮岮銠笀爿狌。媊盰仵澮幎鴗仴一喦梪倢咁庀拺乜，慀揝乜侕茇頏呺犰丌玝漵畇仉呯。湫咑扞諤嵥犝匟一焨娸淯怲忉苶兀，楱嵙丌牬苻嵞抴庂屮迋颮拶气竻。
 淭一厘晢臹隒丌蒛霒冘，庳乜砐淈琲葙丌漍厹刌。仈茖呴釸柟襻頎獊夼匢挀杙枎侞牣椲亍泐熁搒。仈迼枘笘恉鷿跫睔冱犴玴庉徂泑耴葨乇虰餀粴。裀一咺偝喓葖屮膃璔卬，淉兀姷觖嵧絻乇馺巿犮。娹一炰焌椋馵丌鄚澣仈，舺亍柊捵殔裺丌摥旡戉。淝一咼晢愩兀蜛駬丱，莐亍瓮悺愊媸兀翞仈丼。釱一俓祪鄆溱屮幓樴旡，谻屮峆焄喒媺丌僬仂忉。晜一衎悾趄搎乜綮醍亓，豝丌峟梩窙寖屮銗丱仡。
 豜一盄欸毰裾亍蜠鋿丱，莣亍疪婟愝鉖乜蒚仂仝。仉郟佸秺籺齶跠麀匟朸芔辿阽刲刞痭乜狌豨蛖。眭一眅郫覘滒兀塿踳旡，掔兀袀晡棜傸兀潳仈仜。揌阹芀橯瑑擖异一斮紩挩炖刉峛乇，腞軮亍泞奅酯佌氻兀祌蝂垛殳芠。确姖屻磣裲瞝夼一堩崌粄邴氶咭屮，蛖軦乜呡胅鉏厔仜屮忞馺卼冘芡。逋一狪涾渃趌亍蒠橛殳，蚿屮柅袤厧筭屮賏冘帄。寎厒汆燛萰撉妅一莿淴剞玢忉珋乜，覛睎乜咍紃巰芫氿亍芞摬俍丮呥。
@@ -112,7 +140,10 @@ func InsertPaper() {
 	`
 		paper.Author = "hunterhug"
 		paper.Createtime = lib.GetTime()
-		paper.Cid = int64(rand.Intn(6) + 1)
+		paper.Cid = int64(rand.Intn(8) + 1)
+		if paper.Cid >= 4 {
+			paper.Type = 1
+		}
 		paper.Istop = int64(rand.Intn(2))
 		paper.Insert()
 	}

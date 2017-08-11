@@ -60,7 +60,7 @@ And init our database
 ./GoWeb -db=1
 ```
 
-Or(I recommend to use)
+~~Or(I recommend to use)~~
 
 ```
 cd help
@@ -210,6 +210,12 @@ server{
 
 }
 ```
+
+# Have a Look!
+
+![](doc/index.png)
+
+![](doc/blog.png)
 
 # LICENSE
 
