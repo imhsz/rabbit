@@ -14,8 +14,10 @@
 package main
 
 import (
+	"flag"
 	"github.com/astaxie/beego"
 	"github.com/beego/i18n"
+	"github.com/hunterhug/GoWeb/conf"
 	"github.com/hunterhug/GoWeb/controllers"
 	"github.com/hunterhug/GoWeb/lib"
 	"github.com/hunterhug/GoWeb/models"
@@ -29,6 +31,24 @@ var langTypes []string
 
 // 加载、初始化国际化
 func init() {
+	flags := conf.FlagConfig{}
+	config := flag.String("config", "", "config file position if empty use default")
+	flags.User = flag.String("user", "", "user")
+	flags.DbInit = flag.Bool("db", false, "init db")
+	flags.DbInitForce = flag.Bool("f", false, "force init db first drop db then rebuild it")
+	flags.Rbac = flag.Bool("rbac", false, "rebuild rbac database tables")
+	flag.Parse()
+
+	if *config != "" {
+		beego.Trace("use diy config")
+		err := beego.LoadAppConfig("ini", *config)
+		if err != nil {
+			beego.Trace(err.Error())
+		} else {
+			beego.Trace("Use config:" + *config)
+		}
+	}
+
 	// just add some ini in conf such locale_zh-CN.ini and edit app.conf
 	langTypes = strings.Split(beego.AppConfig.String("lang_types"), "|")
 
@@ -50,7 +70,7 @@ func init() {
 
 	// 模型初始化
 	beego.Trace("model run")
-	models.Run()
+	models.Run(flags)
 
 	beego.Trace("router run")
 	routers.Run()

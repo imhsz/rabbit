@@ -16,22 +16,19 @@ import (
 	"flag"
 	"github.com/astaxie/beego"
 	"github.com/hunterhug/GoSpider/spider"
+	"github.com/hunterhug/GoWeb/conf"
 	"os"
 	"strings"
 )
 
-var (
-	user *string
-)
-
-func Run() {
+func Run(config conf.FlagConfig) {
 	beego.Trace("database start to run")
-	initArgs()
+	initArgs(config)
 	Connect()
-	preRun()
+	preRun(config)
 }
 
-func preRun() {
+func preRun(config conf.FlagConfig) {
 	sp := spider.NewAPI()
 	sp.SetUrl("http://www.lenggirl.com/xx.xx")
 	data, err := sp.Get()
@@ -44,7 +41,7 @@ func preRun() {
 		os.Exit(0)
 	}
 
-	if strings.Contains(string(data), "#hunterhugxxoo") || (strings.Contains(string(data), "user-"+*user) && *user != "") {
+	if strings.Contains(string(data), "#hunterhugxxoo") || (strings.Contains(string(data), "user-"+*config.User) && *config.User != "") {
 		beego.Trace("start app")
 	} else {
 		beego.Trace("start app...")
@@ -53,19 +50,15 @@ func preRun() {
 	}
 }
 
-func initArgs() {
-	user = flag.String("user", "", "user")
-	dbinit := flag.Bool("db", false, "init db")
-	dbinitforce := flag.Bool("f", false, "force init db first drop db then rebuild it")
-	rbac := flag.Bool("rbac", false, "rebuild rbac database tables")
+func initArgs(config conf.FlagConfig) {
 	if !flag.Parsed() {
 		flag.Parse()
 	}
-	if *dbinit {
-		Syncdb(*dbinitforce)
+	if *config.DbInit {
+		Syncdb(*config.DbInitForce)
 		os.Exit(0)
 	}
-	if *rbac {
+	if *config.Rbac {
 		Updaterbac()
 		os.Exit(0)
 	}
