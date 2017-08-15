@@ -73,7 +73,7 @@ func (this *MainController) Paper() {
 	temp.Page = page
 	temp.Pagesize = limit
 	temp.Totalnum = count
-	temp.Urlpath = "/" + category["Title"].(string) + "/" + strconv.Itoa(int(patemp.Id))
+	temp.Urlpath = "/" + category["Alias"].(string) + "/" + strconv.Itoa(int(patemp.Id))
 	//beego.Trace("Dddd"+temp.ToString())
 	this.Data["nums"] = temp.ToString()
 	query1.Limit(limit, (page-1)*limit).Values(&papers)
