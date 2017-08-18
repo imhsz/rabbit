@@ -222,6 +222,8 @@ server{
 
 ![](doc/img/blog.png)
 
+![](doc/img/pic.png)
+
 # LICENSE
 
 ```
