@@ -81,5 +81,6 @@ func init() {
 
 func main() {
 	beego.Trace("Start Listen ...")
+	conf.InitConfig()
 	beego.Run()
 }

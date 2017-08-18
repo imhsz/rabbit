@@ -1,9 +1,21 @@
+/*
+	Copyright 2017 by GoWeb author: gdccmcm14@live.com.
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+		http://www.apache.org/licenses/LICENSE-2.0
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License
+*/
 package rbac
 
 import (
 	"encoding/json"
 	"github.com/astaxie/beego/orm"
-	m "github.com/hunterhug/GoWeb/models/admin"
+	"github.com/hunterhug/GoWeb/models/admin"
 	"strconv"
 	"strings"
 )
@@ -25,7 +37,7 @@ func (this *RoleController) Index() {
 		} else {
 			sort = "Id"
 		}
-		roles, count := m.GetRolelist(page, page_size, sort)
+		roles, count := admin.GetRolelist(page, page_size, sort)
 		if len(roles) < 1 {
 			roles = []orm.Params{}
 		}
@@ -39,7 +51,7 @@ func (this *RoleController) Index() {
 
 }
 func (this *RoleController) AddAndEdit() {
-	r := m.Role{}
+	r := admin.Role{}
 	if err := this.ParseForm(&r); err != nil {
 		//handle error
 		this.Rsp(false, err.Error())
@@ -49,9 +61,9 @@ func (this *RoleController) AddAndEdit() {
 	var err error
 	Rid, _ := this.GetInt64("Id")
 	if Rid > 0 {
-		id, err = m.UpdateRole(&r)
+		id, err = admin.UpdateRole(&r)
 	} else {
-		id, err = m.AddRole(&r)
+		id, err = admin.AddRole(&r)
 	}
 	if err == nil && id > 0 {
 		this.Rsp(true, "Success")
@@ -65,7 +77,7 @@ func (this *RoleController) AddAndEdit() {
 
 func (this *RoleController) DelRole() {
 	Id, _ := this.GetInt64("Id")
-	status, err := m.DelRoleById(Id)
+	status, err := admin.DelRoleById(Id)
 	if err == nil && status > 0 {
 		this.Rsp(true, "Success")
 		return
@@ -76,7 +88,7 @@ func (this *RoleController) DelRole() {
 }
 
 func (this *RoleController) Getlist() {
-	roles, _ := m.GetRolelist(1, 1000, "Id")
+	roles, _ := admin.GetRolelist(1, 1000, "Id")
 	if len(roles) < 1 {
 		roles = []orm.Params{}
 	}
@@ -89,8 +101,8 @@ func (this *RoleController) AccessToNode() {
 	roleid, _ := this.GetInt64("Id")
 	if this.IsAjax() {
 		groupid, _ := this.GetInt64("group_id")
-		nodes, count := m.GetNodelistByGroupid(groupid)
-		list, _ := m.GetNodelistByRoleId(roleid)
+		nodes, count := admin.GetNodelistByGroupid(groupid)
+		list, _ := admin.GetNodelistByRoleId(roleid)
 		for i := 0; i < len(nodes); i++ {
 			if nodes[i]["Pid"] != 0 {
 				nodes[i]["_parentId"] = nodes[i]["Pid"]
@@ -110,7 +122,7 @@ func (this *RoleController) AccessToNode() {
 		this.ServeJSON()
 		return
 	} else {
-		grouplist := m.GroupList()
+		grouplist := admin.GroupList()
 		b, _ := json.Marshal(grouplist)
 		this.Data["grouplist"] = string(b)
 		this.Data["roleid"] = roleid
@@ -123,7 +135,7 @@ func (this *RoleController) AccessToNode() {
 func (this *RoleController) AddAccess() {
 	roleid, _ := this.GetInt64("roleid")
 	group_id, _ := this.GetInt64("group_id")
-	err := m.DelGroupNode(roleid, group_id)
+	err := admin.DelGroupNode(roleid, group_id)
 	if err != nil {
 		this.Rsp(false, err.Error())
 	}
@@ -131,7 +143,7 @@ func (this *RoleController) AddAccess() {
 	nodeids := strings.Split(ids, ",")
 	for _, v := range nodeids {
 		id, _ := strconv.Atoi(v)
-		_, err := m.AddRoleNode(roleid, int64(id))
+		_, err := admin.AddRoleNode(roleid, int64(id))
 		if err != nil {
 			this.Rsp(false, err.Error())
 		}
@@ -143,8 +155,8 @@ func (this *RoleController) AddAccess() {
 func (this *RoleController) RoleToUserList() {
 	roleid, _ := this.GetInt64("Id")
 	if this.IsAjax() {
-		users, count := m.Getuserlist(1, 1000, "Id")
-		list, _ := m.GetUserByRoleId(roleid)
+		users, count := admin.Getuserlist(1, 1000, "Id")
+		list, _ := admin.GetUserByRoleId(roleid)
 		for i := 0; i < len(users); i++ {
 			for x := 0; x < len(list); x++ {
 				if users[i]["Id"] == list[x]["Id"] {
@@ -169,14 +181,14 @@ func (this *RoleController) AddRoleToUser() {
 	roleid, _ := this.GetInt64("Id")
 	ids := this.GetString("ids")
 	userids := strings.Split(ids, ",")
-	err := m.DelUserRole(roleid)
+	err := admin.DelUserRole(roleid)
 	if err != nil {
 		this.Rsp(false, err.Error())
 	}
 	if len(ids) > 0 {
 		for _, v := range userids {
 			id, _ := strconv.Atoi(v)
-			_, err := m.AddRoleUser(roleid, int64(id))
+			_, err := admin.AddRoleUser(roleid, int64(id))
 			if err != nil {
 				this.Rsp(false, err.Error())
 			}

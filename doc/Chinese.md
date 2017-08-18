@@ -63,7 +63,8 @@ db_type = mysql
 ~~或者(严重建议采用下面一种)~~
 
 ```
-cd help
+cd doc
+cd sh
 ./initdb.sh tuzi
 ```
 

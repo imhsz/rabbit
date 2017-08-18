@@ -23,11 +23,11 @@ type Roll struct {
 	Content    string    `orm:"type(text)";null` //内容
 	Createtime time.Time `orm:"type(datetime);null"`
 	Updatetime time.Time `orm:"type(datetime);null"`
-	Sort       int64     //排序
+	Sort       int64     `orm:"default(0)"` //排序
 	Status     int64     `orm:"default(0)"` //0 关闭 1开启
-	Photo      string    //图片地址
-	View       int64     //浏览量
-	Url        string
+	Photo      string    `orm:"null"`       //图片地址
+	View       int64     `orm:"default(0)"` //浏览量
+	Url        string    `orm:"null"`
 }
 
 func init() {

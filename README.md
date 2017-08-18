@@ -1,6 +1,10 @@
 # Project： Rabbit(Tuzi)
 
-[中文介绍](Chinese.md) anglicizing...
+兔子脚手架是用Golang语言开发的项目，主要用来快速开发企业网站。
+
+感谢`beego`,`jquery`,`easyui`,`bootstrap`等框架的贡献者～
+
+[中文介绍](doc/Chinese.md) anglicizing...
 
 You can own a enterprise web just listen to me! You just need install golang environment(ask for google help).Under developing...
 
@@ -63,7 +67,8 @@ And init our database
 ~~Or(I recommend to use)~~
 
 ```
-cd help
+cd doc
+cd sh
 ./initdb.sh tuzi
 ```
 
@@ -213,9 +218,9 @@ server{
 
 # Have a Look!
 
-![](doc/index.png)
+![](doc/img/index.png)
 
-![](doc/blog.png)
+![](doc/img/blog.png)
 
 # LICENSE
 

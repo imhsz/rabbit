@@ -1,24 +1,24 @@
 ###首页
 
-![](index.png)
+![](img/index.png)
 
-![](blog.png)
+![](img/blog.png)
 
-![](production.png)
+![](img/production.png)
 
 ###登录
 
-![](login.png)
+![](img/login.png)
 
 ###权限控制
 
-![](admin.png)
+![](img/admin.png)
 
 ###轮转图
 
-![](roll.png)
+![](img/roll.png)
 
 ###文章/相册
 
-![](pic.png)
-![](paper.png)
+![](img/pic.png)
+![](img/paper.png)

@@ -1,15 +1,27 @@
-// RBAC权限包
+/*
+	Copyright 2017 by GoWeb author: gdccmcm14@live.com.
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+		http://www.apache.org/licenses/LICENSE-2.0
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License
+*/
+// RBAC
 package controllers
 
 import (
 	"fmt"
-	"strconv"
-	"strings"
-
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/context"
-	. "github.com/hunterhug/GoWeb/lib"
-	m "github.com/hunterhug/GoWeb/models/admin"
+	"github.com/hunterhug/GoWeb/conf"
+	"github.com/hunterhug/GoWeb/lib"
+	"github.com/hunterhug/GoWeb/models/admin"
+	"strconv"
+	"strings"
 )
 
 func init() {
@@ -17,69 +29,53 @@ func init() {
 }
 
 //check access and register user's nodes
-// 权限过滤器
 func AccessRegister() {
 	var Check = func(ctx *context.Context) {
-		// 配置写死的所以可以忽略错误
-		user_auth_type, _ := strconv.Atoi(beego.AppConfig.String("user_auth_type"))
-		rbac_auth_gateway := beego.AppConfig.String("rbac_auth_gateway")
+		// access list
 		var accesslist map[string]bool
-		if user_auth_type > 0 {
-			// "/public/login",[]string{"", "public", "login"}
+		if conf.AuthType > 0 {
 			params := strings.Split(strings.ToLower(strings.Split(ctx.Request.RequestURI, "?")[0]), "/")
-			//fmt.Printf("%#v,%#v\n", ctx.Request.RequestURI, params)
-
 			if CheckAccess(params) {
-				//admin用户不用认证权限
-				adminuser := beego.AppConfig.String("rbac_admin_user")
-
-				// 从tuzisessionid中去拿数据
 				uinfo := ctx.Input.Session("userinfo")
-				if uinfo == nil && beego.AppConfig.String("cookie7") == "1" {
+				if uinfo == nil && conf.Cookie7 {
 					arr := strings.Split(ctx.GetCookie("auth"), "|")
 					if len(arr) == 2 {
-						idstr, password := arr[0], arr[1]
-						userid, _ := strconv.ParseInt(idstr, 10, 0)
-						if userid > 0 {
-							var user m.User
-							user.Id = userid
-							// cookie必须是从上次的IP登录才行
-							ip := GetClientIp(ctx)
-							// 用户必须激活
-							if user.Read() == nil && password == Md5(ip+"|"+user.Password) && (user.Username == adminuser || user.Status == 1) {
+						id_str, password := arr[0], arr[1]
+						user_id, _ := strconv.ParseInt(id_str, 10, 0)
+						if user_id > 0 {
+							var user admin.User
+							user.Id = user_id
+							ip := lib.GetClientIp(ctx)
+							if user.Read() == nil && password == lib.Md5(ip+"|"+user.Password) && (user.Username == conf.AuthAdmin || user.Status == 1) {
 								uinfo = user
-								//增加sessioN
 								ctx.Output.Session("userinfo", uinfo)
 							} else {
-								// 去掉，防止太多次查数据库
 								ctx.SetCookie("auth", "")
 							}
 						}
 					}
 				}
 				if uinfo == nil {
-					ctx.Redirect(302, rbac_auth_gateway)
+					ctx.Redirect(302, conf.AuthGateWay)
 					return
 				}
 
-				username := uinfo.(m.User).Username
-				if username == adminuser || strings.Contains(username, "hunterhug") {
+				username := uinfo.(admin.User).Username
+				if username == conf.AuthAdmin || strings.Contains(username, "hunterhug") {
 					return
 				}
 
-				if user_auth_type == 1 {
+				if conf.AuthType == 1 {
 					listbysession := ctx.Input.Session("accesslist")
 					if listbysession != nil {
 						accesslist, _ = listbysession.(map[string]bool)
 					} else {
-						// 这里可能不能忽略错误，但Session应该伪造不了
-						accesslist, _ = GetAccessList(uinfo.(m.User).Id)
-						// 加上session,防止每次都Get
+						accesslist, _ = GetAccessList(uinfo.(admin.User).Id)
 						ctx.Output.Session("accesslist", accesslist)
 					}
-				} else if user_auth_type == 2 {
+				} else if conf.AuthType == 2 {
 
-					accesslist, _ = GetAccessList(uinfo.(m.User).Id)
+					accesslist, _ = GetAccessList(uinfo.(admin.User).Id)
 				}
 
 				ret := AccessDecision(params, accesslist)
@@ -131,7 +127,7 @@ type AccessNode struct {
 
 //Access permissions list
 func GetAccessList(uid int64) (map[string]bool, error) {
-	list, err := m.AccessList(uid)
+	list, err := admin.AccessList(uid)
 	if err != nil {
 		return nil, err
 	}

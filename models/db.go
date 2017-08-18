@@ -19,11 +19,8 @@ import (
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/hunterhug/GoWeb/models/admin"
-	_ "github.com/hunterhug/GoWeb/models/blog"
 	"os"
 	"time"
-	// _ "github.com/lib/pq"
-	// _ "github.com/mattn/go-sqlite3"
 )
 
 func Createtb() {
@@ -109,8 +106,6 @@ func Createdb(force bool) {
 	db_user := beego.AppConfig.String("db_user")
 	db_pass := beego.AppConfig.String("db_pass")
 	db_name := beego.AppConfig.String("db_name")
-	// db_path := beego.AppConfig.String("db_path")
-	// db_sslmode := beego.AppConfig.String("db_sslmode")
 
 	var dns string
 	var sqlstring, sql1string string
@@ -125,18 +120,6 @@ func Createdb(force bool) {
 		}
 		fmt.Println(sqlstring)
 		break
-	// case "postgres":
-	// 	dns = fmt.Sprintf("host=%s  user=%s  password=%s  port=%s  sslmode=%s", db_host, db_user, db_pass, db_port, db_sslmode)
-	// 	sqlstring = fmt.Sprintf("CREATE DATABASE %s", db_name)
-	// 	break
-	// case "sqlite3":
-	// 	if db_path == "" {
-	// 		db_path = "./"
-	// 	}
-	// 	dns = fmt.Sprintf("%s%s.db", db_path, db_name)
-	// 	os.Remove(dns)
-	// 	sqlstring = "create table init (n varchar(32));drop table init;"
-	// 	break
 	default:
 		beego.Critical("db driver not support:", db_type)
 		return
@@ -172,18 +155,6 @@ func TRUNCATETable(table []string) {
 	switch db_type {
 	case "mysql":
 		dns = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8", db_user, db_pass, db_host, db_port, db_name)
-		// case "postgres":
-		// 	dns = fmt.Sprintf("host=%s  user=%s  password=%s  port=%s  sslmode=%s", db_host, db_user, db_pass, db_port, db_sslmode)
-		// 	sqlstring = fmt.Sprintf("CREATE DATABASE %s", db_name)
-		// 	break
-		// case "sqlite3":
-		// 	if db_path == "" {
-		// 		db_path = "./"
-		// 	}
-		// 	dns = fmt.Sprintf("%s%s.db", db_path, db_name)
-		// 	os.Remove(dns)
-		// 	sqlstring = "create table init (n varchar(32));drop table init;"
-		// 	break
 	default:
 		beego.Critical("db driver not support:", db_type)
 		return

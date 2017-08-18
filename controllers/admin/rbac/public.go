@@ -1,11 +1,23 @@
+/*
+	Copyright 2017 by GoWeb author: gdccmcm14@live.com.
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+		http://www.apache.org/licenses/LICENSE-2.0
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License
+*/
 package rbac
 
 import (
 	"errors"
-	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/context"
+	"github.com/hunterhug/GoWeb/conf"
 	. "github.com/hunterhug/GoWeb/controllers"
-	. "github.com/hunterhug/GoWeb/lib"
+	"github.com/hunterhug/GoWeb/lib"
 	"github.com/hunterhug/GoWeb/models/admin"
 	"strconv"
 	"strings"
@@ -15,16 +27,13 @@ type MainController struct {
 	CommonController
 }
 
-var Cookie7 = beego.AppConfig.String("cookie7")
-
 // 后台首页,路由路径不是三个参数且public不经过过滤器，这里要验证一下。
 func (this *MainController) Index() {
 	userinfo := this.GetSession("userinfo")
-	//如果没有seesion
-	user_auth_type, _ := strconv.Atoi(beego.AppConfig.String("user_auth_type"))
+
 	// 如果需要验证，那么进行
-	if user_auth_type > 0 {
-		if userinfo == nil && Cookie7 == "1" {
+	if conf.AuthType > 0 {
+		if userinfo == nil && conf.Cookie7 {
 			success, userinfo := CheckCookie(this.Ctx)
 			//查看是否有cookie
 			if success {
@@ -32,7 +41,7 @@ func (this *MainController) Index() {
 				//更新登陆时间
 				userinfo = admin.UpdateLoginTime(&userinfo)
 				userinfo.Logincount += 1
-				userinfo.Lastip = GetClientIp(this.Ctx)
+				userinfo.Lastip = lib.GetClientIp(this.Ctx)
 				userinfo.Update()
 				// 之前没有，现在有了
 				this.SetSession("userinfo", userinfo)
@@ -42,13 +51,13 @@ func (this *MainController) Index() {
 
 			} else {
 				//没有
-				this.Ctx.Redirect(302, beego.AppConfig.String("rbac_auth_gateway"))
+				this.Ctx.Redirect(302, conf.AuthGateWay)
 				return
 			}
 		}
 
 		if userinfo == nil {
-			this.Ctx.Redirect(302, beego.AppConfig.String("rbac_auth_gateway"))
+			this.Ctx.Redirect(302, conf.AuthGateWay)
 			return
 		}
 	}
@@ -68,16 +77,15 @@ func (this *MainController) Index() {
 func (this *MainController) Login() {
 	// 查看是否已经登陆过
 	userinfo := this.GetSession("userinfo")
-	user_auth_type, _ := strconv.Atoi(beego.AppConfig.String("user_auth_type"))
-	if user_auth_type > 0 {
-		if userinfo == nil && Cookie7 == "1" {
+	if conf.AuthType > 0 {
+		if userinfo == nil && conf.Cookie7 {
 			success, userinfo := CheckCookie(this.Ctx)
 			//查看是否有cookie
 			if success {
 				//更新登陆时间
 				userinfo = admin.UpdateLoginTime(&userinfo)
 				userinfo.Logincount += 1
-				userinfo.Lastip = GetClientIp(this.Ctx)
+				userinfo.Lastip = lib.GetClientIp(this.Ctx)
 				userinfo.Update()
 				this.SetSession("userinfo", userinfo)
 				//设置权限列表session
@@ -103,7 +111,7 @@ func (this *MainController) Login() {
 		return
 	}
 	if isajax == "1" {
-		if Verify(this.Ctx) {
+		if lib.Verify(this.Ctx) {
 			account := strings.TrimSpace(this.GetString("account"))
 			password := strings.TrimSpace(this.GetString("password"))
 			remember := this.GetString("remember")
@@ -113,11 +121,11 @@ func (this *MainController) Login() {
 				//更新登陆时间
 				user = admin.UpdateLoginTime(&user)
 				user.Logincount += 1
-				ip := GetClientIp(this.Ctx)
+				ip := lib.GetClientIp(this.Ctx)
 				user.Lastip = ip
 				user.Update()
-				authkey := Md5(ip + "|" + user.Password)
-				if Cookie7 == "1" {
+				authkey := lib.Md5(ip + "|" + user.Password)
+				if conf.Cookie7 {
 					if remember == "yes" {
 						this.Ctx.SetCookie("auth", strconv.FormatInt(user.Id, 10)+"|"+authkey, 7*86400)
 					} else {
@@ -152,7 +160,7 @@ func (this *MainController) Logout() {
 	this.DelSession("userinfo")
 	this.DelSession("accesslist")
 	// 跳到登陆
-	this.Ctx.Redirect(302, beego.AppConfig.String("rbac_auth_gateway"))
+	this.Ctx.Redirect(302, conf.AuthGateWay)
 }
 
 //修改密码
@@ -170,7 +178,7 @@ func (this *MainController) Changepwd() {
 		if err != nil {
 			this.Rsp(false, err.Error())
 		}
-		if Md5(nowpassword) != user.Password {
+		if lib.Md5(nowpassword) != user.Password {
 			this.Rsp(false, "原始密码错误")
 		}
 		password := this.GetString("password")
@@ -184,7 +192,7 @@ func (this *MainController) Changepwd() {
 				this.Rsp(false, "长度应该6-20")
 			}
 
-			user.Password = Pwdhash(password)
+			user.Password = lib.Pwdhash(password)
 			err := user.Update("password")
 			if err != nil {
 				this.Rsp(false, err.Error())
@@ -206,12 +214,11 @@ func CheckLogin(username string, password string) (user admin.User, err error) {
 	if user.Id == 0 {
 		return user, errors.New("用户不存在或者密码错误")
 	}
-	if user.Password != Pwdhash(password) {
+	if user.Password != lib.Pwdhash(password) {
 		return user, errors.New("用户不存在或者密码错误")
 	}
 
-	adminuser := beego.AppConfig.String("rbac_admin_user")
-	if user.Username != adminuser && user.Status != 1 {
+	if user.Username != conf.AuthAdmin && user.Status != 1 {
 		return user, errors.New("用户未激活")
 	}
 
@@ -228,8 +235,7 @@ func CheckCookie(ctx *context.Context) (bool, admin.User) {
 		if userid > 0 {
 			user.Id = userid
 			// cookie没问题,且已经激活
-			adminuser := beego.AppConfig.String("rbac_admin_user")
-			if user.Read() == nil && password == Md5(GetClientIp(ctx)+"|"+user.Password) && (user.Username == adminuser || user.Status == 1) {
+			if user.Read() == nil && password == lib.Md5(lib.GetClientIp(ctx)+"|"+user.Password) && (user.Username == conf.AuthAdmin || user.Status == 1) {
 				return true, user
 			} else {
 				// 设置空

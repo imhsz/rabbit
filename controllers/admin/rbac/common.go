@@ -1,8 +1,20 @@
+/*
+	Copyright 2017 by GoWeb author: gdccmcm14@live.com.
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+		http://www.apache.org/licenses/LICENSE-2.0
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License
+*/
 package rbac
 
 import (
 	"github.com/astaxie/beego"
-	m "github.com/hunterhug/GoWeb/models/admin"
+	"github.com/hunterhug/GoWeb/models/admin"
 )
 
 type CommonController struct {
@@ -32,13 +44,13 @@ func (this *CommonController) GetTemplate() string {
 
 // 获取权限各节点URL   权限控制器 用户节点  /rbac /node/index
 func (this *CommonController) GetTree() []Tree {
-	nodes, _ := m.GetNodeTree(0, 1) //第一层
+	nodes, _ := admin.GetNodeTree(0, 1) //第一层
 	tree := make([]Tree, len(nodes))
 	for k, v := range nodes {
 		tree[k].Id = v["Id"].(int64)
 		tree[k].Text = v["Title"].(string)
 		tree[k].GroupId = v["Group"].(int64)
-		children, _ := m.GetNodeTree(v["Id"].(int64), 2) //第二层
+		children, _ := admin.GetNodeTree(v["Id"].(int64), 2) //第二层
 		tree[k].Children = make([]Tree, len(children))
 		for k1, v1 := range children {
 			tree[k].Children[k1].Id = v1["Id"].(int64)
@@ -46,6 +58,5 @@ func (this *CommonController) GetTree() []Tree {
 			tree[k].Children[k1].Attributes.Url = "/" + v["Name"].(string) + "/" + v1["Name"].(string)
 		}
 	}
-	// beego.Trace("%v", tree)
 	return tree
 }

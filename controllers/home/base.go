@@ -47,11 +47,7 @@ func (this *baseController) Prepare() {
 		this.Lang = "zh-CN"
 	}
 
-	// not use...
 	this.Data["Lang"] = this.Lang
-	/*this.Layout = this.GetTemplate() + "/layout.html"
-	this.LayoutSections["scripts"] = this.GetTemplate()+"/scripts.html"
-	this.LayoutSections["Sidebar"] = ""*/
 }
 
 // Get the address of template
@@ -64,7 +60,20 @@ func (this *baseController) GetTemplate() string {
 }
 
 func (this *baseController) Rsp(status bool, str string) {
-	this.Data["json"] = &map[string]interface{}{"status": status, "info": str}
-	this.ServeJSON()
+	if status {
+		this.Data["json"] = &map[string]interface{}{"status": status, "info": str}
+		this.ServeJSON()
+	}
+	this.Ctx.WriteString(`
+	<html>
+<head>
+    <title>404-帮帮宝贝回家</title>
+    <script>
+        document.body.classList.add('page-fullscreen');
+    </script>
+    <script type="text/javascript" src="http://www.qq.com/404/search_children.js" charset="utf-8" homePageUrl="https://www.github.com/hunterhug" homePageName="更多精彩：https://www.github.com/hunterhug"></script>
+</head>
+</html>
+	`)
 	this.StopRun()
 }

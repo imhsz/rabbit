@@ -1,7 +1,19 @@
+/*
+	Copyright 2017 by GoWeb author: gdccmcm14@live.com.
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+		http://www.apache.org/licenses/LICENSE-2.0
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License
+*/
 package rbac
 
 import (
-	m "github.com/hunterhug/GoWeb/models/admin"
+	"github.com/hunterhug/GoWeb/models/admin"
 )
 
 type GroupController struct {
@@ -21,7 +33,7 @@ func (this *GroupController) Index() {
 		} else {
 			sort = "Id"
 		}
-		nodes, count := m.GetGrouplist(page, page_size, sort)
+		nodes, count := admin.GetGrouplist(page, page_size, sort)
 		this.Data["json"] = &map[string]interface{}{"total": count, "rows": &nodes}
 		this.ServeJSON()
 		return
@@ -32,13 +44,13 @@ func (this *GroupController) Index() {
 
 }
 func (this *GroupController) AddGroup() {
-	g := m.Group{}
+	g := admin.Group{}
 	if err := this.ParseForm(&g); err != nil {
 		//handle error
 		this.Rsp(false, err.Error())
 		return
 	}
-	id, err := m.AddGroup(&g)
+	id, err := admin.AddGroup(&g)
 	if err == nil && id > 0 {
 		this.Rsp(true, "Success")
 		return
@@ -50,13 +62,13 @@ func (this *GroupController) AddGroup() {
 }
 
 func (this *GroupController) UpdateGroup() {
-	g := m.Group{}
+	g := admin.Group{}
 	if err := this.ParseForm(&g); err != nil {
 		//handle error
 		this.Rsp(false, err.Error())
 		return
 	}
-	id, err := m.UpdateGroup(&g)
+	id, err := admin.UpdateGroup(&g)
 	if err == nil && id > 0 {
 		this.Rsp(true, "Success")
 		return
@@ -69,7 +81,7 @@ func (this *GroupController) UpdateGroup() {
 
 func (this *GroupController) DelGroup() {
 	Id, _ := this.GetInt64("Id")
-	status, err := m.DelGroupById(Id)
+	status, err := admin.DelGroupById(Id)
 	if err == nil && status > 0 {
 		this.Rsp(true, "Success")
 		return

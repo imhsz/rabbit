@@ -1,8 +1,20 @@
+/*
+	Copyright 2017 by GoWeb author: gdccmcm14@live.com.
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+		http://www.apache.org/licenses/LICENSE-2.0
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License
+*/
 package rbac
 
 import (
 	"fmt"
-	m "github.com/hunterhug/GoWeb/models/admin"
+	"github.com/hunterhug/GoWeb/models/admin"
 )
 
 type UserController struct {
@@ -22,7 +34,7 @@ func (this *UserController) Index() {
 		} else {
 			sort = "Id"
 		}
-		users, count := m.Getuserlist(page, page_size, sort)
+		users, count := admin.Getuserlist(page, page_size, sort)
 
 		this.Data["json"] = &map[string]interface{}{"total": count, "rows": &users}
 		this.ServeJSON()
@@ -35,13 +47,13 @@ func (this *UserController) Index() {
 }
 
 func (this *UserController) AddUser() {
-	u := m.User{}
+	u := admin.User{}
 	if err := this.ParseForm(&u); err != nil {
 		//handle error
 		this.Rsp(false, err.Error())
 		return
 	}
-	id, err := m.AddUser(&u)
+	id, err := admin.AddUser(&u)
 	if err == nil && id > 0 {
 		this.Rsp(true, "Success")
 		return
@@ -53,13 +65,13 @@ func (this *UserController) AddUser() {
 }
 
 func (this *UserController) UpdateUser() {
-	u := m.User{}
+	u := admin.User{}
 	if err := this.ParseForm(&u); err != nil {
 		//handle error
 		this.Rsp(false, err.Error())
 		return
 	}
-	id, err := m.UpdateUser(&u)
+	id, err := admin.UpdateUser(&u)
 	if err == nil && id > 0 {
 		this.Rsp(true, "Success")
 		return
@@ -72,13 +84,13 @@ func (this *UserController) UpdateUser() {
 
 //UpdateUserPasswd
 func (this *UserController) UpdateUserPasswd() {
-	u := m.User{}
+	u := admin.User{}
 	if err := this.ParseForm(&u); err != nil {
 		//handle error
 		this.Rsp(false, err.Error())
 		return
 	}
-	id, err := m.UpdateUserPasswd(&u)
+	id, err := admin.UpdateUserPasswd(&u)
 	if err == nil && id > 0 {
 		this.Rsp(true, "Success")
 		return
@@ -90,15 +102,15 @@ func (this *UserController) UpdateUserPasswd() {
 }
 
 func (this *UserController) DelUser() {
-	// Id, _ := this.GetInt64("Id")
-	// status, err := m.DelUserById(Id)
-	// if err == nil && status > 0 {
-	// 	this.Rsp(true, "Success")
-	// 	return
-	// } else {
-	// 	this.Rsp(false, err.Error())
-	// 	return
-	// }
+	/*	 Id, _ := this.GetInt64("Id")
+		 status, err := admin.DelUserById(Id)
+		 if err == nil && status > 0 {
+		 	this.Rsp(true, "Success")
+		 	return
+		 } else {
+		 	this.Rsp(false, err.Error())
+		 	return
+		 }*/
 
 	this.Rsp(false, "本系统用户一添加则不允许删除")
 	return

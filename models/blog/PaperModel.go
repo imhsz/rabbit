@@ -1,3 +1,15 @@
+/*
+	Copyright 2017 by GoWeb author: gdccmcm14@live.com.
+	Licensed under the Apache License, Version 2.0 (the "License");
+	you may not use this file except in compliance with the License.
+	You may obtain a copy of the License at
+		http://www.apache.org/licenses/LICENSE-2.0
+	Unless required by applicable law or agreed to in writing, software
+	distributed under the License is distributed on an "AS IS" BASIS,
+	WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	See the License for the specific language governing permissions and
+	limitations under the License
+*/
 package blog
 
 import (
@@ -12,17 +24,17 @@ type Paper struct {
 	Descontent string    `orm:"type(text);null"` //内容简介
 	Createtime time.Time `orm:"type(datetime);null"`
 	Updatetime time.Time `orm:"type(datetime);null"`
-	Sort       int64     //排序
+	Sort       int64     `orm:"default(0)"` //排序
 	Status     int64     `orm:"default(0)"` //0 未审核 1审核 2回收站
-	Author     string    //昵称
-	Photo      string    //图片加密地址
-	View       int64     //浏览量
+	Author     string    `orm:"null"`       //昵称
+	Photo      string    `orm:"null"`       //图片地址
+	View       int64     `orm:"default(0)"` //浏览量
 	Cid        int64     //分类
 	Istop      int64     `orm:"default(0)"` //是否置顶 1置顶
 	Ishot      int64     `orm:"default(0)"` //是否热门 1热门
 	Isroll     int64     `orm:"default(0)"` //是否轮转
-	Rollpath   string    //自定义轮转地址
-	Type       int64     //0表示文章，1表示图片
+	Rollpath   string    `orm:"null"`       //自定义轮转地址
+	Type       int64     `orm:"default(0)"` //0表示文章，1表示图片
 }
 
 func init() {
