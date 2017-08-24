@@ -4,7 +4,7 @@
 
 你只需安装好Golang环境，安装教程网站一搜很多。为了国际化，我会将初始化数据全部用英语填充，前台不影响，你仍然可以编辑中文文章。
 
-![兔子](tuzi.png)
+![兔子](/tuzi.png)
 
 ## 一.使用说明
 
@@ -220,6 +220,17 @@ server{
 ## 五.精彩演示
 
 见 [图片](/doc/example.md)
+
+如果你觉得项目帮助到你,欢迎请我喝杯咖啡
+
+微信
+![微信](https://raw.githubusercontent.com/hunterhug/hunterhug.github.io/master/static/jpg/wei.png)
+
+支付宝
+![支付宝](https://raw.githubusercontent.com/hunterhug/hunterhug.github.io/master/static/jpg/ali.png)
+
+
+问题咨询请发邮件:gdccmcm14@live.com.
 
 # LICENSE
     
