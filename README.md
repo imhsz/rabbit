@@ -216,6 +216,15 @@ server{
 }
 ```
 
+# More
+
+Just for debug home!
+
+```
+go run main.go  -config=conf/tuzi.conf -home=home/first
+```
+
+
 # Have a Look!
 
 ![](doc/img/index.png)

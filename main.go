@@ -10,6 +10,7 @@
 	See the License for the specific language governing permissions and
 	limitations under the License
 */
+
 // Main Web Entrance
 package main
 
@@ -28,6 +29,7 @@ import (
 
 // 国际化语言数组
 var langTypes []string
+var home *string
 
 // 加载、初始化国际化
 func init() {
@@ -37,6 +39,8 @@ func init() {
 	flags.DbInit = flag.Bool("db", false, "init db")
 	flags.DbInitForce = flag.Bool("f", false, "force init db first drop db then rebuild it")
 	flags.Rbac = flag.Bool("rbac", false, "rebuild rbac database tables")
+	home = flag.String("home", "", "home template")
+
 	flag.Parse()
 
 	if *config != "" {
@@ -82,5 +86,10 @@ func init() {
 func main() {
 	beego.Trace("Start Listen ...")
 	conf.InitConfig()
+
+	if *home != "" {
+		beego.Trace("Home template is " + *home)
+		beego.AppConfig.Set(beego.BConfig.RunMode+"::"+"home_template", *home)
+	}
 	beego.Run()
 }
