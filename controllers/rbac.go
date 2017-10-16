@@ -25,10 +25,7 @@ import (
 	"strings"
 )
 
-var Version string
-
 func init() {
-	Version = beego.AppConfig.DefaultString("version", "none")
 	AccessRegister()
 }
 
@@ -91,11 +88,7 @@ func AccessRegister() {
 		}
 	}
 
-	var AddHeader = func(ctx *context.Context) {
-		ctx.Output.Header("X-Version", Version)
-	}
 	beego.InsertFilter("/*", beego.BeforeRouter, Check)
-	beego.InsertFilter("/*", beego.AfterExec, AddHeader)
 }
 
 //Determine whether need to verify

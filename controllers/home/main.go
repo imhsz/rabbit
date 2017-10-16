@@ -17,6 +17,7 @@ import (
 	"errors"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
+	"github.com/hunterhug/GoWeb/conf"
 	"github.com/hunterhug/GoWeb/lib"
 	"github.com/hunterhug/GoWeb/models/blog"
 )
@@ -43,11 +44,31 @@ func (this *MainController) Prepare() {
 	this.Data["category"] = GetNav(0, 0)
 	this.Data["photo"] = GetNav(0, 1)
 
+	this.AddHeader()
+}
+
+func (this *MainController) AddHeader() {
+	if this.Ctx.GetCookie("X-Home") == "" {
+		this.Ctx.SetCookie("X-Home", conf.HomeTemplate, false, "/", false, false, true)
+	}
+
+	this.Ctx.Output.Header("X-Version", conf.Version)
 }
 
 // Home
 func (this *MainController) Index() {
 	// change lang by cookie
+	h := this.GetString("h", "")
+	if h != "" {
+		switch h {
+		case "first", "default", "hunterhug":
+			this.Ctx.SetCookie("X-Home", "home/"+h, false, "/", false, false, true)
+		default:
+			break
+		}
+
+	}
+
 	lang := this.GetString("lang", "")
 	if lang != "" {
 		this.Ctx.SetCookie("lang", lang)

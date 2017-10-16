@@ -34,3 +34,8 @@ func (c *ErrorController) ErrorDb() {
 	c.Data["content"] = "database is now down"
 	c.TplName = beego.AppConfig.String("admin_template") + "/" + "error.html"
 }
+
+func (c *ErrorController) Error500() {
+	c.Data["content"] = "server error 500"
+	c.TplName = beego.AppConfig.String("admin_template") + "/" + "error.html"
+}

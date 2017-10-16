@@ -15,6 +15,7 @@ package home
 import (
 	"github.com/astaxie/beego"
 	"github.com/beego/i18n"
+	"github.com/hunterhug/GoWeb/conf"
 )
 
 type baseController struct {
@@ -52,9 +53,18 @@ func (this *baseController) Prepare() {
 
 // Get the address of template
 func (this *baseController) GetTemplate() string {
-	templatetype := beego.AppConfig.String("home_template")
-	if templatetype == "" {
-		templatetype = "default"
+	templatetype := conf.HomeTemplate
+
+	temp := this.Ctx.GetCookie("X-Home")
+	if temp != "" {
+		// todo dangerous
+		switch temp {
+		case "home/first", "home/default", "home/hunterhug":
+			templatetype = temp
+		default:
+			break
+		}
+
 	}
 	return templatetype
 }

@@ -85,11 +85,12 @@ func init() {
 
 func main() {
 	beego.Trace("Start Listen ...")
-	conf.InitConfig()
 
 	if *home != "" {
 		beego.Trace("Home template is " + *home)
 		beego.AppConfig.Set(beego.BConfig.RunMode+"::"+"home_template", *home)
 	}
+
+	conf.InitConfig()
 	beego.Run()
 }
