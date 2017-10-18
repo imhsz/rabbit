@@ -30,6 +30,10 @@ type Roll struct {
 	Url        string    `orm:"null"`
 }
 
+func (m *Roll) TableName() string {
+	return "roll"
+}
+
 func init() {
 	orm.RegisterModel(new(Roll))
 }

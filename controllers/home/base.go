@@ -49,6 +49,13 @@ func (this *baseController) Prepare() {
 	}
 
 	this.Data["Lang"] = this.Lang
+
+	// Add some mark
+	if this.Ctx.GetCookie("X-Home") == "" {
+		this.Ctx.SetCookie("X-Home", conf.HomeTemplate, false, "/", false, false, true)
+	}
+
+	this.Ctx.Output.Header("X-Version", conf.Version)
 }
 
 // Get the address of template
@@ -58,6 +65,7 @@ func (this *baseController) GetTemplate() string {
 	temp := this.Ctx.GetCookie("X-Home")
 	if temp != "" {
 		// todo dangerous
+		// magic way for me to change
 		switch temp {
 		case "home/first", "home/default", "home/hunterhug":
 			templatetype = temp
@@ -69,6 +77,8 @@ func (this *baseController) GetTemplate() string {
 	return templatetype
 }
 
+// json response
+// if false will be 404
 func (this *baseController) Rsp(status bool, str string) {
 	if status {
 		this.Data["json"] = &map[string]interface{}{"status": status, "info": str}

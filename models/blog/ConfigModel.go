@@ -30,6 +30,10 @@ type Config struct {
 	Code3   string `orm:"type(text);null"` //网站脚部
 }
 
+func (m *Config) TableName() string {
+	return "config"
+}
+
 func init() {
 	orm.RegisterModel(new(Config))
 }

@@ -37,6 +37,10 @@ type Paper struct {
 	Type       int64     `orm:"default(0)"` //0表示文章，1表示图片
 }
 
+func (m *Paper) TableName() string {
+	return "paper"
+}
+
 func init() {
 	orm.RegisterModel(new(Paper))
 }

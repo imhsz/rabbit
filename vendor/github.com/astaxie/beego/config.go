@@ -359,6 +359,7 @@ func assignSingleConfig(p interface{}, ac config.Configer) {
 // LoadAppConfig allow developer to apply a config file
 func LoadAppConfig(adapterName, configPath string) error {
 	absConfigPath, err := filepath.Abs(configPath)
+	fmt.Println(absConfigPath)
 	if err != nil {
 		return err
 	}

@@ -32,6 +32,10 @@ type Category struct {
 	Pid        int64     `orm:"default(0)"` //父类id
 }
 
+func (m *Category) TableName() string {
+	return "category"
+}
+
 func init() {
 	orm.RegisterModel(new(Category))
 }

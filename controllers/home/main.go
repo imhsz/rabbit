@@ -17,7 +17,6 @@ import (
 	"errors"
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
-	"github.com/hunterhug/GoWeb/conf"
 	"github.com/hunterhug/GoWeb/lib"
 	"github.com/hunterhug/GoWeb/models/blog"
 )
@@ -35,6 +34,7 @@ type web_info map[string]map[string]interface{}
 // init in every request
 func (this *MainController) Prepare() {
 	this.baseController.Prepare()
+
 	config = new(blog.Config)
 	config.Id = 1
 	config.Read()
@@ -43,20 +43,9 @@ func (this *MainController) Prepare() {
 	this.Data["config"] = config
 	this.Data["category"] = GetNav(0, 0)
 	this.Data["photo"] = GetNav(0, 1)
-
-	this.AddHeader()
 }
 
-func (this *MainController) AddHeader() {
-	if this.Ctx.GetCookie("X-Home") == "" {
-		this.Ctx.SetCookie("X-Home", conf.HomeTemplate, false, "/", false, false, true)
-	}
-
-	this.Ctx.Output.Header("X-Version", conf.Version)
-}
-
-// Home
-func (this *MainController) Index() {
+func (this *MainController) DetectIndex() {
 	// change lang by cookie
 	h := this.GetString("h", "")
 	if h != "" {
@@ -82,6 +71,13 @@ func (this *MainController) Index() {
 		}
 		this.Data["Lang"] = this.Lang
 	}
+}
+
+// Home
+func (this *MainController) Index() {
+
+	// before index do some detect
+	this.DetectIndex()
 
 	// get roll
 	roll := new(blog.Roll)

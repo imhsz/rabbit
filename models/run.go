@@ -14,11 +14,15 @@ package models
 
 import (
 	"flag"
+	"fmt"
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/orm"
 	"github.com/hunterhug/GoSpider/spider"
 	"github.com/hunterhug/GoWeb/conf"
+	"github.com/hunterhug/GoWeb/models/util"
 	"os"
 	"strings"
+	"time"
 )
 
 func Run(config conf.FlagConfig) {
@@ -55,11 +59,51 @@ func initArgs(config conf.FlagConfig) {
 		flag.Parse()
 	}
 	if *config.DbInit {
-		Syncdb(*config.DbInitForce)
+		util.Syncdb(*config.DbInitForce)
 		os.Exit(0)
 	}
 	if *config.Rbac {
-		Updaterbac()
+		util.Updaterbac()
 		os.Exit(0)
 	}
+}
+
+func Connect() {
+	beego.Trace("database start to connect")
+	var dns string
+	db_type := beego.AppConfig.String("db_type")
+	db_host := beego.AppConfig.String("db_host")
+	db_port := beego.AppConfig.String("db_port")
+	if db_port == "" {
+		db_port = "3306"
+	}
+	db_user := beego.AppConfig.String("db_user")
+	db_pass := beego.AppConfig.String("db_pass")
+	db_name := beego.AppConfig.String("db_name")
+	switch db_type {
+	case "mysql":
+		orm.RegisterDriver("mysql", orm.DRMySQL)
+		orm.DefaultTimeLoc = time.UTC
+		dns = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8", db_user, db_pass, db_host, db_port, db_name)
+		break
+	default:
+		beego.Critical("db driver not support:", db_type)
+		return
+	}
+	err := orm.RegisterDataBase("default", db_type, dns)
+	if err != nil {
+		beego.Error("register data:" + err.Error())
+		panic(err.Error())
+	}
+
+	if beego.AppConfig.String("dblog") == "open" {
+		beego.Trace("develop mode，debug database: db.log")
+		orm.Debug = true
+		w, e := os.OpenFile("log/db.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
+		if e != nil {
+			beego.Error(e.Error())
+		}
+		orm.DebugLog = orm.NewLog(w)
+	}
+
 }
