@@ -329,20 +329,9 @@ oh
 
 <div class="hope">
     <div class="am-g am-container">
-        <!--   <div class="am-u-lg-2 am-u-md-4 am-u-sm-12 hope-img">
-            <img src="/static/home/amazi/i/examples/landing.png" alt="" data-am-scrollspy="{animation:'slide-left', repeat: false}">
-            <hr class="am-article-divider am-show-sm-only hope-hr">
-          </div> -->
         <div class="am-u-lg-12 am-u-md-12 am-u-sm-12">
             <h2 class="hope-title">黄页  AND 互联网+ AND 传统企业</h2>
 
-            <p>
-                黄页是一种以提供最直接联系信息的方式，是沟通企业与消费者的媒体。19世纪末诞生于美国，由于电话号簿白色印刷纸张不够，而临时采用黄色，至此沿用。信息时代的来临，以及20世纪末万维网的诞生，出现了相关的互联网黄页。网络传播的的方便性和快捷性无疑为企业带来了福音，然而参差不齐的互联网展示方式，或者依托第三方平台，或者自主建立网站，都是一种费钱费力费时的方式。于是，一个新的想法出现了：新型互联网黄页——企业智能展示平台。</p>
-            <p>   互联网+口号的喊出，以及政府加大对传统企业的信息化建设力度，一个依托互联网的新型企业展示平台很有必要出现。更多的中小传统企业必要也必须加大信息化建设，更亲密的和互联网进行融合与互动，借助网络平台扩大影响力，转型升级。与其花大量金钱和时间外包建站，不如统一设计和建造一个平台。
-            </p>通过设计和建造统一的互联网展示平台，使得中小企业只需注册用户，然后进行简单的相关配置，就能通过网络进行自身展示，避免了自主建设网站产生的各种不必要麻烦。
-            <P>
-
-            </P>
         </div>
     </div>
 </div>
@@ -350,19 +339,19 @@ oh
 <div class="about">
     <div class="am-g am-container">
         <div class="am-u-lg-12">
-            <h2 class="about-title about-color">非常欢迎大家注册试用该平台</h2>
+            <h2 class="about-title about-color">非常欢迎大家</h2>
 
             <div class="am-g">
                 <div class="am-u-lg-6 am-u-md-8 am-u-sm-12">
-                    <h4 class="about-color">关于网站</h4>
+                    <h4 class="about-color">{{i18n .Lang "about"}}</h4>
 
-                    <p>{$webinfo.desc}</p>
+                    <p>{{str2html .config.Content}}</p>
                 </div>
                 <div class="am-u-lg-5 am-u-md-4 am-u-sm-12">
-                    <h4 class="about-color">联系方式</h4>
+                    <h4 class="about-color">{{i18n .Lang "phone"}}</h4>
 
-                    <p>{$webinfo.address}</p>
-                    <p>{$webinfo.phone}</p>
+                    <p><img src="{{.config.Photo}}" /></p>
+                    <p>{{.config.Phone}}</p>
                 </div>
             </div>
         </div>
@@ -410,7 +399,7 @@ oh
         <!-- 文章 -->
         <div class="am-u-lg-12">
             <hr/>
-            <h2 class="about-title about-color">我们的用户</h2>
+            <h2 class="about-title about-color">文章</h2>
             <ul data-am-widget="gallery" class="am-gallery am-avg-sm-2
   am-avg-md-3 am-avg-lg-4 am-gallery-default" data-am-gallery="{ pureview: true }" >
                 <volist name='user' id='vo'>
@@ -432,37 +421,15 @@ oh
                 </volist>
             </ul>
         </div>
-
-        <div  class="am-u-lg-12">
-            <!-- 多说评论框 start -->
-            <div class="ds-thread" data-thread-key="ei.lenggirl.com" data-title="首页" data-url="http://ei.lenggirl.com"></div>
-            <!-- 多说评论框 end -->
-            <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
-            <script type="text/javascript">
-                var duoshuoQuery = {short_name:"eilenggirl"};
-                (function() {
-                    var ds = document.createElement('script');
-                    ds.type = 'text/javascript';ds.async = true;
-                    ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
-                    ds.charset = 'UTF-8';
-                    (document.getElementsByTagName('head')[0]
-                        || document.getElementsByTagName('body')[0]).appendChild(ds);
-                })();
-            </script>
-            <!-- 多说公共JS代码 end -->
-        </div>
     </div>
 </div>
 
 <footer class="footer">
     <p>COPYRIGHT © 2015 – 2016  ALL RIGHTS RESERVED
-        <br/>{$webinfo.webinfo}
+        <br/>{{str2html .config.Code3}}
         <br/>Modify by <a href="http://weibo.com/hunterhug" target="_blank">一只尼玛</a>
     </p>
-    <p><a href="http://ei.lenggirl.com" target="_blank">其他项目</a></p>
-    <!--   <p>© 2014 <a href="http://www.yunshipei.com" target="_blank">AllMobilize, Inc.</a> Licensed under <a
-          href="http://opensource.org/licenses/MIT" target="_blank">MIT license</a>. by the AmazeUI Team.</p>
-     --></footer>
+</footer>
 <div data-am-widget="gotop" class="am-gotop am-gotop-fixed" >
     <a href="#top" title="">
         <img class="am-gotop-icon-custom" src="http://amazeui.b0.upaiyun.com/assets/i/cpts/gotop/goTop.gif" />
