@@ -1,5 +1,13 @@
 # Project： Rabbit(Tuzi)
 
+[![GitHub forks](https://img.shields.io/github/forks/hunterhug/GoWeb.svg?style=social&label=Forks)](https://github.com/hunterhug/GoWeb/network)
+[![GitHub stars](https://img.shields.io/github/stars/hunterhug/GoWeb.svg?style=social&label=Stars)](https://github.com/hunterhug/GoWeb/stargazers)
+[![GitHub last commit](https://img.shields.io/github/last-commit/hunterhug/GoWeb.svg)](https://github.com/hunterhug/GoWeb)
+[![Go Report Card](https://goreportcard.com/badge/github.com/hunterhug/GoWeb)](https://goreportcard.com/report/github.com/hunterhug/GoWeb)
+[![GitHub issues](https://img.shields.io/github/issues/hunterhug/GoWeb.svg)](https://github.com/hunterhug/GoWeb/issues)
+[![GitHub license](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/hunterhug/GoWeb/master/LICENSE)
+
+
 兔子脚手架是用Golang语言开发的项目，主要用来快速开发企业网站。
 
 感谢`beego`,`jquery`,`easyui`,`bootstrap`等框架的贡献者～
