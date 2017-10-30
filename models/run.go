@@ -22,7 +22,7 @@ import (
 	"github.com/hunterhug/GoWeb/models/util"
 	"os"
 	"strings"
-	"time"
+	//"time"
 )
 
 func Run(config conf.FlagConfig) {
@@ -83,7 +83,7 @@ func Connect() {
 	switch db_type {
 	case "mysql":
 		orm.RegisterDriver("mysql", orm.DRMySQL)
-		orm.DefaultTimeLoc = time.UTC
+		//orm.DefaultTimeLoc = time.UTC
 		dns = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8", db_user, db_pass, db_host, db_port, db_name)
 		break
 	default:
