@@ -2,7 +2,7 @@
 
 不懂编程的同学听我演示一遍就可以拥有一个企业官网了！正在开发中...
 
-你只需安装好Golang环境，安装教程网站一搜很多。为了国际化，我会将初始化数据全部用英语填充，前台不影响，你仍然可以编辑中文文章。
+你只需安装好Golang环境，安装教程网站一搜很多。
 
 ![兔子](/tuzi.png)
 
@@ -141,7 +141,7 @@ chmod 777 file
     ----test 测试文件夹
 ```
 
-目前实现了基本的RBAC模块和博客模块（文章和相册）,附带Dashboard后端,UI基本框架形成依靠此项目可敏捷开发.灵感来源：http://www.beautyart.top
+目前实现了基本的RBAC模块和博客模块（文章和相册）,附带Dashboard后端,UI基本框架形成依靠此项目可敏捷开发.
 
 1. 基于角色的访问控制（Role-Based Access Control）作为传统访问控制
 2. Amaze UI v2.7.0（部分后台）和jQuery EasyUI v1.4.2（后台表格CRUD）、Bootstrap v3.3.5（前台）混合
@@ -215,7 +215,7 @@ server{
 
 ## 四.环境配置
 
-安装Golang环境请百度或者见 [此处](http://www.lenggirl.com/tool/gospider-env.html)
+安装Golang环境请百度
 
 ## 五.精彩演示
 

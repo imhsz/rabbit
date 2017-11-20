@@ -7,12 +7,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/hunterhug/GoWeb.svg)](https://github.com/hunterhug/GoWeb/issues)
 [![GitHub license](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/hunterhug/GoWeb/master/LICENSE)
 
-
-兔子脚手架是用Golang语言开发的项目，主要用来快速开发企业网站。
-
-感谢`beego`,`jquery`,`easyui`,`bootstrap`等框架的贡献者～
-
-[中文介绍](doc/Chinese.md) anglicizing...
+[中文介绍](doc/Chinese.md)
 
 You can own a enterprise web just listen to me! You just need install golang environment(ask for google help).Under developing...
 
@@ -151,8 +146,7 @@ chmod 777 file
         --- ngnix-tuzi.conf Nginx config
 ```
 
-We have already implement basic RBAC module and Blog module（Article and Album equal to enterprise News and Production）, And have a Dashboard back-end UI, The UI can accelerated development. 
-which inspiration by：[http://www.beautyart.top](http://www.beautyart.top), you can visit it to see how it is.
+We have already implement basic RBAC module and Blog module（Article and Album equal to enterprise News and Production）, And have a Dashboard back-end UI, The UI can accelerated development.
 
 1. Role-Based Access Control
 2. Amaze UI v2.7.0（little back-end）和jQuery EasyUI v1.4.2（back-end table CRUD）、Bootstrap v3.3.5（front-end）mixed
