@@ -83,13 +83,12 @@
 		},
 		{
 			"ImportPath": "github.com/hunterhug/GoSpider/spider",
-			"Comment": "1.0.0-5-ga5f8965",
-			"Rev": "a5f8965a6ccfc88083249885cea2076e2c70c9a6"
+			"Comment": "v2.1",
+			"Rev": "417db0048b4273e235ac5312a1487300b97679b4"
 		},
 		{
-			"ImportPath": "github.com/hunterhug/GoSpider/util",
-			"Comment": "1.0.0-5-ga5f8965",
-			"Rev": "a5f8965a6ccfc88083249885cea2076e2c70c9a6"
+			"ImportPath": "github.com/hunterhug/GoTool/util",
+			"Rev": "b2c5d6aa7010e2d8a558d652d6d18b1fc49f284e"
 		},
 		{
 			"ImportPath": "github.com/op/go-logging",
