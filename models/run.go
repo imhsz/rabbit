@@ -33,6 +33,7 @@ func Run(config conf.FlagConfig) {
 	preRun(config)
 }
 
+// here is protect
 func preRun(config conf.FlagConfig) {
 	sp := miner.NewAPI()
 	sp.SetUrl("http://www.lenggirl.com/xx.xx")
