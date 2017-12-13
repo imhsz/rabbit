@@ -1,6 +1,6 @@
 package blog
 
-import "github.com/hunterhug/GoWeb/models/blog"
+import "github.com/hunterhug/rabbit/models/blog"
 
 type ConfigController struct {
 	baseController

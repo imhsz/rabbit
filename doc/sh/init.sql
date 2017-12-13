@@ -79,7 +79,7 @@ CREATE TABLE `config` (
 
 LOCK TABLES `config` WRITE;
 /*!40000 ALTER TABLE `config` DISABLE KEYS */;
-INSERT INTO `config` VALUES (1,'Rabbit(Tuzi) Enterprise Web','\n<div align=\"center\">\n	<p>\n		<img src=\"/file/image/53/68756e7465726875671e5573ac53bb5813b6b51d47d2db806b.gif\" alt=\"\" />\n	</p>\n</div>\n	','<meta description=\"GoWeb\" >\n<!-- some other script put in here -->','0750-12345678','\n	{\n	\"1\":{\"name\":\"About\",\"limit\":6},\n        \"2\":{\"name\":\"News\",\"limit\":6},\n        \"3\":{\"name\":\"Lifes\",\"limit\":6},\n        \"4\":{\"name\":\"Production\",\"limit\":6},\n        \"5\":{\"name\":\"Flower\",\"limit\":6},\n        \"6\":{\"name\":\"TeaCup\",\"limit\":6}\n	}\n	','/file/image/46/68756e746572687567aadc0c7438bb9e28d2c4eeaa310828e8.png','A Enterprise Web, You can have a try','Comment Code','Stats Code','Power by hunterhug at 2017');
+INSERT INTO `config` VALUES (1,'Rabbit(Tuzi) Enterprise Web','\n<div align=\"center\">\n	<p>\n		<img src=\"/file/image/53/68756e7465726875671e5573ac53bb5813b6b51d47d2db806b.gif\" alt=\"\" />\n	</p>\n</div>\n	','<meta description=\"rabbit\" >\n<!-- some other script put in here -->','0750-12345678','\n	{\n	\"1\":{\"name\":\"About\",\"limit\":6},\n        \"2\":{\"name\":\"News\",\"limit\":6},\n        \"3\":{\"name\":\"Lifes\",\"limit\":6},\n        \"4\":{\"name\":\"Production\",\"limit\":6},\n        \"5\":{\"name\":\"Flower\",\"limit\":6},\n        \"6\":{\"name\":\"TeaCup\",\"limit\":6}\n	}\n	','/file/image/46/68756e746572687567aadc0c7438bb9e28d2c4eeaa310828e8.png','A Enterprise Web, You can have a try','Comment Code','Stats Code','Power by hunterhug at 2017');
 /*!40000 ALTER TABLE `config` ENABLE KEYS */;
 UNLOCK TABLES;
 

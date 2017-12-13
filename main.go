@@ -1,5 +1,5 @@
 /*
-	Copyright 2017 by GoWeb author: gdccmcm14@live.com.
+	Copyright 2017 by rabbit author: gdccmcm14@live.com.
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
@@ -16,15 +16,16 @@ package main
 
 import (
 	"flag"
-	"github.com/astaxie/beego"
-	"github.com/beego/i18n"
-	"github.com/hunterhug/GoWeb/conf"
-	"github.com/hunterhug/GoWeb/controllers"
-	"github.com/hunterhug/GoWeb/lib"
-	"github.com/hunterhug/GoWeb/models"
-	"github.com/hunterhug/GoWeb/routers"
 	"mime"
 	"strings"
+
+	"github.com/astaxie/beego"
+	"github.com/beego/i18n"
+	"github.com/hunterhug/rabbit/conf"
+	"github.com/hunterhug/rabbit/controllers"
+	"github.com/hunterhug/rabbit/lib"
+	"github.com/hunterhug/rabbit/models"
+	"github.com/hunterhug/rabbit/routers"
 )
 
 // 国际化语言数组

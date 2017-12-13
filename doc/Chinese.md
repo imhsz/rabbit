@@ -11,15 +11,15 @@
 使用只需拉下库
 
 ```shell
-go get -v github.com/hunterhug/GoWeb
+go get -v github.com/hunterhug/rabbit
 ```
 
 或者
 
 ```
-git clone https://www.github.com/hunterhug/GoWeb
+git clone https://www.github.com/hunterhug/rabbit
 mkdir %GOPATH%/src/github.com/hunterhug
-mv GoWeb %GOPATH%/src/github.com/hunterhug
+mv rabbit %GOPATH%/src/github.com/hunterhug
 ```
 
 编译程序
@@ -57,7 +57,7 @@ db_type = mysql
 初始化数据库
 
 ```shell
-./GoWeb -db=1
+./rabbit -db=1
 ```
 
 ~~或者(严重建议采用下面一种)~~
@@ -73,7 +73,7 @@ tuzi为你的数据库名字！如果你的系统不是Linux，请使用`mysql -
 运行程序,调试建议使用beego官方工具`bee run`
 
 ```shell
-./GoWeb
+./rabbit
 ```
 
 这时，你可以打开`http://127.0.0.1:8080`
@@ -170,7 +170,7 @@ ajax调用JSON时请注意跨域问题(见front文件夹),这样的好处是将�
 每次在`models/admin/AdminInit.go`增加路由权限请执行
 
 ```
-./GoWeb -rbac=1
+./rabbit -rbac=1
 ```
 
 调试请使用`bee run`
@@ -237,7 +237,7 @@ server{
 欢迎加功能(PR/issues),请遵循Apache License协议(即可随意使用但每个文件下都需加此申明）
 
 ```
-Copyright 2017 by GoWeb author: gdccmcm14@live.com.
+Copyright 2017 by rabbit author: gdccmcm14@live.com.
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at

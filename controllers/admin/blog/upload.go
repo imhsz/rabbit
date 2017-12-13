@@ -4,7 +4,7 @@ import (
 	"bytes"
 	_ "fmt"
 	_ "github.com/astaxie/beego"
-	. "github.com/hunterhug/GoWeb/lib"
+	. "github.com/hunterhug/rabbit/lib"
 	"io/ioutil"
 	"strings"
 )

@@ -33,5 +33,5 @@ main
 *.prof
 *.log
 *.exe~
-GoWeb
+rabbit
 file

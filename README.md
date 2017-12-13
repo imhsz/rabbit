@@ -1,11 +1,11 @@
 # Project： Rabbit(Tuzi)
 
-[![GitHub forks](https://img.shields.io/github/forks/hunterhug/GoWeb.svg?style=social&label=Forks)](https://github.com/hunterhug/GoWeb/network)
-[![GitHub stars](https://img.shields.io/github/stars/hunterhug/GoWeb.svg?style=social&label=Stars)](https://github.com/hunterhug/GoWeb/stargazers)
-[![GitHub last commit](https://img.shields.io/github/last-commit/hunterhug/GoWeb.svg)](https://github.com/hunterhug/GoWeb)
-[![Go Report Card](https://goreportcard.com/badge/github.com/hunterhug/GoWeb)](https://goreportcard.com/report/github.com/hunterhug/GoWeb)
-[![GitHub issues](https://img.shields.io/github/issues/hunterhug/GoWeb.svg)](https://github.com/hunterhug/GoWeb/issues)
-[![GitHub license](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/hunterhug/GoWeb/master/LICENSE)
+[![GitHub forks](https://img.shields.io/github/forks/hunterhug/rabbit.svg?style=social&label=Forks)](https://github.com/hunterhug/rabbit/network)
+[![GitHub stars](https://img.shields.io/github/stars/hunterhug/rabbit.svg?style=social&label=Stars)](https://github.com/hunterhug/rabbit/stargazers)
+[![GitHub last commit](https://img.shields.io/github/last-commit/hunterhug/rabbit.svg)](https://github.com/hunterhug/rabbit)
+[![Go Report Card](https://goreportcard.com/badge/github.com/hunterhug/rabbit)](https://goreportcard.com/report/github.com/hunterhug/rabbit)
+[![GitHub issues](https://img.shields.io/github/issues/hunterhug/rabbit.svg)](https://github.com/hunterhug/rabbit/issues)
+[![GitHub license](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/hunterhug/rabbit/master/LICENSE)
 
 [中文介绍](doc/Chinese.md)
 
@@ -15,18 +15,20 @@ You can own a enterprise web just listen to me! You just need install golang env
 
 ## 1. How to use
 
+Go1.9+ Must!
+
 Just do this:
 
 ```shell
-go get -v github.com/hunterhug/GoWeb
+go get -v github.com/hunterhug/rabbit
 ```
 
 Or
 
 ```
-git clone https://www.github.com/hunterhug/GoWeb
+git clone https://www.github.com/hunterhug/rabbit
 mkdir %GOPATH%/src/github.com/hunterhug
-mv GoWeb %GOPATH%/src/github.com/hunterhug
+mv rabbit %GOPATH%/src/github.com/hunterhug
 ```
 
 Then build our web
@@ -64,7 +66,7 @@ db_type = mysql
 And init our database
 
 ```shell
-./GoWeb -db=1
+./rabbit -db=1
 ```
 
 ~~Or(I recommend to use)~~
@@ -80,7 +82,7 @@ cd sh
 Last run it
 
 ```shell
-./GoWeb
+./rabbit
 ```
 
 Ok, you can open `http://127.0.0.1:8080`
@@ -175,7 +177,7 @@ when ajax call JSON must pay attention across-domain rule(see rht dir front), wh
 Every add routers and permissions in `models/admin/AdminInit.go`, please rebuild rbac:
 
 ```
-./GoWeb -rbac=1
+./rabbit -rbac=1
 ```
 
 debug you can use `bee run`...
@@ -238,7 +240,7 @@ go run main.go  -config=conf/tuzi.conf -home=home/first
 # LICENSE
 
 ```
-Copyright 2017 by GoWeb author: gdccmcm14@live.com.
+Copyright 2017 by rabbit author: gdccmcm14@live.com.
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.
 You may obtain a copy of the License at

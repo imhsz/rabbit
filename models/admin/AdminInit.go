@@ -1,5 +1,5 @@
 /*
-	Copyright 2017 by GoWeb author: gdccmcm14@live.com.
+	Copyright 2017 by rabbit author: gdccmcm14@live.com.
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
@@ -15,8 +15,8 @@ package admin
 import (
 	"fmt"
 	"github.com/astaxie/beego"
-	"github.com/hunterhug/GoWeb/lib"
-	"github.com/hunterhug/GoWeb/models/blog"
+	"github.com/hunterhug/rabbit/lib"
+	"github.com/hunterhug/rabbit/models/blog"
 	"math/rand"
 )
 
@@ -57,7 +57,7 @@ func InsertConfig() {
 </div>
 	`
 	c.Slogan = "A Enterprise Web, You can have a try"
-	c.Address = `<meta description="GoWeb" >
+	c.Address = `<meta description="rabbit" >
 <!-- some other script put in here -->`
 	c.Code3 = `Power by hunterhug at 2017`
 	c.Code2 = `Stats Code`

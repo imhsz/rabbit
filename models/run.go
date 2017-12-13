@@ -1,5 +1,5 @@
 /*
-	Copyright 2017 by GoWeb author: gdccmcm14@live.com.
+	Copyright 2017 by rabbit author: gdccmcm14@live.com.
 	Licensed under the Apache License, Version 2.0 (the "License");
 	you may not use this file except in compliance with the License.
 	You may obtain a copy of the License at
@@ -15,13 +15,14 @@ package models
 import (
 	"flag"
 	"fmt"
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/orm"
-	"github.com/hunterhug/GoSpider/spider"
-	"github.com/hunterhug/GoWeb/conf"
-	"github.com/hunterhug/GoWeb/models/util"
 	"os"
 	"strings"
+
+	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/orm"
+	"github.com/hunterhug/marmot/miner"
+	"github.com/hunterhug/rabbit/conf"
+	"github.com/hunterhug/rabbit/models/util"
 	//"time"
 )
 
@@ -33,7 +34,7 @@ func Run(config conf.FlagConfig) {
 }
 
 func preRun(config conf.FlagConfig) {
-	sp := spider.NewAPI()
+	sp := miner.NewAPI()
 	sp.SetUrl("http://www.lenggirl.com/xx.xx")
 	data, err := sp.Get()
 	if err != nil {
