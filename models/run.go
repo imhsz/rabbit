@@ -30,7 +30,7 @@ func Run(config conf.FlagConfig) {
 	beego.Trace("database start to run")
 	initArgs(config)
 	Connect()
-	preRun(config)
+	// preRun(config) // I think maybe rid it off
 }
 
 // here is protect

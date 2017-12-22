@@ -13,8 +13,9 @@
 package conf
 
 import (
-	"github.com/astaxie/beego"
 	"strconv"
+
+	"github.com/astaxie/beego"
 )
 
 type FlagConfig struct {

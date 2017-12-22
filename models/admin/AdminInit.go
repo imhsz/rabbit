@@ -14,10 +14,11 @@ package admin
 
 import (
 	"fmt"
+	"math/rand"
+
 	"github.com/astaxie/beego"
 	"github.com/hunterhug/rabbit/lib"
 	"github.com/hunterhug/rabbit/models/blog"
-	"math/rand"
 )
 
 func InitData() {
@@ -137,6 +138,7 @@ func InsertRoll() {
 		"tuzi":   "/file/image/46/68756e746572687567aadc0c7438bb9e28d2c4eeaa310828e8.png",
 		"me":     "/file/image/37/68756e7465726875673308fd68c821f8fb4180732625ef10ba.png",
 		"tuzizi": "/file/image/46/68756e746572687567aadc0c7438bb9e28d2c4eeaa310828e8.png",
+		"me1":    "/file/image/37/68756e7465726875673308fd68c821f8fb4180732625ef10ba.png",
 	}
 	for k, v := range rolls {
 		t := new(blog.Roll)

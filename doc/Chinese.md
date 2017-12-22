@@ -1,24 +1,22 @@
 # 项目代号： 兔子(tuzi)
 
-不懂编程的同学听我演示一遍就可以拥有一个企业官网了！正在开发中...
-
-你只需安装好Golang环境，安装教程网站一搜很多。
+不懂编程的同学听我演示一遍就可以拥有一个企业官网了！你只需安装好Golang环境，安装教程网站一搜很多。正在开发中...
 
 ![兔子](/tuzi.png)
 
 ## 一.使用说明
 
-使用只需拉下库
+使用只需拉下库:
 
 ```shell
 go get -v github.com/hunterhug/rabbit
 ```
 
-或者
+或者:
 
 ```
 git clone https://www.github.com/hunterhug/rabbit
-mkdir %GOPATH%/src/github.com/hunterhug
+mkdir -p %GOPATH%/src/github.com/hunterhug
 mv rabbit %GOPATH%/src/github.com/hunterhug
 ```
 
@@ -76,13 +74,7 @@ tuzi为你的数据库名字！如果你的系统不是Linux，请使用`mysql -
 ./rabbit
 ```
 
-这时，你可以打开`http://127.0.0.1:8080`
-
-进入后台编辑网站：`http://127.0.0.1:8080/public/login`
-
-账户`admin` 
-
-密码：`admin`
+这时，你可以打开`http://127.0.0.1:8080`, 进入后台编辑网站：`http://127.0.0.1:8080/public/login`, 账户`admin`, 密码：`admin`
 
 如果上传文件出错，请在本项目新建file文件夹并赋予权限。
 
@@ -161,7 +153,12 @@ ajax调用JSON时请注意跨域问题(见front文件夹),这样的好处是将�
 
 ```
 {
-"1":{"name":"about","limit":6}
+	    "1":{"name":"About","limit":6},
+        "2":{"name":"News","limit":6},
+        "3":{"name":"Lifes","limit":6},
+        "4":{"name":"Production","limit":6},
+        "5":{"name":"Flower","limit":6},
+        "6":{"name":"TeaCup","limit":6}
 }
 ```
 
@@ -177,31 +174,17 @@ ajax调用JSON时请注意跨域问题(见front文件夹),这样的好处是将�
 
 ## 三.Nginx架站（可选）
 
-请百度安装nginx，功能：反向代理，将8080端口映射到一个域名的80端口上，你只需A记录到该域名即可。
+请百度安装nginx，Ubuntu用户可以`sudo apt-get install nginx`, 功能：反向代理，将8080端口映射到一个域名的80端口上，你只需A记录到该域名即可。
 
-进入`/usr/local/nginx/conf`
-
-```
-vim nginx.conf
-```
-
-并且nginx.conf最后增加
-
-```
-include sites/*.conf;
-```
-
-新建sites文件夹，在sites文件夹中放入该项目下`help/ngnix-tuzi.conf`文件：
-
-配置`ngnix-tuzi.conf`,`server_name`为域名,`access_log`为日志路径（要手动建文件夹）
+进入`/etc/nginx/conf.d`, 放入该项目下`doc/sh/ngnix-tuzi.conf`文件, 下面的配置`ngnix-tuzi.conf`,`server_name`为域名,`access_log`为日志路径（要手动建文件夹）
 
 ```shell
 server{
         listen 80;
-        server_name beauty.lenggirl.com www.beautyart.top;
+        server_name tuzi.lenggirl.com;
         charset utf-8;
-        access_log /data/logs/nginx/beauty.lenggirl.com.log;
-        #error_log /data/logs/nginx/www.lenggirl.com.err;
+        access_log /data/logs/nginx/tuzi.lenggirl.com.log;
+        #error_log /data/logs/nginx/tuzi.lenggirl.com.err;
         location / {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header Host $http_host;
@@ -211,6 +194,14 @@ server{
         }
 
 }
+```
+
+然后:
+
+```
+nginx -t
+nginx -s reload
+curl tuzi.lenggirl.com
 ```
 
 ## 四.环境配置

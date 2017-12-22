@@ -27,7 +27,7 @@ Or
 
 ```
 git clone https://www.github.com/hunterhug/rabbit
-mkdir %GOPATH%/src/github.com/hunterhug
+mkdir -p %GOPATH%/src/github.com/hunterhug
 mv rabbit %GOPATH%/src/github.com/hunterhug
 ```
 
@@ -63,7 +63,7 @@ db_name = tuzi
 db_type = mysql
 ```
 
-And init our database
+And init our database:
 
 ```shell
 ./rabbit -db=1
@@ -79,19 +79,13 @@ cd sh
 
 `tuzi` is your db name, script equal to `mysql -uroot -p -v tuzi < init.sql`
 
-Last run it
+Last run it:
 
 ```shell
 ./rabbit
 ```
 
-Ok, you can open `http://127.0.0.1:8080`
-
-Login to edit the website: `http://127.0.0.1:8080/public/login`
-
-User: `admin`
-
-Password：`admin`
+Ok, you can open `http://127.0.0.1:8080`, Login to edit the website: `http://127.0.0.1:8080/public/login`, User: `admin`, Password：`admin`
 
 if upload file error please make a new dir names `file` under this project: 
 
@@ -168,7 +162,12 @@ when ajax call JSON must pay attention across-domain rule(see rht dir front), wh
 
 ```
 {
-"1":{"name":"about","limit":6}
+	    "1":{"name":"About","limit":6},
+        "2":{"name":"News","limit":6},
+        "3":{"name":"Lifes","limit":6},
+        "4":{"name":"Production","limit":6},
+        "5":{"name":"Flower","limit":6},
+        "6":{"name":"TeaCup","limit":6}
 }
 ```
 
@@ -184,31 +183,17 @@ debug you can use `bee run`...
 
 ## 3. How to use Nginx(optional)
 
-First install Nginx(ask for google...)
+First install Nginx(ask for google...), Ubuntu do this: `sudo apt-get install nginx`
 
-Enter `/usr/local/nginx/conf`
-
-```
-vim nginx.conf
-```
-
-In the last of `nginx.conf`, add:
-
-```
-include sites/*.conf;
-```
-
-New a `sites` folder， put our `help/ngnix-tuzi.conf` under it：
-
-config `ngnix-tuzi.conf`, `server_name` is your domain, `access_log` is the log path（you must makedir first）
+Enter `/etc/nginx/conf.d`, put our `doc/sh/ngnix-tuzi.conf` under it, which config `ngnix-tuzi.conf`, `server_name` is your domain, `access_log` is the log path（you must make dir first）
 
 ```shell
 server{
         listen 80;
-        server_name beauty.lenggirl.com www.beautyart.top;
+        server_name tuzi.lenggirl.com;
         charset utf-8;
-        access_log /data/logs/nginx/beauty.lenggirl.com.log;
-        #error_log /data/logs/nginx/www.lenggirl.com.err;
+        access_log /data/logs/nginx/tuzi.lenggirl.com.log;
+        #error_log /data/logs/nginx/tuzi.lenggirl.com.err;
         location / {
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header Host $http_host;
@@ -220,6 +205,13 @@ server{
 }
 ```
 
+Then:
+
+```
+nginx -t
+nginx -s reload
+curl tuzi.lenggirl.com
+```
 # More
 
 Just for debug home!
@@ -227,7 +219,6 @@ Just for debug home!
 ```
 go run main.go  -config=conf/tuzi.conf -home=home/first
 ```
-
 
 # Have a Look!
 
