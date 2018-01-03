@@ -14,14 +14,19 @@ func (this *CategoryController) Index() {
 	category := new(blog.Category)
 	categorys := []orm.Params{}
 	isajax, _ := this.GetInt("isajax", 0)
+	selector := category.Query().Filter("Siteid", beautyid).Filter("Type", blogtype).OrderBy("-Sort", "Createtime")
+
 	if isajax == 1 || this.IsAjax() {
 		status, _ := this.GetInt64("status", 0)
 		mulu, _ := this.GetInt64("mulu", 0)
-		// beego.Trace(status, mulu)
+
+		if mulu != 0 {
+			selector = selector.Filter("Pid", mulu)
+		}
 		if status == 0 {
-			category.Query().Filter("Pid", mulu).Filter("Siteid", beautyid).Filter("Type", blogtype).OrderBy("-Sort", "Createtime").Values(&categorys)
+			selector.Values(&categorys)
 		} else {
-			category.Query().Filter("Pid", mulu).Filter("Status", status).Filter("Siteid", beautyid).Filter("Type", blogtype).OrderBy("-Sort", "Createtime").Values(&categorys)
+			selector.Filter("Status", status).Values(&categorys)
 		}
 		count := len(categorys)
 		// beego.Trace("%v", categorys)
@@ -29,7 +34,7 @@ func (this *CategoryController) Index() {
 		this.ServeJSON()
 		return
 	} else {
-		category.Query().Filter("Pid", 0).Filter("Siteid", beautyid).Filter("Type", blogtype).OrderBy("-Sort", "Createtime").Values(&categorys)
+		selector.Values(&categorys)
 		this.Data["category"] = &categorys
 		this.Layout = this.GetTemplate() + "/blog/layout.html"
 		this.TplName = this.GetTemplate() + "/blog/listcate.html"

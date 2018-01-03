@@ -72,7 +72,7 @@ $('#dg').datagrid({
             title: '图片',
             width: 100,
             formatter: function(value, row, index) {
-                return "<a href='"+value+"' target='_blank'>"+value+"</a>";
+                return "<a href='"+value+"' target='_blank'>"+"Picture"+"</a>";
             }
         }, {
             field: 'Status',
@@ -91,7 +91,21 @@ $('#dg').datagrid({
                     //alert(index);第几行
                 }
                 //
-        }]
+        },
+        {
+            field: 'Pid',
+            title: '级别',
+            width: 200,
+            formatter: function(value, row, index) {
+                    if (value==0){
+                        return "一级目录"
+                    }else{
+                        return "二级目录"
+                    }
+                }
+             
+        }
+        ]
     ]
 });
 
