@@ -7,7 +7,7 @@
 [![GitHub issues](https://img.shields.io/github/issues/hunterhug/rabbit.svg)](https://github.com/hunterhug/rabbit/issues)
 [![GitHub license](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/hunterhug/rabbit/master/LICENSE)
 
-[中文介绍](doc/Chinese.md)
+请看: [中文介绍](doc/Chinese.md)
 
 You can own a enterprise web just listen to me! You just need install golang environment(ask for google help).Under developing...
 

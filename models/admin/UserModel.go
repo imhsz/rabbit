@@ -60,10 +60,6 @@ func checkUser(u *User) (err error) {
 	return nil
 }
 
-func init() {
-	orm.RegisterModel(new(User))
-}
-
 // 列出用户
 func Getuserlist(page int64, page_size int64, sort string) (users []orm.Params, count int64) {
 	o := orm.NewOrm()

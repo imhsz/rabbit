@@ -15,12 +15,13 @@ package util
 import (
 	"database/sql"
 	"fmt"
+	"os"
+
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/hunterhug/rabbit/conf"
 	"github.com/hunterhug/rabbit/models/admin"
-	"os"
-	//"time"
 )
 
 func Createtb() {
@@ -34,20 +35,20 @@ func Syncdb(force bool) {
 
 	Createdb(force)
 	Connect()
-	Createconfig()
+	CreateConfig()
 	Createtb()
 
 	beego.Trace("sync db end, please reopen app again")
 }
 
-func Updaterbac() {
-	TRUNCATETable([]string{beego.AppConfig.String("rbac_group_table"), beego.AppConfig.String("rbac_node_table")})
+func UpdateRbac() {
+	TruncateRbacTable([]string{beego.AppConfig.String("rbac_group_table"), beego.AppConfig.String("rbac_node_table")})
 	Connect()
 	admin.InsertGroup()
 	admin.InsertNodes()
 }
 
-func Createconfig() {
+func CreateConfig() {
 	name := "default" // database alias name
 	force := true     // drop table force
 	verbose := true   // print log
@@ -60,66 +61,51 @@ func Createconfig() {
 //创建数据库
 func Createdb(force bool) {
 	beego.Trace("create database start")
-	db_type := beego.AppConfig.String("db_type")
-	db_host := beego.AppConfig.String("db_host")
-	db_port := beego.AppConfig.String("db_port")
-	db_user := beego.AppConfig.String("db_user")
-	db_pass := beego.AppConfig.String("db_pass")
-	db_name := beego.AppConfig.String("db_name")
+	var dns, createdbsql, dropdbsql string
 
-	var dns string
-	var sqlstring, sql1string string
-
-	switch db_type {
+	switch conf.DbType {
 	case "mysql":
-		dns = fmt.Sprintf("%s:%s@tcp(%s:%s)/?charset=utf8", db_user, db_pass, db_host, db_port)
-		sqlstring = fmt.Sprintf("CREATE DATABASE if not exists `%s` CHARSET utf8 COLLATE utf8_general_ci", db_name)
-		sql1string = fmt.Sprintf("DROP DATABASE IF EXISTS `%s`", db_name)
+		dns = fmt.Sprintf("%s:%s@tcp(%s:%s)/?charset=utf8", conf.DbUser, conf.DbPass, conf.DbHost, conf.DbPort)
+		createdbsql = fmt.Sprintf("CREATE DATABASE if not exists `%s` CHARSET utf8 COLLATE utf8_general_ci", conf.DbName)
+		dropdbsql = fmt.Sprintf("DROP DATABASE IF EXISTS `%s`", conf.DbName)
 		if force {
-			fmt.Println(sql1string)
+			fmt.Println(dropdbsql)
 		}
-		fmt.Println(sqlstring)
+		fmt.Println(createdbsql)
 		break
 	default:
-		beego.Critical("db driver not support:", db_type)
+		beego.Critical("db driver not support:", conf.DbType)
 		return
 	}
-	db, err := sql.Open(db_type, dns)
+	db, err := sql.Open(conf.DbType, dns)
 	if err != nil {
 		panic(err.Error())
 	}
 	if force {
-		_, err = db.Exec(sql1string)
+		_, err = db.Exec(dropdbsql)
 	}
-	_, err1 := db.Exec(sqlstring)
+	_, err1 := db.Exec(createdbsql)
 	if err != nil || err1 != nil {
 		beego.Error("db exec error：", err, err1)
 		panic(err.Error())
 	} else {
-		beego.Trace("database ", db_name, " created")
+		beego.Trace("database ", conf.DbName, " created")
 	}
 	defer db.Close()
 	beego.Trace("create database end")
 }
 
-func TRUNCATETable(table []string) {
+func TruncateRbacTable(table []string) {
 	beego.Trace("delete tables start")
-	db_type := beego.AppConfig.String("db_type")
-	db_host := beego.AppConfig.String("db_host")
-	db_port := beego.AppConfig.String("db_port")
-	db_user := beego.AppConfig.String("db_user")
-	db_pass := beego.AppConfig.String("db_pass")
-	db_name := beego.AppConfig.String("db_name")
-	var dns string
-	var sqlstring string
-	switch db_type {
+	var dns, sqlstring string
+	switch conf.DbType {
 	case "mysql":
-		dns = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8", db_user, db_pass, db_host, db_port, db_name)
+		dns = conf.MYSQLDNS
 	default:
-		beego.Critical("db driver not support:", db_type)
+		beego.Critical("db driver not support:", conf.DbType)
 		return
 	}
-	db, err := sql.Open(db_type, dns)
+	db, err := sql.Open(conf.DbType, dns)
 	defer db.Close()
 	if err != nil {
 		panic(err.Error())
@@ -139,34 +125,25 @@ func TRUNCATETable(table []string) {
 }
 
 func Connect() {
-	beego.Trace("database start to connect")
 	var dns string
-	db_type := beego.AppConfig.String("db_type")
-	db_host := beego.AppConfig.String("db_host")
-	db_port := beego.AppConfig.String("db_port")
-	if db_port == "" {
-		db_port = "3306"
-	}
-	db_user := beego.AppConfig.String("db_user")
-	db_pass := beego.AppConfig.String("db_pass")
-	db_name := beego.AppConfig.String("db_name")
-	switch db_type {
+	switch conf.DbType {
 	case "mysql":
 		orm.RegisterDriver("mysql", orm.DRMySQL)
-		//orm.DefaultTimeLoc = time.UTC
-		dns = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8", db_user, db_pass, db_host, db_port, db_name)
+		dns = conf.MYSQLDNS
 		break
 	default:
-		beego.Critical("db driver not support:", db_type)
+		beego.Critical("db driver not support:", conf.DbType)
 		return
 	}
-	err := orm.RegisterDataBase("default", db_type, dns)
+
+	beego.Trace("database start to connect", dns)
+	err := orm.RegisterDataBase("default", conf.DbType, dns)
 	if err != nil {
 		beego.Error("register data:" + err.Error())
 		panic(err.Error())
 	}
 
-	if beego.AppConfig.String("dblog") == "open" {
+	if conf.DbLog == "open" {
 		beego.Trace("develop mode，debug database: db.log")
 		orm.Debug = true
 		w, e := os.OpenFile("log/db.log", os.O_RDWR|os.O_CREATE|os.O_APPEND, 0666)
@@ -176,4 +153,5 @@ func Connect() {
 		orm.DebugLog = orm.NewLog(w)
 	}
 
+	RegisterDBModel() // must register
 }

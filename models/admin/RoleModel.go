@@ -14,10 +14,11 @@ package admin
 
 import (
 	"errors"
+	"log"
+
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	"github.com/astaxie/beego/validation"
-	"log"
 )
 
 //角色表
@@ -33,10 +34,6 @@ type Role struct {
 
 func (r *Role) TableName() string {
 	return beego.AppConfig.String("rbac_role_table")
-}
-
-func init() {
-	orm.RegisterModel(new(Role))
 }
 
 func checkRole(g *Role) (err error) {

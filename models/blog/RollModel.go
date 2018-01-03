@@ -13,14 +13,15 @@
 package blog
 
 import (
-	"github.com/astaxie/beego/orm"
 	"time"
+
+	"github.com/astaxie/beego/orm"
 )
 
 type Roll struct {
 	Id         int64
 	Title      string    `orm:"size(100)"`       //标题
-	Content    string    `orm:"type(text)";null` //内容
+	Content    string    `orm:"type(text);null"` //内容
 	Createtime time.Time `orm:"type(datetime);null"`
 	Updatetime time.Time `orm:"type(datetime);null"`
 	Sort       int64     `orm:"default(0)"` //排序
@@ -32,10 +33,6 @@ type Roll struct {
 
 func (m *Roll) TableName() string {
 	return "roll"
-}
-
-func init() {
-	orm.RegisterModel(new(Roll))
 }
 
 func (m *Roll) Read(fields ...string) error {

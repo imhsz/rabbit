@@ -19,7 +19,7 @@ import (
 type Config struct {
 	Id      int64
 	Title   string `orm:"size(100)"`       //标题
-	Content string `orm:"type(text)";null` //网站描述
+	Content string `orm:"type(text);null"` //网站描述
 	Address string `orm:"type(text);null"` //地址，已经改为网站头部
 	Phone   string `orm:"null"`            //联系方式
 	Webinfo string `orm:"type(text);null"` //备案信息，已经改为首页配置
@@ -32,10 +32,6 @@ type Config struct {
 
 func (m *Config) TableName() string {
 	return "config"
-}
-
-func init() {
-	orm.RegisterModel(new(Config))
 }
 
 func (m *Config) Read(fields ...string) error {

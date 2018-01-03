@@ -14,10 +14,11 @@ package admin
 
 import (
 	"errors"
+	"log"
+
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	"github.com/astaxie/beego/validation"
-	"log"
 )
 
 type Node struct {
@@ -46,10 +47,6 @@ func checkNode(u *Node) (err error) {
 		}
 	}
 	return nil
-}
-
-func init() {
-	orm.RegisterModel(new(Node))
 }
 
 func GetNodelist(page int64, page_size int64, sort string) (nodes []orm.Params, count int64) {

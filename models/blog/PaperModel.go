@@ -13,14 +13,15 @@
 package blog
 
 import (
-	"github.com/astaxie/beego/orm"
 	"time"
+
+	"github.com/astaxie/beego/orm"
 )
 
 type Paper struct {
 	Id         int64
 	Title      string    `orm:"size(100)"`       //标题
-	Content    string    `orm:"type(text)";null` //内容
+	Content    string    `orm:"type(text);null"` //内容
 	Descontent string    `orm:"type(text);null"` //内容简介
 	Createtime time.Time `orm:"type(datetime);null"`
 	Updatetime time.Time `orm:"type(datetime);null"`
@@ -39,10 +40,6 @@ type Paper struct {
 
 func (m *Paper) TableName() string {
 	return "paper"
-}
-
-func init() {
-	orm.RegisterModel(new(Paper))
 }
 
 func (m *Paper) Read(fields ...string) error {

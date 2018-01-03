@@ -83,11 +83,12 @@
 		},
 		{
 			"ImportPath": "github.com/hunterhug/marmot/miner",
-			"Rev": "be10de64abcbaa7d701855604e233da4444f45f2"
+			"Comment": "v1-4-gdc44b52",
+			"Rev": "dc44b527d542f2695e03eca8207fd34ed78a041a"
 		},
 		{
 			"ImportPath": "github.com/hunterhug/parrot/util",
-			"Rev": "2a0327ecdc18146947f7245d1e12979805056d01"
+			"Rev": "dd94d427179f552518ac6eb922588b05b0efb867"
 		},
 		{
 			"ImportPath": "github.com/op/go-logging",

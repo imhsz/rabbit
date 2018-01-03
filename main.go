@@ -28,22 +28,19 @@ import (
 	"github.com/hunterhug/rabbit/routers"
 )
 
-// 国际化语言数组
-var langTypes []string
-var home *string
-
-// 加载、初始化国际化
 func init() {
+	// init flag
 	flags := conf.FlagConfig{}
-	config := flag.String("config", "", "config file position if empty use default")
 	flags.User = flag.String("user", "", "user")
 	flags.DbInit = flag.Bool("db", false, "init db")
 	flags.DbInitForce = flag.Bool("f", false, "force init db first drop db then rebuild it")
 	flags.Rbac = flag.Bool("rbac", false, "rebuild rbac database tables")
-	home = flag.String("home", "", "home template")
+	home := flag.String("home", "", "home template")
+	config := flag.String("config", "", "config file position if empty use default")
 
 	flag.Parse()
 
+	// init config
 	if *config != "" {
 		beego.Trace("use diy config")
 		err := beego.LoadAppConfig("ini", *config)
@@ -54,8 +51,16 @@ func init() {
 		}
 	}
 
+	if *home != "" {
+		beego.Trace("Home template is " + *home)
+		beego.AppConfig.Set(beego.BConfig.RunMode+"::"+"home_template", *home)
+	}
+
+	conf.InitConfig()
+
+	// init lang
 	// just add some ini in conf such locale_zh-CN.ini and edit app.conf
-	langTypes = strings.Split(beego.AppConfig.String("lang_types"), "|")
+	langTypes := strings.Split(beego.AppConfig.String("lang_types"), "|")
 
 	for _, lang := range langTypes {
 		beego.Trace("Load language: " + lang)
@@ -65,7 +70,7 @@ func init() {
 		}
 	}
 
-	// 添加映射
+	// add funcmap
 	beego.Trace("add i18n function map")
 	beego.AddFuncMap("i18n", i18n.Tr)
 
@@ -73,10 +78,11 @@ func init() {
 	beego.AddFuncMap("stringsToJson", lib.StringsToJson)
 	mime.AddExtensionType(".css", "text/css") // some not important
 
-	// 模型初始化
+	// init model
 	beego.Trace("model run")
 	models.Run(flags)
 
+	// init router
 	beego.Trace("router run")
 	routers.Run()
 
@@ -84,14 +90,8 @@ func init() {
 	beego.ErrorController(&controllers.ErrorController{})
 }
 
+// Start!
 func main() {
 	beego.Trace("Start Listen ...")
-
-	if *home != "" {
-		beego.Trace("Home template is " + *home)
-		beego.AppConfig.Set(beego.BConfig.RunMode+"::"+"home_template", *home)
-	}
-
-	conf.InitConfig()
 	beego.Run()
 }

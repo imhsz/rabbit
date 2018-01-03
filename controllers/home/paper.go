@@ -1,25 +1,26 @@
 package home
 
 import (
+	"strconv"
+
 	"github.com/astaxie/beego/orm"
 	"github.com/hunterhug/rabbit/lib"
 	"github.com/hunterhug/rabbit/models/blog"
-	"strconv"
-	//"github.com/astaxie/beego"
 )
 
+// not so good must rewrite!
 func (this *MainController) Paper() {
 	id := this.Ctx.Input.Param(":cid")
-	pa := this.Ctx.Input.Param(":id") //文章id
-	//beego.Trace("%v:%v",id,pa)
+	paperid := this.Ctx.Input.Param(":id") //文章id
+
 	patemp := new(blog.Paper)
 
-	pid, errp := strconv.Atoi(pa)
+	pid, errp := strconv.Atoi(paperid)
 	if errp != nil {
 		this.Rsp(false, "你要干嘛？")
 	}
 	patemp.Id = int64(pid)
-	//不存在文章
+
 	n, errp1 := patemp.Query().Count()
 	if n == 0 || errp1 != nil {
 		this.Rsp(false, "不存在文章。。。")
@@ -27,6 +28,7 @@ func (this *MainController) Paper() {
 	patemp.Read()
 	patemp.View = patemp.View + 1
 	patemp.Update()
+
 	this.Data["paper"] = patemp
 
 	types := 0

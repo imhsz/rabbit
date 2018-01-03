@@ -13,8 +13,9 @@
 package blog
 
 import (
-	"github.com/astaxie/beego/orm"
 	"time"
+
+	"github.com/astaxie/beego/orm"
 )
 
 type Category struct {
@@ -34,10 +35,6 @@ type Category struct {
 
 func (m *Category) TableName() string {
 	return "category"
-}
-
-func init() {
-	orm.RegisterModel(new(Category))
 }
 
 func (m *Category) Read(fields ...string) error {

@@ -41,7 +41,7 @@ func InsertConfig() {
 	c.Title = "Rabbit(Tuzi) Enterprise Web"
 	c.Webinfo = `
 	{
-	"1":{"name":"About","limit":6},
+		"1":{"name":"About","limit":6},
         "2":{"name":"News","limit":6},
         "3":{"name":"Lifes","limit":6},
         "4":{"name":"Production","limit":6},
@@ -60,9 +60,9 @@ func InsertConfig() {
 	c.Slogan = "A Enterprise Web, You can have a try"
 	c.Address = `<meta description="rabbit" >
 <!-- some other script put in here -->`
-	c.Code3 = `Power by hunterhug at 2017`
-	c.Code2 = `Stats Code`
-	c.Code1 = "Comment Code"
+	c.Code3 = `Power by hunterhug at 2017 此处页脚版权`
+	c.Code2 = `Stats Code  此处放统计代码`
+	c.Code1 = "Comment Code 此处放跟帖代码"
 	err := c.Insert()
 	if err != nil {
 		fmt.Println(err.Error())

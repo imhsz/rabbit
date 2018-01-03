@@ -13,9 +13,12 @@
 package conf
 
 import (
+	"fmt"
+	"path/filepath"
 	"strconv"
 
 	"github.com/astaxie/beego"
+	"github.com/hunterhug/parrot/util"
 )
 
 type FlagConfig struct {
@@ -32,6 +35,17 @@ var (
 	Cookie7      bool
 	Version      string
 	HomeTemplate string
+
+	DbType   string
+	DbHost   string
+	DbPort   string
+	DbUser   string
+	DbPass   string
+	DbName   string
+	DbLog    string
+	MYSQLDNS string
+
+	ConfigDir = util.CurDir()
 )
 
 func InitConfig() {
@@ -41,4 +55,22 @@ func InitConfig() {
 	Cookie7, _ = beego.AppConfig.Bool("cookie7")
 	AuthAdmin = beego.AppConfig.DefaultString("rbac_admin_user", "admin")
 	HomeTemplate = beego.AppConfig.DefaultString("home_template", "default")
+
+	DbType = beego.AppConfig.String("db_type")
+	DbHost = beego.AppConfig.String("db_host")
+	DbPort = beego.AppConfig.String("db_port")
+	DbUser = beego.AppConfig.String("db_user")
+	DbPass = beego.AppConfig.String("db_pass")
+	DbName = beego.AppConfig.String("db_name")
+	DbLog = beego.AppConfig.String("dblog")
+
+	MYSQLDNS = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8", DbUser, DbPass, DbHost, DbPort, DbName)
+}
+
+func ForTestInitConfig() {
+	err := beego.LoadAppConfig("ini", filepath.Join(ConfigDir, "app.conf"))
+	if err != nil {
+		panic(err.Error())
+	}
+	InitConfig()
 }
