@@ -17,8 +17,6 @@ import (
 	"encoding/base64"
 	"encoding/hex"
 	"fmt"
-	"github.com/astaxie/beego"
-	"github.com/astaxie/beego/context"
 	"io"
 	"io/ioutil"
 	"net/url"
@@ -26,6 +24,9 @@ import (
 	"strconv"
 	"strings"
 	"time"
+
+	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/context"
 )
 
 //字符串base64加密
@@ -245,6 +246,12 @@ func Rawurlencode(str string) string {
 func GetClientIp(this *context.Context) string {
 	s := strings.Split(this.Request.RemoteAddr, ":")
 	if s[0] == "127.0.0.1" {
+		//X-Forwarded-For
+		if v, ok := this.Request.Header["X-Forwarded-For"]; ok {
+			if len(v) > 0 {
+				return v[0]
+			}
+		}
 		if v, ok := this.Request.Header["X-Real-Ip"]; ok {
 			if len(v) > 0 {
 				return v[0]
@@ -272,10 +279,10 @@ func Hashcode(asin string) string {
 	return s
 }
 
-func TripAll(a string)string{
-	a=strings.Replace(a," ","",-1)
-	a=strings.Replace(a,"\n","",-1)
-	a=strings.Replace(a,"\r","",-1)
-	a=strings.Replace(a,"\t","",-1)
+func TripAll(a string) string {
+	a = strings.Replace(a, " ", "", -1)
+	a = strings.Replace(a, "\n", "", -1)
+	a = strings.Replace(a, "\r", "", -1)
+	a = strings.Replace(a, "\t", "", -1)
 	return a
 }
