@@ -14,6 +14,7 @@ package controllers
 
 import (
 	"github.com/astaxie/beego"
+	"github.com/hunterhug/rabbit/conf"
 )
 
 type ErrorController struct {
@@ -22,20 +23,20 @@ type ErrorController struct {
 
 func (c *ErrorController) Error404() {
 	c.Data["content"] = "page not found"
-	c.TplName = beego.AppConfig.String("admin_template") + "/" + "error.html"
+	c.TplName = conf.AdminTemplate + "/" + "error.html"
 }
 
 func (c *ErrorController) Error501() {
 	c.Data["content"] = "server error"
-	c.TplName = beego.AppConfig.String("admin_template") + "/" + "error.html"
+	c.TplName = conf.AdminTemplate + "/" + "error.html"
 }
 
 func (c *ErrorController) ErrorDb() {
 	c.Data["content"] = "database is now down"
-	c.TplName = beego.AppConfig.String("admin_template") + "/" + "error.html"
+	c.TplName = conf.AdminTemplate + "/" + "error.html"
 }
 
 func (c *ErrorController) Error500() {
 	c.Data["content"] = "server error 500"
-	c.TplName = beego.AppConfig.String("admin_template") + "/" + "error.html"
+	c.TplName = conf.AdminTemplate + "/" + "error.html"
 }

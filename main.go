@@ -31,11 +31,21 @@ import (
 func init() {
 	// init flag
 	flags := conf.FlagConfig{}
+
+	// user that hide
 	flags.User = flag.String("user", "", "user")
+
+	// db init or rebuild
 	flags.DbInit = flag.Bool("db", false, "init db")
 	flags.DbInitForce = flag.Bool("f", false, "force init db first drop db then rebuild it")
+
+	// rbac config rebuild
 	flags.Rbac = flag.Bool("rbac", false, "rebuild rbac database tables")
+
+	// front-end  view
 	home := flag.String("home", "", "home template")
+
+	// config file position
 	config := flag.String("config", "", "config file position if empty use default")
 
 	flag.Parse()
@@ -70,7 +80,7 @@ func init() {
 		}
 	}
 
-	// add funcmap
+	// add func map
 	beego.Trace("add i18n function map")
 	beego.AddFuncMap("i18n", i18n.Tr)
 

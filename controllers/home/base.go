@@ -91,7 +91,7 @@ func (this *baseController) Rsp(status bool, str string) {
     <script>
         document.body.classList.add('page-fullscreen');
     </script>
-    <script type="text/javascript" src="http://www.qq.com/404/search_children.js" charset="utf-8" homePageUrl="https://www.github.com/hunterhug" homePageName="更多精彩：https://www.github.com/hunterhug"></script>
+    <script type="text/javascript" src="http://www.qq.com/404/search_children.js" charset="utf-8" homePageUrl="https://www.github.com/hunterhug" homePageName="rsp error"></script>
 </head>
 </html>
 	`)

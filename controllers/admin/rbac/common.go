@@ -13,17 +13,16 @@
 package rbac
 
 import (
-	"github.com/astaxie/beego"
 	"github.com/hunterhug/rabbit/models/admin"
+	"github.com/hunterhug/rabbit/conf"
 )
 
 type CommonController struct {
 	baseController
-	Templatetype string //ui template type
 }
 
 func (this *CommonController) Prepare() {
-	this.Data["version"] = beego.AppConfig.String("version")
+	this.Data["version"] = conf.Version
 }
 
 // 请求状态响应
@@ -35,11 +34,7 @@ func (this *CommonController) Rsp(status bool, str string) {
 
 // 获取模板位置
 func (this *CommonController) GetTemplate() string {
-	templatetype := beego.AppConfig.String("admin_template")
-	if templatetype == "" {
-		templatetype = "default"
-	}
-	return templatetype
+	return conf.AdminTemplate
 }
 
 // 获取权限各节点URL   权限控制器 用户节点  /rbac /node/index

@@ -57,7 +57,7 @@ func AccessRegister() {
 					}
 				}
 				if uinfo == nil {
-					ctx.Redirect(302, conf.AuthGateWay)
+					//ctx.Redirect(302, conf.AuthGateWay)
 					return
 				}
 
@@ -82,6 +82,10 @@ func AccessRegister() {
 				ret := AccessDecision(params, accesslist)
 				if !ret {
 					ctx.Output.JSON(&map[string]interface{}{"status": false, "info": "权限不足"}, true, false)
+				}
+			} else {
+				if len(params) > 3 {
+					ctx.Output.Body([]byte("ding ding dang"))
 				}
 			}
 

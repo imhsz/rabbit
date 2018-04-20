@@ -29,7 +29,7 @@ type MainController struct {
 var config *blog.Config
 
 // Index: web info struct
-type web_info map[string]map[string]interface{}
+type webInfo map[string]map[string]interface{}
 
 // init in every request
 func (this *MainController) Prepare() {
@@ -41,12 +41,17 @@ func (this *MainController) Prepare() {
 
 	// global set
 	this.Data["config"] = config
+
+	// paper
 	this.Data["category"] = GetNav(0, 0)
+
+	// production
 	this.Data["photo"] = GetNav(0, 1)
 }
 
 func (this *MainController) DetectIndex() {
-	// change lang by cookie
+
+	// change lang|home by cookie
 	h := this.GetString("h", "")
 	if h != "" {
 		switch h {
@@ -86,7 +91,7 @@ func (this *MainController) Index() {
 	this.Data["roll"] = rolls
 
 	// index blocks
-	index := web_info{}
+	index := webInfo{}
 	err := json.Unmarshal([]byte(lib.TripAll(config.Webinfo)), &index)
 	if err != nil {
 		beego.Trace(err.Error())

@@ -29,12 +29,13 @@ type FlagConfig struct {
 }
 
 var (
-	AuthType     int
-	AuthGateWay  string
-	AuthAdmin    string
-	Cookie7      bool
-	Version      string
-	HomeTemplate string
+	AuthType      int
+	AuthGateWay   string
+	AuthAdmin     string
+	Cookie7       bool
+	Version       string
+	HomeTemplate  string
+	AdminTemplate string
 
 	DbType   string
 	DbHost   string
@@ -49,7 +50,10 @@ var (
 )
 
 func InitConfig() {
-	Version = beego.AppConfig.DefaultString("version", "HG V4")
+	// version
+	Version = beego.AppConfig.DefaultString("version", "version2.0")
+	beego.Trace("Version:",Version)
+
 	AuthType, _ = strconv.Atoi(beego.AppConfig.String("user_auth_type"))
 	AuthGateWay = beego.AppConfig.DefaultString("rbac_auth_gateway", "/public/login")
 	Cookie7, _ = beego.AppConfig.Bool("cookie7")
@@ -65,6 +69,8 @@ func InitConfig() {
 	DbLog = beego.AppConfig.String("dblog")
 
 	MYSQLDNS = fmt.Sprintf("%s:%s@tcp(%s:%s)/%s?charset=utf8", DbUser, DbPass, DbHost, DbPort, DbName)
+
+	AdminTemplate = beego.AppConfig.DefaultString("admin_template", "default")
 }
 
 func ForTestInitConfig() {
