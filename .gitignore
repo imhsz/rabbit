@@ -34,4 +34,6 @@ main
 *.log
 *.exe~
 rabbit
-file
+!/file
+/file/*
+!/file/red
