@@ -74,6 +74,7 @@ func (this *CategoryController) AddCategory() {
 	}
 }
 
+
 func (this *CategoryController) UpdateCategory() {
 	small, _ := this.GetInt64("small", 0)
 	id, _ := this.GetInt64("id", 0)
@@ -113,9 +114,9 @@ func (this *CategoryController) UpdateCategory() {
 			var err error
 			if photo != "" {
 				thiscategory.Image = photo
-				err = thiscategory.Update("Username", "Title", "Pid", "Sort", "Status", "Content", "Updatetime", "Image", "Alias")
+				err = thiscategory.Update("Title", "Pid", "Sort", "Status", "Content", "Updatetime", "Image", "Alias")
 			} else {
-				err = thiscategory.Update("Username", "Title", "Pid", "Sort", "Status", "Content", "Updatetime", "Alias")
+				err = thiscategory.Update("Title", "Pid", "Sort", "Status", "Content", "Updatetime", "Alias")
 				//beego.Trace("空图片：" + photo)
 			}
 			if err != nil {
