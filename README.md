@@ -1,3 +1,5 @@
+
+
 # Project： Rabbit(Tuzi)
 
 [![GitHub forks](https://img.shields.io/github/forks/hunterhug/rabbit.svg?style=social&label=Forks)](https://github.com/hunterhug/rabbit/network)
@@ -8,6 +10,12 @@
 [![GitHub license](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/hunterhug/rabbit/master/LICENSE)
 
 请看: [中文介绍](doc/Chinese.md), 本人提供有偿技术咨询哦， 详情添加QQ： 459527502
+
+亲爱的，请用[支付宝APP](https://auth.alipay.com/login/index.htm)先扫红包码，然后如果你想打赏的话可以用红包给我打赏<br/>
+
+![](https://raw.githubusercontent.com/hunterhug/rabbit/master/file/red/red.png)<br/>
+
+![](https://raw.githubusercontent.com/hunterhug/rabbit/master/file/red/red1.png)
 
 You can own a enterprise web just listen to me! You just need install golang environment(ask for google help).Under developing...
 
