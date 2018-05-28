@@ -22,7 +22,12 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/hunterhug/rabbit/conf"
 	"github.com/hunterhug/rabbit/models/admin"
+	"time"
 )
+
+func init() {
+	orm.DefaultTimeLoc = time.UTC
+}
 
 func Createtb() {
 	beego.Trace("data init start")
