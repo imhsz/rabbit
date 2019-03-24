@@ -41,7 +41,7 @@ Then build our web
 go build
 ```
 
-Before run, Please config the db set in `conf/app.conf`, use Mysql(install can ask google help)
+Before run, Please config the db set in `conf/app.conf`, use Mysql.
 
 ```
 # you can set it into prod when in production environment
@@ -52,7 +52,7 @@ httpport = 8080
 db_host = 127.0.0.1
 db_port = 3306
 db_user = root
-db_pass = root
+db_pass = 123456789
 db_name = tuzi
 db_type = mysql
 
@@ -62,9 +62,26 @@ httpport = 80
 db_host = 127.0.0.1
 db_port = 3306
 db_user = root
-db_pass = root
+db_pass = 123456789
 db_name = tuzi
 db_type = mysql
+```
+
+How to install `Mysql` quickly:
+
+```
+git clone https://github.com/hunterhug/GoSpider-docker
+cd GoSpider-docker
+chomd 777 build.sh
+./build
+
+sudo docker exec -it  GoSpider-mysqldb mysql -uroot -p123456789
+
+> create database tuzi default character set utf8mb4 collate utf8mb4_unicode_ci;
+
+sudo docker exec -it GoSpider-redis redis-cli -a 123456789
+
+> KEYS *
 ```
 
 And init our database:

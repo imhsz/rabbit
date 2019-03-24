@@ -36,7 +36,7 @@ mv rabbit %GOPATH%/src/github.com/hunterhug
 go build
 ```
 
-启动前请配置`conf/app.conf`中的数据库（安装Mysql请自行百度）
+启动前请配置`conf/app.conf`中的数据库。
 
 ```
 # 生产环境可改为prod
@@ -47,7 +47,7 @@ httpport = 8080
 db_host = 127.0.0.1
 db_port = 3306
 db_user = root
-db_pass = root
+db_pass = 123456789
 db_name = tuzi
 db_type = mysql
 
@@ -57,9 +57,26 @@ httpport = 80
 db_host = 127.0.0.1
 db_port = 3306
 db_user = root
-db_pass = root
+db_pass = 123456789
 db_name = tuzi
 db_type = mysql
+```
+
+如何快速安装 `Mysql`，[需要先安装Docker](http://it.book.lenggirl.com/content/ops/docker/docker-all.html):
+
+```
+git clone https://github.com/hunterhug/GoSpider-docker
+cd GoSpider-docker
+chomd 777 build.sh
+./build
+
+sudo docker exec -it  GoSpider-mysqldb mysql -uroot -p123456789
+
+> create database tuzi default character set utf8mb4 collate utf8mb4_unicode_ci;
+
+sudo docker exec -it GoSpider-redis redis-cli -a 123456789
+
+> KEYS *
 ```
 
 初始化数据库
