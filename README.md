@@ -33,6 +33,8 @@ mkdir -p %GOPATH%/src/github.com/hunterhug
 mv rabbit %GOPATH%/src/github.com/hunterhug
 ```
 
+this  `%GOPATH%` is your `GOPATH`。
+
 Then build our web
 
 ```shell
@@ -70,16 +72,6 @@ And init our database:
 ```shell
 ./rabbit -db=1
 ```
-
-~~Or(I recommend to use)~~
-
-```
-cd doc
-cd sh
-./initdb.sh tuzi
-```
-
-`tuzi` is your db name, script equal to `mysql -uroot -p -v tuzi < init.sql`
 
 Last run it:
 

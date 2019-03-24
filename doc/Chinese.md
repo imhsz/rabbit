@@ -28,6 +28,8 @@ mkdir -p %GOPATH%/src/github.com/hunterhug
 mv rabbit %GOPATH%/src/github.com/hunterhug
 ```
 
+其中  `%GOPATH%` 是你的 `Golang` 工作区间。
+
 编译程序
 
 ```shell
