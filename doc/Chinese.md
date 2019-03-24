@@ -28,13 +28,15 @@ mkdir -p %GOPATH%/src/github.com/hunterhug
 mv rabbit %GOPATH%/src/github.com/hunterhug
 ```
 
-其中  `%GOPATH%` 是你的 `Golang` 工作区间。
+其中  `%GOPATH%` 是你的 `Golang` 工作区间。 
 
 编译程序
 
 ```shell
 go build
 ```
+
+你也可以不安装 `Golang`编译，参见[Docker Golang](http://it.book.lenggirl.com/content/lanague/go-install.html)
 
 启动前请配置`conf/app.conf`中的数据库。
 
