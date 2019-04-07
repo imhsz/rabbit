@@ -1,5 +1,8 @@
 # 项目代号： 兔子(tuzi)
 
+[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu) 
+[![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE)
+
 不懂编程的同学听我演示一遍就可以拥有一个企业官网了！你只需安装好Golang环境，安装教程网站一搜很多。现在v1版本支持:
 
 1. 基本的登录(需要验证码), cookie记住登录功能
