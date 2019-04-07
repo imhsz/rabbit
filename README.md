@@ -8,6 +8,8 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/hunterhug/rabbit)](https://goreportcard.com/report/github.com/hunterhug/rabbit)
 [![GitHub issues](https://img.shields.io/github/issues/hunterhug/rabbit.svg)](https://github.com/hunterhug/rabbit/issues)
 [![GitHub license](https://img.shields.io/badge/license-Apache%202-blue.svg)](https://raw.githubusercontent.com/hunterhug/rabbit/master/LICENSE)
+[![996.icu](https://img.shields.io/badge/link-996.icu-red.svg)](https://996.icu) 
+[![LICENSE](https://img.shields.io/badge/license-Anti%20996-blue.svg)](https://github.com/996icu/996.ICU/blob/master/LICENSE)
 
 请看: [中文介绍](doc/Chinese.md)
 
