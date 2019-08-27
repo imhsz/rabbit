@@ -17,13 +17,13 @@
 
 ## 一.使用说明
 
-使用只需拉下库:
+~~使用只需拉下库~~（不建议，因为依赖库有些丢了）:
 
 ```shell
 go get -v github.com/hunterhug/rabbit
 ```
 
-或者:
+或者（非常好，因为依赖库都在vendor下）:
 
 ```
 git clone https://www.github.com/hunterhug/rabbit
@@ -175,7 +175,7 @@ ajax调用JSON时请注意跨域问题(见front文件夹),这样的好处是将�
 
 ```
 {
-	    "1":{"name":"About","limit":6},
+	"1":{"name":"About","limit":6},
         "2":{"name":"News","limit":6},
         "3":{"name":"Lifes","limit":6},
         "4":{"name":"Production","limit":6},
