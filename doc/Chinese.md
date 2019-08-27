@@ -106,6 +106,98 @@ mkdir file
 chmod 777 file
 ```
 
+具体效果见 [图片](/doc/example.md)。
+
+完整配置如下（除了数据库配置，其他配置不建议修改）:
+
+```
+# 本配置提供中英说明！
+
+appname = tuzi
+version = 2.0
+
+# you can set it into prod when in production environment
+# 生产环境改为prod
+runmode = dev
+
+###################
+
+# dir you can visit directly
+# 可以直接通过静态访问的文件夹，位于根目录下面
+StaticDir = static:static file:file front:front
+
+# put some language such en-US mapping locale_en-US.ini
+# 国际化语言
+lang_types = en-US|zh-CN
+
+# router case sensitive?
+# 路由区分大小写
+RouterCaseSensitive = false
+
+# TimeZone, default UTC/GMT+08:00/China BeiJin
+# 中国时间请设为8，不然数据库时间会混乱
+timezone = 8
+
+# open debug switch to record database operate log?
+# 调试数据库 close/open
+dblog = close
+
+###################
+
+# front-end template, like wordpress
+# 前台模板，可以改,wordpress功能
+home_template = home/default
+admin_template = admin/default
+
+# folder which upload file keep, must under project root
+# 文件上传保存地址，后面不可以是/，必须是根目录下的文件夹，为了速度更快，文件直接到前端，可改写
+filebasepath = file
+
+###################
+
+# RBAC, don't edit
+# 权限控制，建议不要乱改
+sessionon = true
+sessionname = tuzisessionid
+sessionhashkey = mosttuzituzi
+rbac_role_table = role
+rbac_node_table = node
+rbac_group_table = group
+rbac_user_table = user
+rbac_admin_user = admin
+not_auth_package = front,static,file
+
+###################
+
+# 0 stand for not auth, 1 auth, 2 auth real-time, suggest don't edit
+# 0不验证，1验证，2实时验证,建议不要改
+user_auth_type = 1
+rbac_auth_gateway = /public/login
+
+# cookie for login remember
+# cookie一周内登录开关
+cookie7 = true
+
+[dev]
+httpport = 8088
+db_host = 127.0.0.1
+db_port = 3306
+db_user = root
+db_pass = 123456789
+db_name = tuzi
+db_type = mysql
+
+[prod]
+EnableGzip = true
+httpport = 80
+db_host = 127.0.0.1
+db_port = 3306
+db_user = root
+db_pass = 123456789
+db_name = tuzi
+db_type = mysql
+```
+
 ## 二.开发流程
 
 ### a.文件结构
@@ -171,7 +263,7 @@ ajax调用JSON时请注意跨域问题(见front文件夹),这样的好处是将�
 5. 所有配置在conf文件夹`conf/app.conf`支持国际化
 6. 数据库数据填充在`models/*/*Init.go`中定义， 我准备将所有中文变成英文
 7. 各种前端文件全部放在`static`中
-8. 前台首页配置（可动态调整首页待解释）
+8. 前台首页配置（可动态调整首页，name为分类名，后台分类列表可看，此配置可以排版官网首页）
 
 ```
 {
@@ -226,13 +318,7 @@ nginx -s reload
 curl tuzi.lenggirl.com
 ```
 
-## 四.环境配置
-
-安装Golang环境请百度
-
-## 五.精彩演示
-
-见 [图片](/doc/example.md)
+## 四.支持
 
 如果你觉得项目帮助到你,欢迎请我喝杯咖啡
 
