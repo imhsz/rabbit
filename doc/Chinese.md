@@ -39,7 +39,7 @@ mv rabbit %GOPATH%/src/github.com/hunterhug
 go build
 ```
 
-你也可以不安装 `Golang`编译，参见[Docker Golang](http://it.book.lenggirl.com/content/lanague/go-install.html)
+你也可以不安装 `Golang`编译，参见[Docker Golang](https://www.lenggirl.com/language/go-install.html)
 
 启动前请配置`conf/app.conf`中的数据库。
 
@@ -67,7 +67,7 @@ db_name = tuzi
 db_type = mysql
 ```
 
-如何快速安装 `Mysql`，[需要先安装Docker](http://it.book.lenggirl.com/content/ops/docker/docker-all.html):
+如何快速安装 `Mysql`，[需要先安装Docker](https://www.lenggirl.com/docker/docker-install.html):
 
 ```
 git clone https://github.com/hunterhug/GoSpider-docker
