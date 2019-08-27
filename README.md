@@ -21,7 +21,7 @@ You can own a enterprise web just listen to me! You just need install golang env
 
 Go1.9+ Must!
 
-Just do this:
+~~Just do this~~:
 
 ```shell
 go get -v github.com/hunterhug/rabbit
@@ -175,7 +175,7 @@ when ajax call JSON must pay attention across-domain rule(see rht dir front), wh
 
 ```
 {
-	    "1":{"name":"About","limit":6},
+	"1":{"name":"About","limit":6},
         "2":{"name":"News","limit":6},
         "3":{"name":"Lifes","limit":6},
         "4":{"name":"Production","limit":6},
